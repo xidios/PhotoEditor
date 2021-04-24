@@ -14,7 +14,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.toast
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -103,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         catch (e: IOException) {
-            toast("Error...")
+            //toast("Error...")
         }
     }
 
@@ -114,14 +113,22 @@ class MainActivity : AppCompatActivity() {
             if (requestCode == REQUEST_CAMERA) {
                 val uri = Uri.parse(currentPhotoPath)
 
-                imageView.setImageURI(uri)
+                val intent = Intent(this, CurrentImageActivity::class.java).apply {
+                    putExtra(IMAGE, uri)
+                }
+
+                //imageView.setImageURI(uri)
                 startActivity(intent)
             }
 
             else if (requestCode == REQUEST_GALLERY) {
                 val uri = data!!.data
 
-                imageView.setImageURI(uri)
+                val intent = Intent(this, CurrentImageActivity::class.java).apply {
+                    putExtra(IMAGE, uri)
+                }
+
+                //imageView.setImageURI(uri)
                 startActivity(intent)
             }
         }

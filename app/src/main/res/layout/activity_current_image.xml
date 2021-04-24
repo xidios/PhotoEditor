@@ -6,19 +6,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".CurrentImageActivity">
 
     <Button
-        android:id="@+id/btnCamera"
+        android:id="@+id/btnCamera1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         android:text="Camera" />
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="16dp"
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="@string/todo" />
 
     <Button
-        android:id="@+id/btnGallery"
+        android:id="@+id/btnGallery1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
