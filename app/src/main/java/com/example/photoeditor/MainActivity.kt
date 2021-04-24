@@ -7,7 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.os.Parcelable
+import org.jetbrains.anko.toast
 import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -33,18 +33,18 @@ class MainActivity : AppCompatActivity() {
 
         btnCamera.setOnClickListener {
             if (checkPermissions()) {
-                takeANewPhoto()
+                takePhotos()
             }
             else {
-                requestPermissions()
+                request()
             }
         }
         btnGallery.setOnClickListener {
             if (checkPermissions()) {
-                pickFromGallery()
+                photosFromGallery()
             }
             else {
-                requestPermissions()
+                request()
             }
         }
     }
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun requestPermissions() {
+    private fun request() {
         val permissions = arrayOf(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         return image
     }
 
-    private fun takeANewPhoto() {
+    private fun takePhotos() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
         try {
@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         catch (e: IOException) {
-            //toast("Error...")
+            toast("Error...")
         }
     }
 
@@ -116,8 +116,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, CurrentImageActivity::class.java).apply {
                     putExtra(IMAGE, uri)
                 }
-
-                //imageView.setImageURI(uri)
+                
                 startActivity(intent)
             }
 
@@ -127,14 +126,13 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, CurrentImageActivity::class.java).apply {
                     putExtra(IMAGE, uri)
                 }
-
-                //imageView.setImageURI(uri)
+                
                 startActivity(intent)
             }
         }
     }
 
-    private fun pickFromGallery() {
+    private fun photosFromGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.type = "image/*"
         startActivityForResult(intent, REQUEST_GALLERY)
