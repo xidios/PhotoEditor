@@ -17,4 +17,7 @@
     <string name = "rotation_angle_hint">Угол поворота</string>
 
     <string name = "apply_button">Применить</string>
+    <string name="isi">isi</string>
+    <string name="kategori">kategori</string>
+    <string name="kode">kode</string>
 </resources>
