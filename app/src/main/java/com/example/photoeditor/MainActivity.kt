@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.example.photoeditor.fragments.ImageFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.io.IOException
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btnCamera.setOnClickListener {
+        takePictureButton.setOnClickListener {
             if (checkPermissions()) {
                 takePhotos()
             }
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                 request()
             }
         }
-        btnGallery.setOnClickListener {
+        choosePictureButton.setOnClickListener {
             if (checkPermissions()) {
                 photosFromGallery()
             }
@@ -113,7 +114,7 @@ class MainActivity : AppCompatActivity() {
             if (requestCode == REQUEST_CAMERA) {
                 val uri = Uri.parse(currentPhotoPath)
 
-                val intent = Intent(this, CurrentImageActivity::class.java).apply {
+                val intent = Intent(this, HomeActivity::class.java).apply {
                     putExtra(IMAGE, uri)
                 }
                 
@@ -123,7 +124,7 @@ class MainActivity : AppCompatActivity() {
             else if (requestCode == REQUEST_GALLERY) {
                 val uri = data!!.data
 
-                val intent = Intent(this, CurrentImageActivity::class.java).apply {
+                val intent = Intent(this, HomeActivity::class.java).apply {
                     putExtra(IMAGE, uri)
                 }
                 

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/imageBtn"
+        android:id="@+id/imageSectionButton"
         android:icon="@drawable/image"
-        android:title="Изображение" />
+        android:title="@string/image_section_name" />
     <item
-        android:id="@+id/effectsBtn"
+        android:id="@+id/effectSectionButton"
         android:icon="@drawable/settings"
-        android:title="Эффекты" />
+        android:title="@string/effect_section_name" />
     <item
-        android:id="@+id/saveBtn"
+        android:id="@+id/saveSectionButton"
         android:icon="@drawable/download"
-        android:title="Сохранение" />
+        android:title="@string/save_section_name" />
 
 </menu>

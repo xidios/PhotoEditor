@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">PhotoEditor</string>
+    <string name = "app_name">PhotoEditor</string>
+
+    <string name = "take_picture_button">Камера</string>
+    <string name = "choose_picture_button">Галерея</string>
+
+    <string name = "image_section_name">Изображение</string>
+    <string name = "effect_section_name">Эффекты</string>
+    <string name = "save_section_name">Сохранить</string>
+
+    <string name = "image_section_header">Загрузить изображение</string>
+    <string name = "effect_section_header">Доступные эффекты</string>
+    <string name = "save_section_header">Сохранить изображение</string>
+
+    <string name = "first_task_name">Поворот</string>
+    <string name = "rotation_image_desc">Текущее изображение</string>
+    <string name = "rotation_angle_hint">Угол поворота</string>
+
+    <string name = "apply_button">Применить</string>
 </resources>

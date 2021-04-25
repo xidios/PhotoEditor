@@ -7,5 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF263238</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="accent">#FF0E4DA4</color>
+
+    <color name = "accent">#FF0E4DA4</color>
+    <color name = "headerBackground">@color/white</color>
+    <color name = "bottomNavigationBackground">#FFF0F0F0</color>
+    <color name = "bottomNavigationItemColor">#FF6E6E6E</color>
+    <color name = "buttonBackground">@color/white</color>
 </resources>
