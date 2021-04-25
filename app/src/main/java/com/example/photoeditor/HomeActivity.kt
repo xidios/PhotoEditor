@@ -21,20 +21,20 @@ class HomeActivity : AppCompatActivity() {
         val effectsFragment = EffectsFragment.newInstance()
         val saveFragment = SaveFragment.newInstance()
 
-        selectScreen(imageFragment)
+        selectScreen(ImageFragment.TAG, imageFragment)
 
         bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.imageSectionButton -> {
-                    selectScreen(imageFragment)
+                    selectScreen(ImageFragment.TAG, imageFragment)
                     true
                 }
                 R.id.effectSectionButton -> {
-                    selectScreen(effectsFragment)
+                    selectScreen(EffectsFragment.TAG, effectsFragment)
                     true
                 }
                 R.id.saveSectionButton -> {
-                    selectScreen(saveFragment)
+                    selectScreen(SaveFragment.TAG, saveFragment)
                     true
                 }
                 else -> false
@@ -42,12 +42,12 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun selectScreen(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().apply {
+    private fun selectScreen(tag: String, fragment: Fragment) {
+        /*supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragmentContainer, fragment)
             commit()
-        }
-        /*supportFragmentManager.commit {
+        }*/
+        supportFragmentManager.commit {
             val active = findActiveFragment()
             val target = supportFragmentManager.findFragmentByTag(tag)
 
@@ -60,7 +60,7 @@ class HomeActivity : AppCompatActivity() {
             } else {
                 show(target)
             }
-        }*/
+        }
     }
 
     private fun findActiveFragment() = supportFragmentManager.fragments.find {it.isVisible}
