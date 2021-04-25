@@ -19,7 +19,7 @@ private const val REQUEST_CODE = 42
 private lateinit var photoFile: File
 
 class MainActivity : AppCompatActivity() {
-    private fun saveImage(finalBitmap: Bitmap) {
+    /*private fun saveImage(finalBitmap: Bitmap) {
         val root = Environment.getExternalStorageDirectory().toString()
         val myDir = File("$root/saved_images")
         myDir.mkdirs()
@@ -35,13 +35,13 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btnTakePicture.isEnabled = false
+        /*btnTakePicture.isEnabled = false
         if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)!=PackageManager.PERMISSION_GRANTED){
 
             ActivityCompat.requestPermissions(
@@ -57,10 +57,10 @@ class MainActivity : AppCompatActivity() {
         btnTakePicture.setOnClickListener(){
             var i = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(i, 101)
-        }
+        }*/
 
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode==101){
             var pic = data?.getParcelableExtra<Bitmap>("data")
@@ -79,5 +79,5 @@ class MainActivity : AppCompatActivity() {
 
             btnTakePicture.isEnabled = true
         }
-    }
+    }*/
 }
