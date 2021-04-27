@@ -16,7 +16,6 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         val image = intent.getParcelableExtra<Parcelable>("Image")
-
         val imageFragment = ImageFragment.newInstance(image)
         val effectsFragment = EffectsFragment.newInstance()
         val saveFragment = SaveFragment.newInstance()
