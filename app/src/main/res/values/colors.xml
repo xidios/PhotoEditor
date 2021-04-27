@@ -15,7 +15,7 @@
     <color name = "buttonBackground">@color/white</color>
 
 <!--    Карточки эффектов-->
-    <color name = "bonusEffectCardBackground">#77F2FFEE</color>
+    <color name = "bonusEffectCardBackground">#55F0F0F0</color>
     <color name = "effectTitleColor">@color/black</color>
     <color name = "effectDescriptionColor">#FF515B60</color>
 </resources>

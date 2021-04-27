@@ -10,21 +10,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.photoeditor.R
-import kotlinx.android.synthetic.main.fragment_image.*
-import kotlinx.android.synthetic.main.recycler.*
+import kotlinx.android.synthetic.main.fragment_effects.*
 
 class EffectsFragment : Fragment(R.layout.fragment_effects) {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<RVAdapter.ViewHolder>? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.recycler, container, false)
-    }
 
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
@@ -34,7 +25,6 @@ class EffectsFragment : Fragment(R.layout.fragment_effects) {
             layoutManager = LinearLayoutManager(activity)
             // set the custom adapter to the RecyclerView
             adapter = RVAdapter()
-
         }
     }
 
