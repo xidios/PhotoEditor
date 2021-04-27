@@ -23,6 +23,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     private val IMAGE = "Image"
+    private val IMAGEF = "ImageF"
     private val REQUEST_CAMERA = 1
     private val REQUEST_GALLERY = 2
 
@@ -114,21 +115,29 @@ class MainActivity : AppCompatActivity() {
             if (requestCode == REQUEST_CAMERA) {
                 val uri = Uri.parse(currentPhotoPath)
 
-                val intent = Intent(this, HomeActivity::class.java).apply {
-                    putExtra(IMAGE, uri)
+                // intent = Intent(this, HomeActivity::class.java).apply {
+                    //putExtra(IMAGE, uri)
+                //}
+
+                val intentPhotoFilter = Intent(this, ColorCorrectionActivity::class.java).apply { // ДАЙТЕ ИЗОБРАЖЕНИЯ ИЗ АКТИВИТИ ЙОУ
+                    putExtra(IMAGEF, uri)
                 }
                 
-                startActivity(intent)
+                startActivity(intentPhotoFilter)
             }
 
             else if (requestCode == REQUEST_GALLERY) {
                 val uri = data!!.data
 
-                val intent = Intent(this, HomeActivity::class.java).apply {
-                    putExtra(IMAGE, uri)
+                //val intent = Intent(this, HomeActivity::class.java).apply {
+                    //putExtra(IMAGE, uri)
+                //}
+
+                val intentPhotoFilter = Intent(this, ColorCorrectionActivity::class.java).apply {   // ДАЙТЕ ИЗОБРАЖЕНИЯ ИЗ АКТИВИТИ ЙОУ #2
+                    putExtra(IMAGEF, uri)
                 }
                 
-                startActivity(intent)
+                startActivity(intentPhotoFilter)
             }
         }
     }
