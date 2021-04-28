@@ -1,13 +1,10 @@
 package com.example.photoeditor.fragments
 
-import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.photoeditor.*
 
@@ -15,70 +12,36 @@ import com.example.photoeditor.*
 class RVAdapter : RecyclerView.Adapter<RVAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var itemKode: TextView
-        var itemKategori: TextView
-        var itemIsi: TextView
+        var itemKode: TextView = itemView.findViewById(R.id.kodePertanyaan)
+        var itemKategori: TextView = itemView.findViewById(R.id.kategori)
+        var itemIsi: TextView = itemView.findViewById(R.id.isiPertanyaan)
 
         init {
-            itemKode = itemView.findViewById(R.id.kodePertanyaan)
-            itemKategori = itemView.findViewById(R.id.kategori)
-            itemIsi = itemView.findViewById(R.id.isiPertanyaan)
-
             itemView.setOnClickListener {
-                var position: Int = getAdapterPosition()
+                val position: Int = getAdapterPosition()
                 val context = itemView.context
 
-                if(position==0) {
-                    val intent = Intent(context, RotationActivity::class.java).apply {
-                        putExtra("NUMBER", position)
-                        putExtra("CODE", itemKode.text)
-                        putExtra("CATEGORY", itemKategori.text)
-                        putExtra("CONTENT", itemIsi.text)
-                    }
-                    context.startActivity(intent)
-                }else if(position==1){
-                    val intent = Intent(context, ScalingActivity::class.java).apply {
+                var intent = Intent()
+
+                when (position) {
+                    0 -> intent = Intent(context, RotationActivity::class.java)
+                    1 -> intent = Intent(context, ScalingActivity::class.java)
+                    2 -> intent = Intent(context, ColorCorrectionActivity::class.java)
+                    3 -> intent = Intent(context, SegmentationActivity::class.java)
+                    4 -> intent = Intent(context, SplinesActivity::class.java)
+                    5 -> intent = Intent(context, CubeActivity::class.java)
+                }
+                intent = intent.apply {
                     putExtra("NUMBER", position)
                     putExtra("CODE", itemKode.text)
                     putExtra("CATEGORY", itemKategori.text)
                     putExtra("CONTENT", itemIsi.text)
                 }
-                    context.startActivity(intent)}
-                else if(position==2){
-                    val intent = Intent(context, ColorCorrectionActivity::class.java).apply {
-                    putExtra("NUMBER", position)
-                    putExtra("CODE", itemKode.text)
-                    putExtra("CATEGORY", itemKategori.text)
-                    putExtra("CONTENT", itemIsi.text)
-                }
-                    context.startActivity(intent)}
-                else if(position==3){
-                    val intent = Intent(context, SegmentationActivity::class.java).apply {
-                    putExtra("NUMBER", position)
-                    putExtra("CODE", itemKode.text)
-                    putExtra("CATEGORY", itemKategori.text)
-                    putExtra("CONTENT", itemIsi.text)
-                }
-                    context.startActivity(intent)}
-                else if(position==4){
-                    val intent = Intent(context, SplinesActivity::class.java).apply {
-                    putExtra("NUMBER", position)
-                    putExtra("CODE", itemKode.text)
-                    putExtra("CATEGORY", itemKategori.text)
-                    putExtra("CONTENT", itemIsi.text)
-                }
-                    context.startActivity(intent)}
-                else if(position==5){
-                    val intent = Intent(context, CubeActivity::class.java).apply {
-                    putExtra("NUMBER", position)
-                    putExtra("CODE", itemKode.text)
-                    putExtra("CATEGORY", itemKategori.text)
-                    putExtra("CONTENT", itemIsi.text)
-                }
-                    context.startActivity(intent)}
+                context.startActivity(intent)
             }
         }
     }
+
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val v = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.card, viewGroup, false)
@@ -86,16 +49,12 @@ class RVAdapter : RecyclerView.Adapter<RVAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
-
         viewHolder.itemKode.text = kode[i]
         viewHolder.itemKategori.text = kategori[i]
         viewHolder.itemIsi.text = isi[i]
-
     }
 
-    override fun getItemCount(): Int {
-        return kode.size
-    }
+    override fun getItemCount() = kode.size
 
     private val kode = arrayOf(
         "Поворот",

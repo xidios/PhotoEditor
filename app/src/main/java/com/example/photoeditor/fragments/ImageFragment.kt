@@ -14,11 +14,9 @@ import java.util.*
 class ImageFragment : Fragment(R.layout.fragment_image) {
     companion object {
         val TAG = "ImageFragment"
-
         private const val KEY = "Image"
-
         fun newInstance(image: Parcelable?) = ImageFragment().apply {
-            arguments = bundleOf(Pair(KEY, image))
+            arguments = bundleOf(Pair("Image", image))
         }
     }
 
@@ -27,10 +25,5 @@ class ImageFragment : Fragment(R.layout.fragment_image) {
 
         val image = arguments?.getParcelable<Parcelable>("Image")
         currentImage.setImageURI(image as Uri)
-
-//        currentImage.setImageURI(intent.getParcelableExtra<Parcelable>("Image") as Uri)
-
     }
-
-
 }

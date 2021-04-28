@@ -113,21 +113,17 @@ class MainActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_CAMERA) {
                 val uri = Uri.parse(currentPhotoPath)
-
-                val intent = Intent(this, HomeActivity::class.java).apply {
+                val intent = Intent(this, RotationActivity::class.java).apply {
+                //val intent = Intent(this, HomeActivity::class.java).apply {
                     putExtra(IMAGE, uri)
                 }
-                
                 startActivity(intent)
             }
-
             else if (requestCode == REQUEST_GALLERY) {
-                val uri = data!!.data
-
+                val uri = data?.data
                 val intent = Intent(this, HomeActivity::class.java).apply {
                     putExtra(IMAGE, uri)
                 }
-                
                 startActivity(intent)
             }
         }

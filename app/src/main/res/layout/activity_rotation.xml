@@ -15,16 +15,28 @@
         app:title="@string/first_task_name"
         app:navigationIcon="@drawable/ic_back_button"/>
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rotationToolbar"/>
+
     <ImageView
         android:id="@+id/rotationImage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:background="#E91E63"
+        android:contentDescription="@string/rotation_image_desc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rotationToolbar"
-        android:contentDescription="@string/rotation_image_desc" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2"/>
 
     <EditText
         android:id="@+id/rotationAnglePicker"
@@ -53,4 +65,5 @@
         app:icon="@drawable/ic_check"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rotationAnglePicker" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
