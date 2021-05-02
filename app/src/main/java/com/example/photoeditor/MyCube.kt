@@ -9,7 +9,6 @@ import android.view.View
 import kotlin.math.cos
 import kotlin.math.sin
 
-
 class VertexCube(var x: Float, var y: Float, var z: Float)
 
 var paint = Paint()
@@ -51,7 +50,7 @@ var edgesCube = arrayOf(
 
 val path0 = Path()
 val path1 = Path()
-
+val path2 = Path()
 
 class MyCube @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -67,28 +66,28 @@ class MyCube @JvmOverloads constructor(
             var node0 = vertexesCube[n0]
             var node1 = vertexesCube[n1]
 
-
             paint.color = 0xff000000.toInt()
             paint.style = Paint.Style.STROKE
             paint.strokeWidth = 7f
 
-            if(i < 4 ) {
+            if(i == 3 || i == 8 || i == 10 || i == 7) {
                 paint.color = 0xff000000.toInt()
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = 7f
 
                 canvas.drawLine(node0.x, node0.y, node1.x, node1.y, paint)
 
-                if (i == 0) {
+                if (i == 3) {
                     path0.moveTo(node0.x, node0.y)
 
-                    continue
                 }
-                path0.lineTo(node0.x, node0.y)
+                if(i != 3){
+                    path0.lineTo(node0.x, node0.y)
 
-                paint.color = 0xff400000.toInt()
-                paint.style = Paint.Style.FILL
-                canvas.drawPath(path0, paint)
+                    paint.color = 0xff400000.toInt()
+                    paint.style = Paint.Style.FILL
+                    canvas.drawPath(path0, paint)
+                }
             }
 
             if(i in 4..7) {
@@ -101,19 +100,18 @@ class MyCube @JvmOverloads constructor(
 
                 if (i == 4) {
                     path1.moveTo(node0.x, node0.y)
-
-                    continue
                 }
-                path1.lineTo(node0.x, node0.y)
+
+               if(i != 4) {
+                   path1.lineTo(node0.x, node0.y)
 
 
-                    paint.color = 0xff5300ab.toInt()
-                    paint.style = Paint.Style.FILL
-                    canvas.drawPath(path1, paint)
+                   paint.color = 0xff5300ab.toInt()
+                   paint.style = Paint.Style.FILL
+                   canvas.drawPath(path1, paint)
+               }
 
             }
-
-
 
         }
 
