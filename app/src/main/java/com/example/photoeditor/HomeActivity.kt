@@ -17,8 +17,8 @@ class HomeActivity : AppCompatActivity() {
 
         val image = intent.getParcelableExtra<Parcelable>("Image")
         val imageFragment = ImageFragment.newInstance(image)
-        val effectsFragment = EffectsFragment.newInstance()
-        val saveFragment = SaveFragment.newInstance()
+        val effectsFragment = EffectsFragment.newInstance(image)
+        val saveFragment = SaveFragment.newInstance(image)
 
         selectScreen(ImageFragment.TAG, imageFragment)
 
