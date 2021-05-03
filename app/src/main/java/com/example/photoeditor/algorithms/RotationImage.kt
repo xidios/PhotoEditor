@@ -3,10 +3,8 @@ package com.example.photoeditor.algorithms
 import android.graphics.Bitmap
 import android.graphics.Bitmap.createBitmap
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import android.widget.Toast
 import kotlin.math.*
-import org.jetbrains.anko.toast
 
 class RotationImage() {
     fun rotateImage(image: Bitmap, angle: Int): Bitmap {
@@ -24,6 +22,8 @@ class RotationImage() {
         val newWidth = newSize.first
         val newHeight = newSize.second
 
+        Log.d("RotationActivity", "$width, $height, $newWidth, $newHeight")
+
         val resultPixels = IntArray(newWidth * newHeight)
 
         for (i in imagePixels.indices) {
@@ -34,12 +34,7 @@ class RotationImage() {
             resultPixels[newIndex] = imagePixels[i]
         }
 
-        Log.d("debug", "$newWidth, $newHeight")
-
-        val result = createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888)
-        result.setPixels(resultPixels, 0, newWidth, 0, 0, newWidth, newHeight)
-
-        return result
+        return createBitmap(resultPixels, newWidth, newHeight, Bitmap.Config.ARGB_8888)
     }
 
     private fun toRadians(angle: Int): Double {
