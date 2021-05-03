@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Environment
 import org.jetbrains.anko.toast
 import android.provider.MediaStore
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -100,10 +101,8 @@ class MainActivity : AppCompatActivity() {
             val pathToImage = FileProvider.getUriForFile(this, "com.example.android.fileprovider", createImageFile())
             intent.putExtra(MediaStore.EXTRA_OUTPUT, pathToImage)
             startActivityForResult(intent, REQUEST_CAMERA)
-        }
-
-        catch (e: IOException) {
-            toast("Error...")
+        } catch (e: Exception) {
+            Log.d("debug", "$e")
         }
     }
 
@@ -113,8 +112,7 @@ class MainActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_CAMERA) {
                 val uri = Uri.parse(currentPhotoPath)
-                val intent = Intent(this, RotationActivity::class.java).apply {
-                //val intent = Intent(this, HomeActivity::class.java).apply {
+                val intent = Intent(this, HomeActivity::class.java).apply {
                     putExtra(IMAGE, uri)
                 }
                 startActivity(intent)
