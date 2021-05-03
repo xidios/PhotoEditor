@@ -1,8 +1,11 @@
 package com.example.photoeditor.fragments
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +18,7 @@ class SaveFragment : Fragment(R.layout.fragment_save) {
     companion object {
         val TAG = "SaveFragment"
         private const val KEY = "Image"
-        fun newInstance(image: Parcelable?) = SaveFragment().apply {
+        fun newInstance(image: ByteArray) = SaveFragment().apply {
             arguments = bundleOf(Pair(KEY, image))
         }
     }
@@ -23,7 +26,17 @@ class SaveFragment : Fragment(R.layout.fragment_save) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val image = arguments?.getParcelable<Parcelable>("Image")
-        resultImage.setImageURI(image as Uri)
+        val receivedImage = arguments?.getByteArray("Image")
+        if (receivedImage != null) {
+            val image = BitmapFactory.decodeByteArray(receivedImage, 0, receivedImage.size)
+            resultImage.setImageBitmap(image)
+        }
+    }
+
+    fun rewriteImage(receivedImage: ByteArray?) {
+        if (receivedImage != null) {
+            val image = BitmapFactory.decodeByteArray(receivedImage, 0, receivedImage.size)
+            resultImage.setImageBitmap(image)
+        }
     }
 }

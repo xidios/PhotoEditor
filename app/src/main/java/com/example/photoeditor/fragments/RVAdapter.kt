@@ -1,17 +1,20 @@
 package com.example.photoeditor.fragments
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.photoeditor.*
 
+class RVAdapter(val context: FragmentActivity?, val image: ByteArray) : RecyclerView.Adapter<RVAdapter.ViewHolder>() {
+    val REQUEST_ID = 1
 
-class RVAdapter : RecyclerView.Adapter<RVAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         var itemKode: TextView = itemView.findViewById(R.id.kodePertanyaan)
         var itemKategori: TextView = itemView.findViewById(R.id.kategori)
         var itemIsi: TextView = itemView.findViewById(R.id.isiPertanyaan)
@@ -19,8 +22,6 @@ class RVAdapter : RecyclerView.Adapter<RVAdapter.ViewHolder>() {
         init {
             itemView.setOnClickListener {
                 val position: Int = getAdapterPosition()
-                val context = itemView.context
-
                 var intent = Intent()
 
                 when (position) {
@@ -32,12 +33,9 @@ class RVAdapter : RecyclerView.Adapter<RVAdapter.ViewHolder>() {
                     5 -> intent = Intent(context, CubeActivity::class.java)
                 }
                 intent = intent.apply {
-                    putExtra("NUMBER", position)
-                    putExtra("CODE", itemKode.text)
-                    putExtra("CATEGORY", itemKategori.text)
-                    putExtra("CONTENT", itemIsi.text)
+                    putExtra("IMAGE", image)
                 }
-                context.startActivity(intent)
+                context?.startActivityForResult(intent, REQUEST_ID)
             }
         }
     }
