@@ -8,159 +8,159 @@ import android.graphics.Path
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.animation.AnimationUtils
-import kotlinx.android.synthetic.main.activity_cube.view.*
 import kotlin.math.cos
 import kotlin.math.sin
 
+class Point2D(var x: Float, var y: Float)
 
-class CubeActivity() : AppCompatActivity() {
+class Point3D(var x: Float,var y: Float,var z: Float)
+
+class Cube(var x: Float, var y: Float, var z: Float, var size: Float) {
+    var vertex = arrayOf(
+        Point3D(x = x - size, y = y - size, z = z - size),
+        Point3D(x = x + size, y = y - size, z = z - size),
+        Point3D(x = x + size, y = y + size, z = z - size),
+        Point3D(x = x - size, y = y + size, z = z - size),
+        Point3D(x = x - size, y = y - size, z = z + size),
+        Point3D(x = x + size, y = y - size, z = z + size),
+        Point3D(x = x + size, y = y + size, z = z + size),
+        Point3D(x = x - size, y = y + size, z = z + size)
+    )
+
+    var faces = arrayOf(
+        arrayOf(0, 1, 2, 3), arrayOf(0, 4, 5, 1),
+        arrayOf(1, 5, 6, 2), arrayOf(3, 2, 6, 7),
+        arrayOf(0, 3, 7, 4), arrayOf(4, 7, 6, 5)
+    )
+
+    fun rotateX(radian: Float) {
+        var cosX = cos(radian)
+        var sinX = sin(radian)
+
+        for (i in vertex.indices) {
+            var p = this.vertex[i]
+
+            var y = (p.y - this.y) * sinX + (p.z - this.z) * cosX
+            var z = (p.y - this.y) * cosX - (p.z - this.z) * sinX
+
+            p.y = y + this.y
+            p.z = z + this.z
+        }
+    }
+
+    fun rotateY(radian: Float) {
+        var cosY = cos(radian)
+        var sinY = sin(radian)
+
+        for (i in vertex.indices) {
+            var p = this.vertex[i]
+
+            var x = (p.x - this.x) * sinY + (p.z - this.z) * cosY
+            var z = (p.x - this.x) * cosY - (p.z - this.z) * sinY
+
+            p.x = x + this.x
+            p.z = z + this.z
+        }
+    }
+}
+
+var pointer = Point2D(0f, 0f)
+var cube = Cube(0f, 0f, 600f, 500f * 0.5f)
+
+class CubeActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(DrawView(this))
     }
 
     class DrawView(context: Context?) : View(context) {
-        lateinit var canvas: Canvas
+
+        var canvas = Canvas()
         var paint = Paint()
-        var path: Path = Path()
 
         override fun onDraw(canva: Canvas) {
+            canva.drawColor(Color.DKGRAY)
             canvas = canva
-            canvas.drawColor(Color.BLUE)
 
-            loop()
+            drawingCube(pointer, canvas)
         }
 
+        private fun cubeProjection(vertex3D: Array<Point3D>, height: Float, width: Float): Array<Point2D> {
 
-        class Point2D(var x: Float, var y: Float)
+            var vertex2D = Array(vertex3D.size) { Point2D(x, y) }
 
-        class Point3D(x: Float, y: Float, z: Float) {
-            var x: Float = 0f
-            var y: Float = 0f
-            var z: Float = 0f
-        }
+            var focalLength = 400
 
-        class Cube(var x: Float, var y: Float, var z: Float, var size: Float) {
-            var vertex = arrayOf(
-                Point3D(x - size, y - size, z - size),
-                Point3D(x + size, y - size, z - size),
-                Point3D(x + size, y + size, z - size),
-                Point3D(x - size, y + size, z - size),
-                Point3D(x - size, y - size, z + size),
-                Point3D(x + size, y - size, z + size),
-                Point3D(x + size, y + size, z + size),
-                Point3D(x - size, y + size, z + size)
-            )
+            for (i in vertex3D.indices) {
 
-            var faces = arrayOf(
-                arrayOf(0, 1, 2, 3), arrayOf(0, 4, 5, 1),
-                arrayOf(1, 5, 6, 2), arrayOf(3, 2, 6, 7),
-                arrayOf(0, 3, 7, 4), arrayOf(4, 7, 6, 5)
-            )
+                var vertex = vertex3D[i]
 
-            fun rotateX(radian: Float) {
-                var cosX = cos(radian)
-                var sinX = sin(radian)
+                var x = vertex.x * (focalLength / vertex.z) + width * 0.5f
+                var y = vertex.y * (focalLength / vertex.z) + height * 0.5f
 
-                for (i in vertex.indices) {
-                    var p = this.vertex[i]
-
-                    var x = (p.y - this.y) * sinX + (p.z - this.z) * cosX
-                    var z = (p.y - this.y) * cosX - (p.z - this.z) * sinX
-
-                    p.y = y + this.y
-                    p.z = z + this.z
-                }
-            }
-
-            fun rotateY(radian: Float) {
-                var cosY = cos(radian)
-                var sinY = sin(radian)
-
-                for (i in vertex.indices) {
-                    var p = this.vertex[i]
-
-                    var x = (p.x - this.x) * sinY + (p.z - this.z) * cosY
-                    var z = (p.x - this.x) * cosY - (p.z - this.z) * sinY
-
-                    p.x = x + this.x
-                    p.z = z + this.z
-                }
-            }
-        }
-
-        var pointer = Point2D(0f, 0f)
-        var cube = Cube(0f, 0f, 400f, 200f)
-
-        var height = 300f
-        var width = 300f
-
-
-        private fun project(points3d: Array<Point3D>, height: Float, width: Float): Array<Point2D> {
-
-            var points2d = Array(points3d.size, { Point2D(x, y) })
-
-            var focalLength = 200
-
-            for (i in points3d.indices) {
-
-                var p = points3d[i]
-
-                var x = p.x * (focalLength / p.z) + width * 0.5f
-                var y = p.y * (focalLength / p.z) + height * 0.5f
-
-                points2d[i] = Point2D(x, y)
+                vertex2D[i] = Point2D(x, y)
 
             }
 
-            return points2d
+            return vertex2D
         }
 
-        fun loop() {
-            paint.color = 0xffffffff.toInt()
-            paint.style = Paint.Style.FILL
-            this.canvas.drawRect(0f, 0f, 200f, 200f, paint)
+        private fun drawingCube(pointer:Point2D, canvas:Canvas) {
+            var path = Path()
 
-            paint.color = 0xffffffff.toInt()
-            paint.style = Paint.Style.STROKE
+            var height = canvas.height.toFloat()
+            var width = canvas.width.toFloat()
 
-            cube.rotateX(pointer.y * 0.0001f)
-            cube.rotateY(-pointer.x * 0.0001f)
+            cube.rotateX(pointer.y * 0.00005f)
+            cube.rotateY(pointer.x * 0.00005f)
 
-
-            var vertices = project(cube.vertex, width, height)
+            canvas.save()
+            var vertices = cubeProjection(cube.vertex, width, height)
 
             for (i in cube.faces.indices) {
-
                 var face = cube.faces[i]
 
-                var p1 = cube.vertex[face[0]]
-                var p2 = cube.vertex[face[1]]
-                var p3 = cube.vertex[face[2]]
+                var firstVertex = cube.vertex[face[0]]
+                var secondVertex = cube.vertex[face[1]]
+                var thirdVertex = cube.vertex[face[2]]
 
-                var v1 = Point3D(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z)
-                var v2 = Point3D(p3.x - p1.x, p3.y - p1.y, p3.z - p1.z)
+                var firstVertexIn3D = Point3D(secondVertex.x - firstVertex.x, secondVertex.y - firstVertex.y, secondVertex.z - firstVertex.z)
+                var secondVertexIn3D = Point3D(thirdVertex.x - firstVertex.x, thirdVertex.y - firstVertex.y, thirdVertex.z - firstVertex.z)
 
-                var n = Point3D(
-                    v1.y * v2.z - v1.z * v2.y,
-                    v1.z * v2.x - v1.x * v2.z,
-                    v1.x * v2.y - v1.y * v2.x
+                var multipleVertexIn3D = Point3D(
+                    firstVertexIn3D.y * secondVertexIn3D.z - firstVertexIn3D.z * secondVertexIn3D.y,
+                    firstVertexIn3D.z * secondVertexIn3D.x - firstVertexIn3D.x * secondVertexIn3D.z,
+                    firstVertexIn3D.x * secondVertexIn3D.y - firstVertexIn3D.y * secondVertexIn3D.x
                 )
 
-                if (-p1.x * n.x + -p1.y * n.y + -p1.z * n.z <= 0) {
+                if (-firstVertex.x * multipleVertexIn3D.x + -firstVertex.y * multipleVertexIn3D.y + -firstVertex.z * multipleVertexIn3D.z <= 0) {
+                    val myPath: Array<Point2D> = arrayOf(
+                        vertices[face[0]], vertices[face[1]], vertices[face[2]], vertices[face[3]]
+                    )
+                    path.moveTo(myPath[0].x - 400, myPath[0].y + 200)
 
-                    paint.color = 0xff000000.toInt()
-                    paint.style = Paint.Style.STROKE
+                    for (i in myPath.indices) {
+                        path.lineTo(myPath[i].x - 400, myPath[i].y + 200)
+                    }
 
-                    path.moveTo(vertices[face[0]].x, vertices[face[0]].y)
-                    path.lineTo(vertices[face[1]].x, vertices[face[1]].y)
-                    path.lineTo(vertices[face[2]].x, vertices[face[2]].y)
-                    path.lineTo(vertices[face[3]].x, vertices[face[3]].y)
-
+                    paint.color = Color.BLACK
+                    paint.style = Paint.Style.FILL
                     canvas.drawPath(path, paint)
+
+                    paint.color = 0xfff9ed02.toInt()
+                    paint.style = Paint.Style.STROKE
+                    paint.strokeWidth = 10f
+                    canvas.drawPath(path, paint)
+
+                    paint.color = 0xfff9ed02.toInt()
+                    paint.textSize = 200f
+
+                    val randomInt = (1..9).random()
+
+                    canvas.drawTextOnPath("$randomInt ", path, 230f, 340f, paint)
 
                 }
             }
@@ -168,19 +168,18 @@ class CubeActivity() : AppCompatActivity() {
 
         override fun onTouchEvent(event: MotionEvent?): Boolean {
             when (event?.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    Toast.makeText(context, "Я сработал, я красава", Toast.LENGTH_SHORT).show()
-                }
-
                 MotionEvent.ACTION_MOVE -> {
-                    pointer.x = event.x - width * 0.5f;
-                    pointer.y = event.y - height * 0.5f;
-                    Toast.makeText(context, "Я сработал, я красава", Toast.LENGTH_SHORT).show()
+                    pointer.x = event.x - width * 0.5f
+                    pointer.y = event.y - height * 0.5f
+
+                    invalidate()
                 }
             }
+
             return true
         }
     }
+
 }
 
 
