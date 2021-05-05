@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PhotoEditor">
-        <activity android:name=".CubeActivity"></activity>
+        <activity android:name=".UnsharpMaskActivity"></activity>
+        <activity android:name=".CubeActivity" />
         <activity android:name=".SplinesActivity" />
         <activity android:name=".SegmentationActivity" />
         <activity android:name=".ColorCorrectionActivity" />

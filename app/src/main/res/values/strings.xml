@@ -16,6 +16,8 @@
     <string name="rotation_image_desc">Текущее изображение</string>
     <string name="rotation_angle_hint">Угол поворота</string>
 
+    <string name="unsharp_mask">Нерезкое маскирование</string>
+
     <string name="save_picture_button">Сохранить</string>
 
     <string name="apply_button">Применить</string>
