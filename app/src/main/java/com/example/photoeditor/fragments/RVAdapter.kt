@@ -31,6 +31,7 @@ class RVAdapter(val context: FragmentActivity?, val image: ByteArray) : Recycler
                     3 -> intent = Intent(context, SegmentationActivity::class.java)
                     4 -> intent = Intent(context, SplinesActivity::class.java)
                     5 -> intent = Intent(context, CubeActivity::class.java)
+                    6 -> intent = Intent(context, RetouchingActivity::class.java)
                 }
                 intent = intent.apply {
                     putExtra("IMAGE", image)
@@ -60,9 +61,11 @@ class RVAdapter(val context: FragmentActivity?, val image: ByteArray) : Recycler
         "Цветокоррекция",
         "Сегментация",
         "Сплайны",
-        "Кубик")
+        "Кубик",
+        "Ретуширование")
 
     private val kategori = arrayOf(
+        "Иконка",
         "Иконка",
         "Иконка",
         "Иконка",
@@ -76,6 +79,7 @@ class RVAdapter(val context: FragmentActivity?, val image: ByteArray) : Recycler
         "Применение к изображению выбранного фильтра",
         "Распознавание лиц на изображении",
         "Преобразование ломаных линий в сплайны",
-        "Вращение объемного игрального кубика")
+        "Вращение объемного игрального кубика",
+        "Коррекция дефектов")
 }
 

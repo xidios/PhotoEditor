@@ -3,19 +3,12 @@ package com.example.photoeditor
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.widget.SeekBar
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_rotation.*
 import kotlinx.android.synthetic.main.activity_scaling.*
-import kotlinx.android.synthetic.main.fragment_save.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 class ScalingActivity : AppCompatActivity() {
     private val RESULT_TAG = "resultImage"
@@ -23,6 +16,7 @@ class ScalingActivity : AppCompatActivity() {
     private lateinit var PhotoOnSave: Bitmap
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scaling)
 

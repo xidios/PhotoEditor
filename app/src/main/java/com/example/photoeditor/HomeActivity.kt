@@ -6,14 +6,11 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.photoeditor.fragments.EffectsFragment
 import com.example.photoeditor.fragments.ImageFragment
-import com.example.photoeditor.fragments.RVAdapter
 import com.example.photoeditor.fragments.SaveFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_rotation.*
@@ -23,7 +20,6 @@ import java.io.ByteArrayOutputStream
 class HomeActivity : AppCompatActivity() {
     private val REQUEST_ID = 1
     private val RESULT_TAG = "resultImage"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -57,7 +53,11 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun firstRun(imageFragment: ImageFragment, saveFragment: SaveFragment, effectsFragment: EffectsFragment) {
+    private fun firstRun(
+        imageFragment: ImageFragment,
+        saveFragment: SaveFragment,
+        effectsFragment: EffectsFragment
+    ) {
         supportFragmentManager.commit {
             add(R.id.fragmentContainer, saveFragment, SaveFragment.TAG)
             hide(saveFragment)
