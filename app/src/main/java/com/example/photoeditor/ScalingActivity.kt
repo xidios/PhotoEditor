@@ -30,39 +30,77 @@ class ScalingActivity : AppCompatActivity() {
         if (receivedImage != null) {
             NewPhoto = BitmapFactory.decodeByteArray(receivedImage, 0, receivedImage.size)
             PhotoOnSave = NewPhoto
+            Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
             imageViewScaling.setImageBitmap(NewPhoto)
         }
-        buttonScalingApply.setOnClickListener(){
+        buttonScalingApply.setOnClickListener() {
+            PhotoOnSave = resizeBitmap(NewPhoto)
+            imageViewScaling.setImageBitmap(PhotoOnSave)
+            Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
             val resultIntent = Intent()
             try {
                 resultIntent.putExtra(RESULT_TAG, compressBitmap(PhotoOnSave))
                 setResult(RESULT_OK, resultIntent)
                 Toast.makeText(this, "Изображение сохранено", Toast.LENGTH_SHORT).show()
+
             } catch (error: Exception) {
-                Log.d("ScalingActivity", "Произошла ошибка при сохранении изображения"+error.message)
+                Log.d(
+                    "ScalingActivity",
+                    "Произошла ошибка при сохранении изображения" + error.message
+                )
             }
         }
 
+        Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
 
-        seekBarScaling.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+//        seekBarScaling.setMax(NewPhoto.height+1)
+//        seekBarScaling.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+//
+//            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+//                val per = NewPhoto.height - i + 1
+//                imageViewScaling.setImageDrawable(null)
+//                PhotoOnSave = resizeBitmap(NewPhoto,per)
+//                imageViewScaling.setImageBitmap(PhotoOnSave)
+//                Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
+//            }
+//
+//            override fun onStartTrackingTouch(seekBar: SeekBar) {
+//
+//            }
+//
+//            override fun onStopTrackingTouch(seekBar: SeekBar) {
+//
+//
+//            }
+//        })
+    }
 
-            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                val per = 100 - i
-                imageViewScaling.setImageDrawable(null)
-                PhotoOnSave = Scale(per)
-                imageViewScaling.setImageBitmap(PhotoOnSave)
+    fun resizeBitmap(source: Bitmap): Bitmap {
+        var k: Double = EditTextScaling.text.toString().toDouble()
+        var maxLength = source.height * k
+        try {
+            if (source.height >= source.width) {
 
+                val aspectRatio = source.width.toDouble() / source.height.toDouble()
+                val targetWidth = (maxLength * aspectRatio).toInt()
+                val result =
+                    Bitmap.createScaledBitmap(source, targetWidth, maxLength.toInt(), false)
+                return result
+            } else {
+                if (source.width <= maxLength) { // if image width already smaller than the required width
+                    return source
+                }
+
+                val aspectRatio = source.height.toDouble() / source.width.toDouble()
+                val targetHeight = (maxLength * aspectRatio).toInt()
+
+                val result =
+                    Bitmap.createScaledBitmap(source, maxLength.toInt(), targetHeight, false)
+                return result
             }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-
-
-            }
-        })
+        } catch (e: Exception) {
+            return source
+        }
     }
 
 
