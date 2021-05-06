@@ -47,9 +47,9 @@ class ScalingActivity : AppCompatActivity() {
         seekBarScaling.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                val temp = 100 - i
+                val per = 100 - i
                 imageViewScaling.setImageDrawable(null)
-                PhotoOnSave = Scale(temp)
+                PhotoOnSave = Scale(per)
                 imageViewScaling.setImageBitmap(PhotoOnSave)
 
             }
@@ -67,24 +67,24 @@ class ScalingActivity : AppCompatActivity() {
 
 
     private fun Scale(percentage: Int): Bitmap {
-        val newWidth = (NewPhoto.width * percentage / 100)
-        val newHeight = (NewPhoto.height * percentage / 100)
+        val reWidth = (NewPhoto.width * percentage / 100)
+        val reHeight = (NewPhoto.height * percentage / 100)
 
         val oldPixels = IntArray(NewPhoto.width * NewPhoto.height)
         NewPhoto.getPixels(oldPixels, 0, NewPhoto.width, 0, 0, NewPhoto.width, NewPhoto.height)
 
-        var offset = 0
-        val newPixels = IntArray(newWidth * newHeight)
+        var b = 0
+        val newPixels = IntArray(reWidth * reHeight)
 
-        val startX: Int = (NewPhoto.width - newWidth) / 2
-        val startY: Int = (NewPhoto.height - newHeight) / 2
+        val X: Int = (NewPhoto.width - reWidth) / 2
+        val Y: Int = (NewPhoto.height - reHeight) / 2
 
-        for (y in 0 until newHeight) {
-            for (x in 0 until newWidth) {
-                newPixels[offset++] = oldPixels[NewPhoto.width * (startY + y) + (startX + x)]
+        for (y in 0 until reHeight) {
+            for (x in 0 until reWidth) {
+                newPixels[b++] = oldPixels[NewPhoto.width * (Y + y) + (X + x)]
             }
         }
 
-        return Bitmap.createBitmap(newPixels, newWidth, newHeight, Bitmap.Config.ARGB_8888)
+        return Bitmap.createBitmap(newPixels, reWidth, reHeight, Bitmap.Config.ARGB_8888)
     }
 }
