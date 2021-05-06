@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_scaling.*
 import kotlinx.android.synthetic.main.fragment_save.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import kotlin.math.floor
 
 class ScalingActivity : AppCompatActivity() {
     private val RESULT_TAG = "resultImage"
@@ -34,21 +35,21 @@ class ScalingActivity : AppCompatActivity() {
             imageViewScaling.setImageBitmap(NewPhoto)
         }
         buttonScalingApply.setOnClickListener() {
-            PhotoOnSave = resizeBitmap(NewPhoto)
+            PhotoOnSave = bilinearInterpolation(NewPhoto)
             imageViewScaling.setImageBitmap(PhotoOnSave)
             Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
             val resultIntent = Intent()
-            try {
-                resultIntent.putExtra(RESULT_TAG, compressBitmap(PhotoOnSave))
-                setResult(RESULT_OK, resultIntent)
-                Toast.makeText(this, "Изображение сохранено", Toast.LENGTH_SHORT).show()
+            //try {
+            //resultIntent.putExtra(RESULT_TAG, compressBitmap(PhotoOnSave))
+            //setResult(RESULT_OK, resultIntent)
+            Toast.makeText(this, "Изображение сохранено", Toast.LENGTH_SHORT).show()
 
-            } catch (error: Exception) {
-                Log.d(
-                    "ScalingActivity",
-                    "Произошла ошибка при сохранении изображения" + error.message
-                )
-            }
+//            } catch (error: Exception) {
+//                Log.d(
+//                    "ScalingActivity",
+//                    "Произошла ошибка при сохранении изображения" + error.message
+//                )
+//            }
         }
 
         Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
@@ -103,26 +104,72 @@ class ScalingActivity : AppCompatActivity() {
         }
     }
 
+    fun bilinearInterpolation(bitmap: Bitmap): Bitmap {
+        var k: Double = EditTextScaling.text.toString().toDouble()
 
-    private fun Scale(percentage: Int): Bitmap {
-        val reWidth = (NewPhoto.width * percentage / 100)
-        val reHeight = (NewPhoto.height * percentage / 100)
+        var oldw: Int = bitmap.width
+        var oldh: Int = bitmap.height
+        var oldArray = IntArray(oldw * oldh)
+        bitmap.getPixels(oldArray, 0, oldw, 0, 0, oldw, oldh)
 
-        val oldPixels = IntArray(NewPhoto.width * NewPhoto.height)
-        NewPhoto.getPixels(oldPixels, 0, NewPhoto.width, 0, 0, NewPhoto.width, NewPhoto.height)
+        var neww: Int = (oldw * k).toInt()
+        var newh: Int = (oldh * k).toInt()
 
-        var b = 0
-        val newPixels = IntArray(reWidth * reHeight)
+        val x_koef = (oldw - 1).toDouble() / neww
+        val y_koef = (oldh - 1).toDouble() / newh
 
-        val X: Int = (NewPhoto.width - reWidth) / 2
-        val Y: Int = (NewPhoto.height - reHeight) / 2
+        var newArray = IntArray(neww * newh)
 
-        for (y in 0 until reHeight) {
-            for (x in 0 until reWidth) {
-                newPixels[b++] = oldPixels[NewPhoto.width * (Y + y) + (X + x)]
+        for (j in 0 until newh) {
+            var tmp: Double = (j / (newh - 1) * (oldh - 1)).toDouble()
+            var h: Int = floor(tmp).toInt()
+            if (h < 0) {
+                h = 0
+            } else {
+                if (h >= oldh - 1) {
+                    h = oldh - 2
+                }
+            }
+            var u = tmp - h
+
+            var y = (y_koef * j).toInt()
+            for (i in 0 until neww) {
+                var x = (x_koef * i).toInt()
+                var index = y * bitmap.width + x
+
+
+                var tmp: Double = (i / (neww - 1) * (oldw - 1)).toDouble()
+                var w = floor(tmp).toInt()
+                if (w < 0)
+                    w = 0
+                else {
+                    if (w >= oldw - 1) {
+                        w = oldw - 2
+
+                    }
+                }
+                var t = tmp - w
+                var d1 = (1 - t) * (1 - u)
+                var d2 = t * (1 - u)
+                var d3 = t * u
+                var d4 = (1 - t) * u
+
+
+                var p1 = oldArray[index]
+                var p2 = oldArray[index + 1]
+                var p3 = oldArray[index + oldw - 1]
+                var p4 = oldArray[index + oldw]
+
+                var blue =
+                    p1 * d1 + p2 * d2 + p3 *d3 + p4 * d4
+                var green =
+                    (p1 shr 8) * d1 + (p2 shr 8 ) * d2 + (p3 shr 8 ) *d3 + (p4 shr 8) * d4
+                var red =
+                    (p1 shr 16) * d1 + (p2 shr 16) * d2 + (p3 shr 1) *d3 + (p4 shr 16) * d4
+                newArray[j*newh+i] = (red.toInt() shl 16) or (green.toInt() shl 8) or blue.toInt()
             }
         }
-
-        return Bitmap.createBitmap(newPixels, reWidth, reHeight, Bitmap.Config.ARGB_8888)
+        return Bitmap.createBitmap(newArray, neww, newh, Bitmap.Config.ARGB_8888)
     }
+
 }
