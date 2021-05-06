@@ -48,7 +48,7 @@ class RetouchingActivity : AppCompatActivity() {
                 // Get the value of the target point dst through the inverse matrix mapping
                 // Get the value of the target point dst through the inverse matrix mapping
                 inverseMatrix.mapPoints(dst, floatArrayOf(x, y))
-                Toast.makeText(this, "$dst[0] $dst[1]", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "${dst[0]} ${dst[1]}", Toast.LENGTH_SHORT).show()
                 //NewPhoto = retouching(dst[0], dst[1], NewPhoto)
                 imageViewRetouching.setImageBitmap(NewPhoto)
             }

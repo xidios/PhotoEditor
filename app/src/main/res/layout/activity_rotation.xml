@@ -32,7 +32,7 @@
                 android:layout_width="0dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
-                android:background="#E91E63"
+
                 android:contentDescription="@string/rotation_image_desc"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
