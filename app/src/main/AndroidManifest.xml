@@ -17,16 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PhotoEditor">
-<<<<<<< Updated upstream
-=======
-        <activity android:name=".CubeActivity"></activity>
-        <activity android:name=".SplinesActivity" />
-        <activity android:name=".SegmentationActivity" />
-        <activity android:name=".ColorCorrectionActivity"/>
-        <activity android:name=".ScalingActivity" />
-        <activity android:name=".RotationActivity" />
 
->>>>>>> Stashed changes
+        <activity android:name=".ColorCorrectionActivity"/>
+
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/file_paths" />
