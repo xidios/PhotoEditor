@@ -6,47 +6,32 @@ import android.graphics.Color
 import java.lang.Math.*
 
 class UnsharpMaskAlgorithm {
-    /*fun blur(bitmap: Bitmap): Bitmap {
-        val width = bitmap.width
-        val height = bitmap.height
-        val result = createBitmap(width, height, bitmap.config)
 
-        var pixelColors = arrayOf<IntArray>()
-        for (x in 0 until width) {
-            val row = IntArray(height)
-            for (y in 0 until height) {
-                row[y] = bitmap.getPixel(x, y)
-            }
-            pixelColors += row
-        }
+    fun getResult(input: Bitmap): Bitmap {
+        val radius = 50
+        val amount = 0.7
 
-        for (x in 0 until width) {
-            for (y in 0 until height) {
-                try {
-                    val newColor = getMeanColor(pixelColors, x, y, width, height)
-                    result.setPixel(x, y, newColor)
-                } catch (e: Exception) {
-                    Log.d("UnsharpMaskActivity", "$x, $y, ${e.toString()}")
-                }
-            }
-        }
+        var output = gaussianBlur(input, radius)
+        output = subtraction(input, output)
+        output = multiplication(output, amount)
+        output = addition(input, output)
 
-        return result
-    }*/
+        return output
+    }
 
-    fun gaussianBlur(bitmap: Bitmap, sigma: Int): Bitmap {
+    private fun gaussianBlur(input: Bitmap, sigma: Int): Bitmap {
         val size = 3 * sigma
-        val width = bitmap.width
-        val height = bitmap.height
+        val width = input.width
+        val height = input.height
 
         val coefficients = getCoefficients(size, sigma)
-        val result = createBitmap(width, height, bitmap.config)
+        val output = createBitmap(width, height, input.config)
 
         var pixelColors = arrayOf<IntArray>()
         for (x in 0 until width) {
             val row = IntArray(height)
             for (y in 0 until height) {
-                row[y] = bitmap.getPixel(x, y)
+                row[y] = input.getPixel(x, y)
             }
             pixelColors += row
         }
@@ -62,11 +47,11 @@ class UnsharpMaskAlgorithm {
         for (x in 0 until width) {
             for (y in 0 until height) {
                 val color = getGaussianMeanColor(temp, coefficients, x, y, width, height, size, "vertical")
-                result.setPixel(x, y, color)
+                output.setPixel(x, y, color)
             }
         }
 
-        return result
+        return output
     }
 
     private fun getGaussianMeanColor(colors: Array<IntArray>, coeff: DoubleArray, x: Int, y: Int,
@@ -120,7 +105,96 @@ class UnsharpMaskAlgorithm {
         return result
     }
 
-    /*private fun getMeanColor(pixelColors: Array<IntArray>, x: Int, y: Int, width: Int, height: Int): Int {
+    private fun subtraction(input: Bitmap, smoothed: Bitmap): Bitmap {
+        val width = input.width
+        val height = input.height
+        val output = createBitmap(width, height, input.config)
+
+        for (x in 0 until width) {
+            for (y in 0 until height) {
+                val pixel = input.getPixel(x, y)
+                val smoothedPixel = smoothed.getPixel(x, y)
+
+                val red = max(0, Color.red(pixel) - Color.red(smoothedPixel))
+                val green = max(0, Color.green(pixel) - Color.green(smoothedPixel))
+                val blue = max(0, Color.blue(pixel) - Color.blue(smoothedPixel))
+                val resultPixel = Color.argb(255, red, green, blue)
+
+                output.setPixel(x, y, resultPixel)
+            }
+        }
+
+        return output
+    }
+
+    private fun multiplication(input: Bitmap, amount: Double): Bitmap {
+        val width = input.width
+        val height = input.height
+        val output = createBitmap(width, height, input.config)
+
+        for (x in 0 until width) {
+            for (y in 0 until height) {
+                val pixel = input.getPixel(x, y)
+                val red = Color.red(pixel) * amount
+                val green = Color.green(pixel) * amount
+                val blue = Color.blue(pixel) * amount
+                val resultPixel = Color.argb(255, red.toInt(), green.toInt(), blue.toInt())
+                output.setPixel(x, y, resultPixel)
+            }
+        }
+
+        return output
+    }
+
+    private fun addition(input: Bitmap, edited: Bitmap): Bitmap {
+        val width = input.width
+        val height = input.height
+        val output = createBitmap(width, height, input.config)
+
+        for (x in 0 until width) {
+            for (y in 0 until height) {
+                val pixel = input.getPixel(x, y)
+                val editedPixel = edited.getPixel(x, y)
+                val red = min(255, Color.red(pixel) + Color.red(editedPixel))
+                val green = min(255, Color.green(pixel) + Color.green(editedPixel))
+                val blue = min(255, Color.blue(pixel) + Color.blue(editedPixel))
+                val resultPixel = Color.argb(255, red, green, blue)
+                output.setPixel(x, y, resultPixel)
+            }
+        }
+
+        return output
+    }
+
+    /*fun blur(bitmap: Bitmap): Bitmap {
+        val width = bitmap.width
+        val height = bitmap.height
+        val result = createBitmap(width, height, bitmap.config)
+
+        var pixelColors = arrayOf<IntArray>()
+        for (x in 0 until width) {
+            val row = IntArray(height)
+            for (y in 0 until height) {
+                row[y] = bitmap.getPixel(x, y)
+            }
+            pixelColors += row
+        }
+
+        for (x in 0 until width) {
+            for (y in 0 until height) {
+                try {
+                    val newColor = getMeanColor(pixelColors, x, y, width, height)
+                    result.setPixel(x, y, newColor)
+                } catch (e: Exception) {
+                    Log.d("UnsharpMaskActivity", "$x, $y, ${e.toString()}")
+                }
+            }
+        }
+
+        return result
+    }
+
+    private fun getMeanColor(pixelColors: Array<IntArray>, x: Int, y: Int, width: Int, height: Int): Int {
         var count = 0
         var alpha = 0
         var red = 0
