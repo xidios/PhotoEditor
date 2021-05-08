@@ -24,7 +24,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
 
             <ImageView
                 android:id="@+id/unsharpImage"
@@ -37,17 +38,44 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <!--<androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/smoothRadiusContainer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@+id/unsharpImage"
+                app:layout_constraintTop_toBottomOf="@+id/unsharpImage"
+                app:layout_constraintEnd_toEndOf="@+id/unsharpImage">
+
+                <TextView
+                    android:id="@+id/smoothRadiusTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/smooth_radius_textView"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <SeekBar
+                    android:id="@+id/smoothRadiusPicker"
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    app:layout_constraintStart_toEndOf="@id/smoothRadiusTextView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/applyRotationButton"
+                android:id="@+id/applyUnsharpMaskButton"
                 style="@style/Theme.PhotoEditor.Button.Accent"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="32dp"
                 android:text="@string/apply_button"
                 app:backgroundTint="@color/buttonBackground"
                 app:icon="@drawable/ic_check"
                 app:iconTint="@color/accent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/unsharpImage" />
+                app:layout_constraintEnd_toEndOf="@+id/unsharpImage"
+                app:layout_constraintTop_toBottomOf="@+id/unsharpImage"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

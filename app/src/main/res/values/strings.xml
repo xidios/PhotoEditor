@@ -17,6 +17,7 @@
     <string name="rotation_angle_hint">Угол поворота</string>
 
     <string name="unsharp_mask">Нерезкое маскирование</string>
+    <string name="smooth_radius_textView">Радиус размытия:</string>
 
     <string name="save_picture_button">Сохранить</string>
 
