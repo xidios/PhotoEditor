@@ -46,13 +46,13 @@ class UnsharpMaskActivity : AppCompatActivity() {
 
         var bitmap = image as Bitmap
         try {
-            bitmap = unsharp.blur(bitmap)
+            //bitmap = unsharp.blur(bitmap)
+            bitmap = unsharp.gaussianBlur(bitmap, 3)
+            Log.d("UnsharpMaskActivity", "Размытие выполнено: ${bitmap.width}, ${bitmap.height}")
         } catch(error: Exception) {
-            Log.d("UnsharpMaskActivity", "Произошла ошибка при размытии")
+            Log.d("UnsharpMaskActivity", "Произошла ошибка при размытии: ${error.toString()}")
             Toast.makeText(this, "Произошла ошибка при размытии", Toast.LENGTH_SHORT).show()
         }
-
-        Log.d("UnsharpMaskActivity", "Размытие выполнено")
 
         unsharpImage.setImageDrawable(null)
         unsharpImage.setImageBitmap(bitmap)
