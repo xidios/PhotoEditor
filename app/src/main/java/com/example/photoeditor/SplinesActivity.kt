@@ -19,6 +19,8 @@ class SplinesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splines)
 
+        applyAlgorithm.setOnClickListener{ splinesView.convertingToSpline()}
+
     }
 }
 
