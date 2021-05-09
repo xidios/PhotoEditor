@@ -2,16 +2,19 @@ package com.example.photoeditor
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.photoeditor.algorithms.UnsharpMaskAlgorithm
-import kotlinx.android.synthetic.main.activity_rotation.*
 import kotlinx.android.synthetic.main.activity_unsharp_mask.*
 
+
 class UnsharpMaskActivity : AppCompatActivity() {
+    private val KEY = "Image"
     private val RESULT_TAG = "resultImage"
     private var image: Bitmap? = null
 
@@ -24,10 +27,9 @@ class UnsharpMaskActivity : AppCompatActivity() {
         }
 
         try {
-            val receivedImage = intent.getByteArrayExtra("IMAGE")
+            val receivedImage = intent.getParcelableExtra<Parcelable>(KEY)
             if (receivedImage != null) {
-                image = BitmapFactory.decodeByteArray(receivedImage, 0, receivedImage.size)
-                unsharpImage.setImageBitmap(image)
+                unsharpImage.setImageURI(receivedImage as Uri)
             }
         } catch (e: Exception) {
             Log.d("UnsharpMaskActivity", e.toString())
@@ -44,7 +46,7 @@ class UnsharpMaskActivity : AppCompatActivity() {
         /*var radius = smoothRadiusPicker.progress
         val scaling = 0.5*/
 
-        var bitmap = image as Bitmap
+        var bitmap = (unsharpImage.getDrawable() as BitmapDrawable).bitmap
         try {
             //bitmap = unsharp.blur(bitmap)
             bitmap = unsharp.getResult(bitmap)
@@ -60,11 +62,11 @@ class UnsharpMaskActivity : AppCompatActivity() {
 
         val resultIntent = Intent()
         try {
-            resultIntent.putExtra(RESULT_TAG, compressBitmap(bitmap))
+            resultIntent.putExtra(RESULT_TAG, saveTempImage(this, bitmap))
             setResult(RESULT_OK, resultIntent)
         } catch (error: Exception) {
-            Log.d("UnsharpMaskActivity", "Произошла ошибка при сжатии изображения")
-            Toast.makeText(this, "Произошла ошибка при сжатии изображения", Toast.LENGTH_SHORT).show()
+            Log.d("UnsharpMaskActivity", "Произошла ошибка при сохранении изображения")
+            Toast.makeText(this, "Произошла ошибка при сохранении изображения", Toast.LENGTH_SHORT).show()
         }
     }
 }
