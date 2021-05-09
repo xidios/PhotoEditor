@@ -11,8 +11,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.photoeditor.*
 
-class RVAdapter(val context: FragmentActivity?, val image: ByteArray) : RecyclerView.Adapter<RVAdapter.ViewHolder>() {
+class RVAdapter(val context: FragmentActivity?, val image: Parcelable) : RecyclerView.Adapter<RVAdapter.ViewHolder>() {
     val REQUEST_ID = 1
+    val KEY = "Image"
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var itemKode: TextView = itemView.findViewById(R.id.kodePertanyaan)
@@ -33,7 +34,7 @@ class RVAdapter(val context: FragmentActivity?, val image: ByteArray) : Recycler
                     5 -> intent = Intent(context, CubeActivity::class.java)
                 }
                 intent = intent.apply {
-                    putExtra("IMAGE", image)
+                    putExtra(KEY, image)
                 }
                 context?.startActivityForResult(intent, REQUEST_ID)
             }

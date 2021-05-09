@@ -15,20 +15,21 @@ import java.util.*
 
 class ImageFragment : Fragment(R.layout.fragment_image) {
     companion object {
-        val TAG = "ImageFragment"
+        const val TAG = "ImageFragment"
         private const val KEY = "Image"
-        fun newInstance(image: ByteArray) = ImageFragment().apply {
-            arguments = bundleOf(Pair("Image", image))
+        fun newInstance(image: Parcelable) = ImageFragment().apply {
+            arguments = bundleOf(Pair(KEY, image))
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val receivedImage = arguments?.getByteArray("Image")
+        val receivedImage = arguments?.getParcelable<Parcelable>("Image")
         if (receivedImage != null) {
-            val image = BitmapFactory.decodeByteArray(receivedImage, 0, receivedImage.size)
-            currentImage.setImageBitmap(image)
+            /*val image = BitmapFactory.decodeByteArray(receivedImage, 0, receivedImage.size)
+            currentImage.setImageBitmap(image)*/
+            currentImage.setImageURI(receivedImage as Uri)
         }
     }
 }
