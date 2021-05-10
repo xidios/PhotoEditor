@@ -66,7 +66,7 @@ class Cube(var x: Float, var y: Float, var z: Float, var size: Float) {
 }
 
 var pointer = Point2D(0f, 0f)
-var cube = Cube(0f, 0f, 600f, 500f * 0.5f)
+var cube = Cube(0f, 0f, 800f, 250f)
 
 class CubeActivity : AppCompatActivity() {
 
@@ -80,12 +80,31 @@ class CubeActivity : AppCompatActivity() {
 
         var canvas = Canvas()
         var paint = Paint()
+        var path = Path()
 
-        override fun onDraw(canva: Canvas) {
-            canva.drawColor(Color.DKGRAY)
-            canvas = canva
+        override fun onDraw(canvas: Canvas) {
+            canvas.drawColor(Color.DKGRAY)
+            canvas.translate((canvas.width/2).toFloat(),(canvas.height/2).toFloat())
 
-            drawingCube(pointer, canvas)
+            path.reset()
+            drawingCube(pointer)
+
+            paint.color = Color.BLACK
+            paint.style = Paint.Style.FILL
+            canvas.drawPath(path, paint)
+
+            paint.color = 0xfff9ed02.toInt()
+            paint.style = Paint.Style.STROKE
+            paint.strokeWidth = 10f
+            canvas.drawPath(path, paint)
+
+            paint.color = 0xfff9ed02.toInt()
+            paint.textSize = 180f
+
+            val randomInt = (1..6).random()
+
+            canvas.drawTextOnPath("$randomInt ", path, 230f, 340f, paint)
+
         }
 
         private fun cubeProjection(vertex3D: Array<Point3D>, height: Float, width: Float): Array<Point2D> {
@@ -108,14 +127,12 @@ class CubeActivity : AppCompatActivity() {
             return vertex2D
         }
 
-        private fun drawingCube(pointer:Point2D, canvas:Canvas) {
-            var path = Path()
-
+        private fun drawingCube(pointer:Point2D) {
             var height = canvas.height.toFloat()
             var width = canvas.width.toFloat()
 
-            cube.rotateX(pointer.y * 0.00005f)
-            cube.rotateY(pointer.x * 0.00005f)
+            cube.rotateX(60f * 0.0005f)
+            cube.rotateY(60f * 0.0005f)
 
             canvas.save()
             var vertices = cubeProjection(cube.vertex, width, height)
@@ -140,27 +157,11 @@ class CubeActivity : AppCompatActivity() {
                     val myPath: Array<Point2D> = arrayOf(
                         vertices[face[0]], vertices[face[1]], vertices[face[2]], vertices[face[3]]
                     )
-                    path.moveTo(myPath[0].x - 400, myPath[0].y + 200)
+                    path.moveTo(myPath[0].x, myPath[0].y)
 
                     for (i in myPath.indices) {
-                        path.lineTo(myPath[i].x - 400, myPath[i].y + 200)
+                        path.lineTo(myPath[i].x, myPath[i].y)
                     }
-
-                    paint.color = Color.BLACK
-                    paint.style = Paint.Style.FILL
-                    canvas.drawPath(path, paint)
-
-                    paint.color = 0xfff9ed02.toInt()
-                    paint.style = Paint.Style.STROKE
-                    paint.strokeWidth = 10f
-                    canvas.drawPath(path, paint)
-
-                    paint.color = 0xfff9ed02.toInt()
-                    paint.textSize = 200f
-
-                    val randomInt = (1..9).random()
-
-                    canvas.drawTextOnPath("$randomInt ", path, 230f, 340f, paint)
 
                 }
             }
