@@ -26,4 +26,5 @@
     <string name="kategori">kategori</string>
     <string name="kode">kode</string>
     <string name="resize_koef">Коэфицент масштабирования</string>
+    <string name="scaling">Масштабирование</string>
 </resources>

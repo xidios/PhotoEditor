@@ -6,6 +6,7 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +18,7 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) : Recycle
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var itemKode: TextView = itemView.findViewById(R.id.kodePertanyaan)
-        var itemKategori: TextView = itemView.findViewById(R.id.kategori)
+        var imageRV: ImageView = itemView.findViewById(R.id.imageRV)
         var itemIsi: TextView = itemView.findViewById(R.id.isiPertanyaan)
 
         init {
@@ -50,7 +51,7 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) : Recycle
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.itemKode.text = kode[i]
-        viewHolder.itemKategori.text = kategori[i]
+        viewHolder.imageRV.setImageResource(kategori[i])
         viewHolder.itemIsi.text = isi[i]
     }
 
@@ -66,13 +67,13 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) : Recycle
         "Нерезкое маскирование")
 
     private val kategori = arrayOf(
-        "Иконка",
-        "Иконка",
-        "Иконка",
-        "Иконка",
-        "Иконка",
-        "Иконка",
-        "Иконка")
+        R.drawable.download,
+        R.drawable.image,
+        R.drawable.download,
+        R.drawable.download,
+        R.drawable.download,
+        R.drawable.download,
+        R.drawable.download)
 
     private val isi = arrayOf(
         "Поворот изображения на угол, кратный 90 градусам",

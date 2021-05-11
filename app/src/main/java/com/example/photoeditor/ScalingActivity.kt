@@ -13,12 +13,14 @@ import android.widget.SeekBar
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_rotation.*
 import kotlinx.android.synthetic.main.activity_scaling.*
+import kotlinx.android.synthetic.main.activity_unsharp_mask.*
 import kotlinx.android.synthetic.main.fragment_save.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import kotlin.math.floor
 
 class ScalingActivity : AppCompatActivity() {
+    private val KEY = "Image"
     private val RESULT_TAG = "resultImage"
     private lateinit var NewPhoto: Bitmap
     private lateinit var PhotoOnSave: Bitmap
@@ -27,21 +29,26 @@ class ScalingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scaling)
 
-        val receivedImage = intent.getByteArrayExtra("IMAGE")
+
+        scalingToolbar.setNavigationOnClickListener{
+            this.finish()
+        }
+
+
+        val receivedImage = intent.getParcelableExtra<Parcelable>(KEY)
         if (receivedImage != null) {
-            NewPhoto = BitmapFactory.decodeByteArray(receivedImage, 0, receivedImage.size)
+            imageViewScaling.setImageURI(receivedImage as Uri)
+            NewPhoto = (imageViewScaling.getDrawable() as BitmapDrawable).bitmap
             PhotoOnSave = NewPhoto
             Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
-            imageViewScaling.setImageBitmap(NewPhoto)
         }
         buttonScalingApply.setOnClickListener() {
             PhotoOnSave = bilinearInterpolation(NewPhoto)
             imageViewScaling.setImageBitmap(PhotoOnSave)
             Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
             val resultIntent = Intent()
-            //try {
-            //resultIntent.putExtra(RESULT_TAG, compressBitmap(PhotoOnSave))
-            //setResult(RESULT_OK, resultIntent)
+            resultIntent.putExtra(RESULT_TAG, saveTempImage(this, PhotoOnSave))
+            setResult(RESULT_OK, resultIntent)
             Toast.makeText(this, "Изображение сохранено", Toast.LENGTH_SHORT).show()
 
 //            } catch (error: Exception) {
@@ -78,6 +85,10 @@ class ScalingActivity : AppCompatActivity() {
 
     fun resizeBitmap(source: Bitmap): Bitmap {
         var k: Double = EditTextScaling.text.toString().toDouble()
+        if(k<0.01){
+            Toast.makeText(this, "Минимальное значение 0.01", Toast.LENGTH_SHORT).show()
+            return PhotoOnSave
+        }
         var maxLength = source.height * k
         try {
             if (source.height >= source.width) {
