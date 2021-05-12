@@ -7,15 +7,11 @@ import java.lang.Math.*
 
 class UnsharpMaskAlgorithm {
 
-    fun getResult(input: Bitmap): Bitmap {
-        val radius = 50
-        val amount = 0.7
-
+    fun getResult(input: Bitmap, radius: Int, amount: Double): Bitmap {
         var output = gaussianBlur(input, radius)
         output = subtraction(input, output)
         output = multiplication(output, amount)
         output = addition(input, output)
-
         return output
     }
 
@@ -54,7 +50,7 @@ class UnsharpMaskAlgorithm {
         return output
     }
 
-    private fun getGaussianMeanColor(colors: Array<IntArray>, coeff: DoubleArray, x: Int, y: Int,
+    private fun getGaussianMeanColor(colors: Array<IntArray>, coefficients: DoubleArray, x: Int, y: Int,
                                      width: Int, height: Int, size: Int, mode: String): Int {
         var alpha = 0.0
         var red = 0.0
@@ -62,26 +58,26 @@ class UnsharpMaskAlgorithm {
         var blue = 0.0
         var sum = 0.0
 
-        for (i in 0 until coeff.size) {
+        for (i in 0 until coefficients.size) {
             if (mode == "horizontal") {
                 val j = x + i - size
                 if (j in 0 until width) {
                     val pixel = colors[j][y]
-                    alpha += Color.alpha(pixel) * coeff[i]
-                    red += Color.red(pixel) * coeff[i]
-                    green += Color.green(pixel) * coeff[i]
-                    blue += Color.blue(pixel) * coeff[i]
-                    sum += coeff[i]
+                    alpha += Color.alpha(pixel) * coefficients[i]
+                    red += Color.red(pixel) * coefficients[i]
+                    green += Color.green(pixel) * coefficients[i]
+                    blue += Color.blue(pixel) * coefficients[i]
+                    sum += coefficients[i]
                 }
             } else {
                 val j = y + i - size
                 if (j in 0 until height) {
                     val pixel = colors[x][j]
-                    alpha += Color.alpha(pixel) * coeff[i]
-                    red += Color.red(pixel) * coeff[i]
-                    green += Color.green(pixel) * coeff[i]
-                    blue += Color.blue(pixel) * coeff[i]
-                    sum += coeff[i]
+                    alpha += Color.alpha(pixel) * coefficients[i]
+                    red += Color.red(pixel) * coefficients[i]
+                    green += Color.green(pixel) * coefficients[i]
+                    blue += Color.blue(pixel) * coefficients[i]
+                    sum += coefficients[i]
                 }
             }
         }

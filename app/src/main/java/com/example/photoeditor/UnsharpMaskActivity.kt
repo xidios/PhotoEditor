@@ -43,18 +43,19 @@ class UnsharpMaskActivity : AppCompatActivity() {
     private fun unsharp() {
         val unsharp = UnsharpMaskAlgorithm()
 
-        /*var radius = smoothRadiusPicker.progress
-        val scaling = 0.5*/
+        val radius = smoothRadiusPicker.progress + 1
+        val amount = amountPicker.progress / 100.0
+
+        Log.d("UnsharpMaskActivity", "$radius, $amount")
 
         var bitmap = (unsharpImage.getDrawable() as BitmapDrawable).bitmap
         try {
-            //bitmap = unsharp.blur(bitmap)
-            bitmap = unsharp.getResult(bitmap)
+            bitmap = unsharp.getResult(bitmap, radius, amount)
             Log.d("UnsharpMaskActivity", "Алгоритм выполнен")
             Toast.makeText(this, "Алгоритм выполнен", Toast.LENGTH_SHORT).show()
         } catch(error: Exception) {
-            Log.d("UnsharpMaskActivity", "Произошла ошибка при размытии: ${error.toString()}")
-            Toast.makeText(this, "Произошла ошибка при размытии", Toast.LENGTH_SHORT).show()
+            Log.d("UnsharpMaskActivity", "Произошла ошибка при выполнении алгоритма: ${error.toString()}")
+            Toast.makeText(this, "Произошла ошибка при выполнении алгоритма", Toast.LENGTH_SHORT).show()
         }
 
         unsharpImage.setImageDrawable(null)
