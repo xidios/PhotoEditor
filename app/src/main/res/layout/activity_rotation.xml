@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context = ".RotationActivity">
+    tools:context=".RotationActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/rotationToolbar"
@@ -12,58 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/first_task_name"
-        app:navigationIcon="@drawable/ic_back_button"/>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rotationToolbar"/>
-
-    <ImageView
-        android:id="@+id/rotationImage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:background="#E91E63"
-        android:contentDescription="@string/rotation_image_desc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"/>
-
-    <EditText
-        android:id="@+id/rotationAnglePicker"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:hint="@string/rotation_angle_hint"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rotationImage"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/applyRotationButton"
-        style="@style/Theme.PhotoEditor.Button.Accent"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:text="@string/apply_button"
-        app:iconTint = "@color/accent"
-        app:backgroundTint="@color/buttonBackground"
-        app:icon="@drawable/ic_check"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rotationAnglePicker" />
+        app:navigationIcon="@drawable/ic_back_button"
+        app:title="@string/first_task_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

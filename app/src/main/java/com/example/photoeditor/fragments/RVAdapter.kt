@@ -32,6 +32,7 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) : Recycle
                     3 -> intent = Intent(context, SegmentationActivity::class.java)
                     4 -> intent = Intent(context, SplinesActivity::class.java)
                     5 -> intent = Intent(context, CubeActivity::class.java)
+                    6 -> intent = Intent(context, UnsharpMaskActivity::class.java)
                 }
                 intent = intent.apply {
                     putExtra(KEY, image)
@@ -61,9 +62,11 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) : Recycle
         "Цветокоррекция",
         "Сегментация",
         "Сплайны",
-        "Кубик")
+        "Кубик",
+        "Нерезкое маскирование")
 
     private val kategori = arrayOf(
+        "Иконка",
         "Иконка",
         "Иконка",
         "Иконка",
@@ -77,6 +80,7 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) : Recycle
         "Применение к изображению выбранного фильтра",
         "Распознавание лиц на изображении",
         "Преобразование ломаных линий в сплайны",
-        "Вращение объемного игрального кубика")
+        "Вращение объемного игрального кубика",
+        "Увеличивает резкость изображения")
 }
 
