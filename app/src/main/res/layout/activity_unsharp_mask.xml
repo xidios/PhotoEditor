@@ -38,7 +38,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!--<androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/smoothRadiusContainer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -60,11 +60,41 @@
                     android:id="@+id/smoothRadiusPicker"
                     android:layout_width="0dp"
                     android:layout_height="25dp"
+                    android:layout_marginLeft="16dp"
                     app:layout_constraintStart_toEndOf="@id/smoothRadiusTextView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>-->
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/amountContainer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@+id/smoothRadiusContainer"
+                app:layout_constraintTop_toBottomOf="@+id/smoothRadiusContainer"
+                app:layout_constraintEnd_toEndOf="@+id/smoothRadiusContainer">
+
+                <TextView
+                    android:id="@+id/amountTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/amount_textView"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <SeekBar
+                    android:id="@+id/amountPicker"
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="16dp"
+                    app:layout_constraintStart_toEndOf="@id/amountTextView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/applyUnsharpMaskButton"
@@ -74,8 +104,8 @@
                 app:backgroundTint="@color/buttonBackground"
                 app:icon="@drawable/ic_check"
                 app:iconTint="@color/accent"
-                app:layout_constraintEnd_toEndOf="@+id/unsharpImage"
-                app:layout_constraintTop_toBottomOf="@+id/unsharpImage"/>
+                app:layout_constraintEnd_toEndOf="@+id/amountContainer"
+                app:layout_constraintTop_toBottomOf="@+id/amountContainer"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

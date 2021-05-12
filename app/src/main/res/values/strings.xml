@@ -18,6 +18,7 @@
 
     <string name="unsharp_mask">Нерезкое маскирование</string>
     <string name="smooth_radius_textView">Радиус размытия:</string>
+    <string name="amount_textView">Эффект:</string>
 
     <string name="save_picture_button">Сохранить</string>
 
