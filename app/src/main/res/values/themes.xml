@@ -30,13 +30,17 @@
 
     <style name="Theme.PhotoEditor.Header">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">80dp</item>
-        <item name="android:minHeight">80dp</item>
+        <item name="android:layout_height">64dp</item>
+        <item name="android:minHeight">64dp</item>
         <item name="android:background">@color/headerBackground</item>
         <item name="android:textSize">24sp</item>
     </style>
 
     <style name="Theme.PhotoEditor.Header.Effect">
         <item name="android:paddingStart">12dp</item>
+    </style>
+
+    <style name="imagePreviewOnEffect">
+        <item name="android:layout_height">520dp</item>
     </style>
 </resources>
