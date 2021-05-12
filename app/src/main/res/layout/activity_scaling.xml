@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".ScalingActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/scalingToolbar"
+        style="@style/Theme.PhotoEditor.Header.Effect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back_button"
+        app:title="@string/scaling" />
 
     <ImageView
         android:id="@+id/imageViewScaling"
@@ -18,28 +26,44 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background" />
 
-    <SeekBar
-        android:id="@+id/seekBarScaling"
-        android:layout_width="match_parent"
+<!--    <SeekBar-->
+<!--        android:id="@+id/seekBarScaling"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:max="99"-->
+<!--        android:textAlignment="center"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/imageViewScaling" />-->
+    <EditText
+        android:id="@+id/EditTextScaling"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:max="99"
-        android:textAlignment="center"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:hint="@string/resize_koef"
+        android:inputType="numberDecimal"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewScaling" />
 
-    <Button
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonScalingApply"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="216dp"
+        style="@style/Theme.PhotoEditor.Button.Accent"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
         android:text="@string/apply_button"
+        app:backgroundTint="@color/buttonBackground"
+        app:icon="@drawable/ic_check"
+        app:iconTint="@color/accent"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBarScaling" />
+        app:layout_constraintTop_toBottomOf="@+id/EditTextScaling"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

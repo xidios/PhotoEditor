@@ -6,17 +6,19 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.photoeditor.*
 
-class RVAdapter(val context: FragmentActivity?, val image: ByteArray) : RecyclerView.Adapter<RVAdapter.ViewHolder>() {
+class RVAdapter(val context: FragmentActivity?, val image: Parcelable) : RecyclerView.Adapter<RVAdapter.ViewHolder>() {
     val REQUEST_ID = 1
+    val KEY = "Image"
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var itemKode: TextView = itemView.findViewById(R.id.kodePertanyaan)
-        var itemKategori: TextView = itemView.findViewById(R.id.kategori)
+        var imageRV: ImageView = itemView.findViewById(R.id.imageRV)
         var itemIsi: TextView = itemView.findViewById(R.id.isiPertanyaan)
 
         init {
@@ -31,10 +33,10 @@ class RVAdapter(val context: FragmentActivity?, val image: ByteArray) : Recycler
                     3 -> intent = Intent(context, SegmentationActivity::class.java)
                     4 -> intent = Intent(context, SplinesActivity::class.java)
                     5 -> intent = Intent(context, CubeActivity::class.java)
-                    6 -> intent = Intent(context, RetouchingActivity::class.java)
+                    6 -> intent = Intent(context, UnsharpMaskActivity::class.java)
                 }
                 intent = intent.apply {
-                    putExtra("IMAGE", image)
+                    putExtra(KEY, image)
                 }
                 context?.startActivityForResult(intent, REQUEST_ID)
             }
@@ -49,7 +51,7 @@ class RVAdapter(val context: FragmentActivity?, val image: ByteArray) : Recycler
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.itemKode.text = kode[i]
-        viewHolder.itemKategori.text = kategori[i]
+        viewHolder.imageRV.setImageResource(kategori[i])
         viewHolder.itemIsi.text = isi[i]
     }
 
@@ -62,16 +64,16 @@ class RVAdapter(val context: FragmentActivity?, val image: ByteArray) : Recycler
         "Сегментация",
         "Сплайны",
         "Кубик",
-        "Ретуширование")
+        "Нерезкое маскирование")
 
     private val kategori = arrayOf(
-        "Иконка",
-        "Иконка",
-        "Иконка",
-        "Иконка",
-        "Иконка",
-        "Иконка",
-        "Иконка")
+        R.drawable.download,
+        R.drawable.image,
+        R.drawable.download,
+        R.drawable.download,
+        R.drawable.download,
+        R.drawable.download,
+        R.drawable.download)
 
     private val isi = arrayOf(
         "Поворот изображения на угол, кратный 90 градусам",
@@ -80,6 +82,6 @@ class RVAdapter(val context: FragmentActivity?, val image: ByteArray) : Recycler
         "Распознавание лиц на изображении",
         "Преобразование ломаных линий в сплайны",
         "Вращение объемного игрального кубика",
-        "Коррекция дефектов")
+        "Увеличивает резкость изображения")
 }
 

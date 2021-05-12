@@ -16,10 +16,15 @@
     <string name="rotation_image_desc">Текущее изображение</string>
     <string name="rotation_angle_hint">Угол поворота</string>
 
+    <string name="unsharp_mask">Нерезкое маскирование</string>
+    <string name="smooth_radius_textView">Радиус размытия:</string>
+
     <string name="save_picture_button">Сохранить</string>
 
     <string name="apply_button">Применить</string>
     <string name="isi">isi</string>
     <string name="kategori">kategori</string>
     <string name="kode">kode</string>
+    <string name="resize_koef">Коэфицент масштабирования</string>
+    <string name="scaling">Масштабирование</string>
 </resources>
