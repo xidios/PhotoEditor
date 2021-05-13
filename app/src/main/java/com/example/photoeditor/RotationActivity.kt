@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_save.*
 class RotationActivity : AppCompatActivity() {
     private val RESULT_TAG = "resultImage"
     private var image: Bitmap? = null
+    private var corners: MutableList<Pair<Int, Int>>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,11 +49,15 @@ class RotationActivity : AppCompatActivity() {
         if (angle == null) {
             Toast.makeText(this, "Введите корректный угол", Toast.LENGTH_SHORT).show()
         } else {
-            var bitmap = image as Bitmap
+            var bitmap = (rotationImage.getDrawable() as BitmapDrawable).bitmap
             try {
+                /*val received = rotate.rotateImage(bitmap, angle, corners as MutableList<Pair<Int, Int>>)
+                bitmap = received.first
+                corners = received.second*/
                 bitmap = rotate.rotateImage(bitmap, angle)
+                Log.d("RotationActivity", "Алгоритм успешно выполнен")
             } catch(error: Exception) {
-                Log.d("RotationActivity", "Произошла ошибка при работе алгоритма")
+                Log.d("RotationActivity", "Произошла ошибка при работе алгоритма ${error.toString()}")
                 Toast.makeText(this, "Произошла ошибка при работе алгоритма", Toast.LENGTH_SHORT).show()
             }
             rotationImage.setImageDrawable(null)
