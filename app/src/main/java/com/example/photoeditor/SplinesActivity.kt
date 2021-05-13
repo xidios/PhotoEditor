@@ -20,6 +20,7 @@ class SplinesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splines)
 
         applyAlgorithm.setOnClickListener{ splinesView.convertingToSpline()}
+        deletePoint.setOnClickListener{ splinesView.deletePoints = 1}
 
     }
 }

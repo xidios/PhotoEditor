@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.provider.ContactsContract.Intents.Insert.ACTION
+import android.system.Os.remove
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.KeyEvent.ACTION_DOWN
@@ -21,153 +22,287 @@ class SplinesView @JvmOverloads constructor(
      context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
  ) : View(context, attrs, defStyleAttr) {
 
+     private val codeDrawing = 666
+     var deletePoints = 0
+
      var paint = Paint()
      var path = Path()
 
      var arrPoint = arrayListOf<CoordinatePoints>()
      var arrSplines = arrayListOf<CoordinatePoints>()
-     var arrHelper = arrayListOf<ArrayList<CoordinatePoints>>()
+     var arrHelper = arrayListOf<CoordinatePoints>()
      var arrSegments = arrayListOf<ArrayList<CoordinatePoints>>()
 
      class CoordinatePoints(var x: Float, var y: Float)
 
-     override fun onTouchEvent(event: MotionEvent?): Boolean {
-         when(event?.action) {
-             MotionEvent.ACTION_DOWN-> {
-                 arrPoint.add(CoordinatePoints(event.x, event.y))
-                 if(arrPoint.size > 1){
-                     constructionSegments(arrPoint)
-                 }
-
-                 invalidate()
-             }
-         }
-
-         return true
-     }
-
-     private fun constructionSegments(arrPoint: ArrayList<CoordinatePoints>){
-         arrSegments.clear()
-         for(i in arrPoint.indices){
-             if (i == arrPoint.size - 1) break
-
-             arrSegments.add(arrayListOf(arrPoint[i], arrPoint[i + 1]))
-         }
-     }
-
      override fun onDraw(canvas: Canvas) {
          super.onDraw(canvas)
-
-         for(i in arrPoint.indices){
-
-             if(i == arrPoint.size - 1){
-                 drawingPoints(arrPoint[i].x, arrPoint[i].y, -1f, -1f, canvas)
-             }
-             else drawingPoints(arrPoint[i].x, arrPoint[i].y, arrPoint[i + 1].x, arrPoint[i + 1].y, canvas)
-         }
+         fillingInCanvasOfPoints(0, canvas)
 
          if(arrSplines.isNotEmpty()){
+             canvas.drawColor(Color.WHITE)
 
              paint.color = Color.BLUE
              paint.style = Paint.Style.STROKE
              paint.strokeWidth = 10f
 
              canvas.drawPath(path, paint)
+
+             fillingInCanvasOfPoints(codeDrawing,canvas)
+
+             canvas.save()
          }
      }
 
-     private fun drawingPoints(xStart:Float, yStart: Float, xEnd:Float, yEnd: Float, canvas: Canvas){
-         if(xEnd != -1f && yEnd != -1f){
-             paint.color = Color.BLACK
-             paint.style = Paint.Style.STROKE
-             paint.strokeWidth = 7f
+    private fun constructionSegments(){
+        path.reset()
+        arrSplines.clear()
+        arrSegments.clear()
+        arrHelper.clear()
 
-             canvas.drawLine(xStart, yStart, xEnd, yEnd, paint)
-         }
+        var i = 0
+        var help = arrPoint.size
 
-         paint.color = Color.YELLOW
-         paint.style = Paint.Style.FILL
-         canvas.drawCircle(xStart, yStart, 20f, paint)
+        while( help != 0){
+            when {
+                arrPoint.size > 3 -> {
+                    help -= 4
+                    when {
+                        help >= 0 -> {
+                            if(i == 0) arrHelper.add(arrPoint[i])
+                            arrSegments.add(arrayListOf(arrPoint[i], arrPoint[i + 1], arrPoint[i + 2], arrPoint[i + 3]))
+                            arrHelper.add(arrPoint[i + 3])
+                            help++
+                            i += 3
+                        }
+                        help == -1 -> {
+                            arrSegments.add(arrayListOf(arrPoint[i], arrPoint[i + 1], arrPoint[i + 2]))
+                            arrHelper.add(arrPoint[i + 2])
+                            break
+                        }
+                        help == -2 -> {
+                            arrSegments.add(arrayListOf(arrPoint[i], arrPoint[i + 1]))
+                            arrHelper.add(arrPoint[i + 1])
+                            break
+                        }
+                        help == -3 -> {
+                            arrSegments.add(arrayListOf(arrPoint[i]))
+                            arrHelper.add(arrPoint[i])
+                            break
+                        }
+                    }
+                }
+                arrPoint.size == 3 -> {
+                    arrSegments.add(arrayListOf(arrPoint[i], arrPoint[i + 1], arrPoint[i + 2]))
+                    arrHelper.add(arrPoint[i])
+                    arrHelper.add(arrPoint[i + 2])
+                    break
+                }
+                arrPoint.size == 2 -> {
+                    arrSegments.add(arrayListOf(arrPoint[i], arrPoint[i + 1]))
+                    arrHelper.add(arrPoint[i])
+                    arrHelper.add(arrPoint[i + 1])
+                    break
+                }
+            }
+        }
+    }
 
-         paint.color = Color.BLACK
-         paint.style = Paint.Style.STROKE
-         paint.strokeWidth = 3f
-         canvas.drawCircle(xStart, yStart, 20f, paint)
+    private fun fillingInCanvasOfPoints(code:Int, canvas:Canvas){
+        for(i in arrPoint.indices){
+            if(i == arrPoint.size - 1){
+                drawingPoints(arrPoint[i].x, arrPoint[i].y, -1f, -1f, code,canvas)
+            }
+            else drawingPoints(arrPoint[i].x, arrPoint[i].y, arrPoint[i + 1].x, arrPoint[i + 1].y, code, canvas)
+        }
 
-         canvas.save()
-     }
+    }
 
-     private fun calculatingDistance(x1: Float, y1: Float, x2: Float, y2: Float): Double {
-         return kotlin.math.sqrt(
-             (x2.toDouble() - x1.toDouble()).pow(2.0) + (y2.toDouble() - y1.toDouble()).pow(2.0)
-         )
-     }
+    private fun drawingPoints(xStart:Float, yStart: Float, xEnd:Float, yEnd: Float,code:Int ,canvas: Canvas){
+        if(xEnd != -1f && yEnd != -1f && code != codeDrawing){
+            paint.color = Color.BLACK
+            paint.style = Paint.Style.STROKE
+            paint.strokeWidth = 7f
 
-     private fun calculatingEndHelperPoints(x1: Float, y1: Float, x2: Float, y2: Float, r:Float): CoordinatePoints {
-         var m = (y2 - y1)/(x2 - x1)
-         var n = -x1*m + y1
+            canvas.drawLine(xStart, yStart, xEnd, yEnd, paint)
+        }
 
-         var a = 1 + (m * m)
-         var b = -x1 * 2 + (m * (n - y1)) * 2
-         var c = (x1 * x1) + (n - y1)*(n - y1) - (r * r)
+        if(code != codeDrawing){
+            paint.color = Color.YELLOW
+            paint.style = Paint.Style.FILL
+            canvas.drawCircle(xStart, yStart, 30f, paint)
 
-         var x =  ((-b + sqrt((b * b) - 4 * a * c)) / (2 * a))
-         var y = x * m + n
+            paint.color = Color.BLACK
+            paint.style = Paint.Style.STROKE
+            paint.strokeWidth = 3f
+            canvas.drawCircle(xStart, yStart, 30f, paint)
 
-         return CoordinatePoints(x, y)
-     }
+        }
+        else{
+            for(i in arrHelper.indices){
+                paint.color = Color.RED
+                paint.alpha = 100
+                paint.style = Paint.Style.FILL
+                canvas.drawCircle(arrHelper[i].x, arrHelper[i].y, 30f, paint)
 
-     fun convertingToSpline(){
-         var t = 0.0
+                paint.color = Color.BLACK
+                paint.style = Paint.Style.STROKE
+                paint.strokeWidth = 3f
+                canvas.drawCircle(arrHelper[i].x, arrHelper[i].y, 30f, paint)
+            }
+        }
 
-         var distanceFirst: Double
-         var distanceSecond: Double
-         var distanceHelper: Double
 
-         arrSplines.add(arrSplines.size, arrPoint[0])
+        canvas.save()
+    }
+
+    fun convertingToSpline(){
+         constructionSegments()
+
+         var xS: Double
+         var yS: Double
+
+        arrSplines.add(arrSplines.size, arrPoint[0])
 
          for(i in arrSegments.indices) {
-             if(i == arrSegments.size - 2) break
-             while (t <= 1.0) {
-                 t += 0.05
+             var t = 0.0
 
-                 distanceFirst = calculatingDistance(arrSegments[i][0].x, arrSegments[i][0].y,arrSegments[i][1].x, arrSegments[i][1].y,)
-                 distanceSecond = calculatingDistance(arrSegments[i + 1][0].x, arrSegments[i + 1][0].y,arrSegments[i + 1][1].x, arrSegments[i + 1][1].y)
+             when (arrSegments[i].size) {
+                 4 -> {
+                     while (t <= 1.0) {
+                         t += 0.05
 
-                 arrHelper.add(
-                     arrayListOf(
-                         calculatingEndHelperPoints(arrSegments[i][0].x, arrSegments[i][0].y,arrSegments[i][1].x, arrSegments[i][1].y, (t * distanceFirst).toFloat()),
-                         calculatingEndHelperPoints(arrSegments[i + 1][0].x, arrSegments[i + 1][0].y,arrSegments[i + 1][1].x, arrSegments[i + 1][1].y, (t * distanceSecond).toFloat())
+                         xS =
+                             (1.0 - t).pow(3.0) * arrSegments[i][0].x + 3.0 * t * (1.0 - t).pow(2.0) * arrSegments[i][1].x +
+                                     3.0 * t.pow(2.0) * (1.0 - t) * arrSegments[i][2].x + t.pow(3.0) * arrSegments[i][3].x
+
+                         yS =
+                             (1.0 - t).pow(3.0) * arrSegments[i][0].y + 3.0 * t * (1.0 - t).pow(2.0) * arrSegments[i][1].y +
+                                     3.0 * t.pow(2.0) * (1.0 - t) * arrSegments[i][2].y + t.pow(3.0) * arrSegments[i][3].y
+
+
+                         arrSplines.add(
+                             arrSplines.size, SplinesView.CoordinatePoints(xS.toFloat(), yS.toFloat())
+                         )
+                     }
+                 }
+                 3 -> {
+                     if(i != 0){
+                         arrSegments[i].add(arrSegments[i].size,
+                             SplinesView.CoordinatePoints(
+                                 (arrSegments[i - 1][arrSegments[i - 1].size - 1].x + arrSegments[i][arrSegments[i].size - 1].x) / 2,
+                                 (arrSegments[i - 1][arrSegments[i - 1].size - 1].y + arrSegments[i][arrSegments[i].size - 1].y) / 2
+                             )
+                         )
+                     }
+                     while (t <= 1.0) {
+                         t += 0.05
+
+                         xS =(1.0 - t).pow(2.0) * arrSegments[i][0].x + 2.0 * t * (1.0 - t) * arrSegments[i][1].x + t.pow(2.0)  * arrSegments[i][2].x
+
+                         yS =(1.0 - t).pow(2.0) * arrSegments[i][0].y + 2.0 * t * (1.0 - t) * arrSegments[i][1].y + t.pow(2.0)  * arrSegments[i][2].y
+
+                         arrSplines.add(arrSplines.size,
+                             SplinesView.CoordinatePoints(xS.toFloat(), yS.toFloat())
+                         )
+                     }
+                 }
+                 2 -> {
+                     if(i != 0){
+                         arrSegments[i].add(arrSegments[i].size,
+                             SplinesView.CoordinatePoints(
+                                 (arrSegments[i - 1][arrSegments[i - 1].size - 1].x + arrSegments[i][arrSegments[i].size - 1].x) / 2,
+                                 (arrSegments[i - 1][arrSegments[i - 1].size - 1].y + arrSegments[i][arrSegments[i].size - 1].y) / 2
+                             )
+                         )
+                     }
+                     while (t <= 1.0) {
+                         t += 0.05
+
+                         xS =(1.0 - t) * arrSegments[i][0].x + t * arrSegments[i][1].x
+
+                         yS =(1.0 - t) * arrSegments[i][0].y + t * arrSegments[i][1].y
+
+                         arrSplines.add(arrSplines.size,
+                             SplinesView.CoordinatePoints(xS.toFloat(), yS.toFloat())
+                         )
+                     }
+                 }
+                 1 -> {
+                     if(i != 0){
+                         arrSegments[i].add(arrSegments[i].size,
+                             SplinesView.CoordinatePoints(
+                                 (arrSegments[i - 1][arrSegments[i - 1].size - 1].x + arrSegments[i][arrSegments[i].size - 1].x) / 2,
+                                 (arrSegments[i - 1][arrSegments[i - 1].size - 1].y + arrSegments[i][arrSegments[i].size - 1].y) / 2
+                             )
+                         )
+                     }
+                     arrSplines.add(arrSplines.size,
+                         SplinesView.CoordinatePoints(arrSegments[i][0].x, arrSegments[i][0].y)
                      )
-                 )
+                 }
              }
          }
 
-         t = 0.0
+        arrSplines.add(arrSplines.size, arrPoint[arrPoint.size - 1])
 
-         for (i in arrHelper.indices) {
-             if(i == arrHelper.size - 2) break
-             t += 0.05
-             distanceHelper = t * calculatingDistance(
-                 arrHelper[i][0].x,
-                 arrHelper[i][0].y,
-                 arrHelper[i][1].x,
-                 arrHelper[i][1].y
-             )
+        path.moveTo(arrSplines[0].x, arrSplines[0].y)
 
-             arrSplines.add(arrSplines.size, calculatingEndHelperPoints(arrHelper[i][0].x, arrHelper[i][0].y, arrHelper[i][1].x, arrHelper[i][1].y, (t * distanceHelper).toFloat()))
-         }
-
-         arrSplines.add(arrSplines.size, arrPoint[arrPoint.size - 1])
-         path.moveTo(arrSplines[0].x, arrSplines[0].y)
-
-         for(i in arrSplines.indices){
+        for(i in arrSplines.indices){
              path.lineTo(arrSplines[i].x, arrSplines[i].y)
-         }
-
-         Toast.makeText(context, "kek", Toast.LENGTH_SHORT).show()
+        }
 
          invalidate()
      }
+
+        override fun onTouchEvent(event: MotionEvent?): Boolean {
+        when(event?.action) {
+            MotionEvent.ACTION_DOWN -> {
+                if(arrSplines.isEmpty()){
+                    arrPoint.add(CoordinatePoints(event.x, event.y))
+
+                    invalidate()
+                }
+
+                if(deletePoints == 1){
+                    for(i in arrPoint.indices){
+                        if((event.x < arrPoint[i].x + 60f && event.x >= arrPoint[i].x && event.y < arrPoint[i].y + 60f && event.y >= arrPoint[i].y) ||
+                            (event.x >= arrPoint[i].x - 60f && event.x < arrPoint[i].x && event.y >= arrPoint[i].y - 60f && event.y < arrPoint[i].y)){
+
+                                Toast.makeText(context, "del", Toast.LENGTH_SHORT).show()
+                            arrPoint.removeAt(i)
+
+                            deletePoints = 0
+                            convertingToSpline()
+                            invalidate()
+
+                            break
+                        }
+                    }
+                }
+            }
+
+            MotionEvent.ACTION_MOVE ->{
+                if(arrSplines.isNotEmpty()){
+                    for(i in arrPoint.indices){
+                        if((event.x < arrPoint[i].x + 60f && event.x >= arrPoint[i].x  && event.y < arrPoint[i].y + 60f && event.y >= arrPoint[i].y) ||
+                            (event.x >= arrPoint[i].x - 60f && event.x < arrPoint[i].x && event.y >= arrPoint[i].y - 60f && event.y < arrPoint[i].y)){
+
+                            arrPoint[i].x = event.x
+                            arrPoint[i].y = event.y
+
+                            convertingToSpline()
+
+                            invalidate()
+
+                            break
+                        }
+                    }
+                }
+            }
+        }
+
+        return true
+    }
 }
 
