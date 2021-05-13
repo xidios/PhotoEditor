@@ -2,11 +2,11 @@ package com.example.photoeditor.algorithms
 
 import android.graphics.Bitmap
 import android.graphics.Bitmap.createBitmap
+import android.graphics.Color
 import android.util.Log
-import android.widget.Toast
 import kotlin.math.*
 
-class RotationImage() {
+class RotationImage {
     fun rotateImage(image: Bitmap, angle: Int): Bitmap {
         val angle = toRadians(angle)
         val width = image.width
@@ -14,17 +14,19 @@ class RotationImage() {
         val imagePixels = IntArray(height * width)
         image.getPixels(imagePixels, 0, width, 0, 0, width, height)
 
-        val corners = mutableListOf(0 to 0, width - 1 to 0, 0 to height - 1, width - 1 to height - 1)
-        val newCorners = getNewCorners(corners, angle)
+        var corners = mutableListOf(0 to 0, width - 1 to 0, width - 1 to height - 1, 0 to height - 1)
+        corners = getNewCorners(corners, angle)
+        val shifts = getShifts(corners)
+        shiftCorners(corners, shifts)
 
-        val shifts = getShifts(newCorners)
-        val newSize = getNewSize(newCorners)
+        val newSize = getNewSize(corners)
         val newWidth = newSize.first
         val newHeight = newSize.second
 
-        Log.d("RotationActivity", "$width, $height, $newWidth, $newHeight")
-
         val resultPixels = IntArray(newWidth * newHeight)
+        for (i in resultPixels.indices) {
+            resultPixels[i] = 0
+        }
 
         for (i in imagePixels.indices) {
             val y = i / width
@@ -34,7 +36,75 @@ class RotationImage() {
             resultPixels[newIndex] = imagePixels[i]
         }
 
+        removeBlankSpaces(resultPixels, newWidth, newHeight, corners)
+
         return createBitmap(resultPixels, newWidth, newHeight, Bitmap.Config.ARGB_8888)
+    }
+
+    private fun shiftCorners(corners: MutableList<Pair<Int, Int>>, shifts: Pair<Int, Int>) {
+        for (i in corners.indices) {
+            val x = corners[i].first + shifts.first
+            val y = corners[i].second + shifts.second
+            corners[i] = Pair(x, y)
+        }
+    }
+
+    private fun removeBlankSpaces(resultPixels: IntArray, width: Int, height: Int, corners: MutableList<Pair<Int, Int>>) {
+        for (i in resultPixels.indices) {
+            val y = i / width
+            val x = i % width
+            val pixel = resultPixels[i]
+            if (pixel == 0) {
+                if (isInImage(x, y, corners)) {
+                    resultPixels[i] = getMeanColor(resultPixels, x, y, width, height)
+                }
+            }
+        }
+    }
+
+    private fun isInImage(x: Int, y: Int, corners: MutableList<Pair<Int, Int>>): Boolean {
+        val p1 = dotsProduct(corners[0], corners[1], x, y)
+        val p2 = dotsProduct(corners[1], corners[2], x, y)
+        val p3 = dotsProduct(corners[2], corners[3], x, y)
+        val p4 = dotsProduct(corners[3], corners[0], x, y)
+        return (p1 >= 0 && p2 >= 0 && p3 >= 0 && p4 >= 0) || (p1 <= 0 && p2 <= 0 && p3 <= 0 && p4 <= 0)
+    }
+
+    private fun dotsProduct(a: Pair<Int, Int>, b: Pair<Int, Int>, x: Int, y: Int): Int {
+        val x1 = a.first
+        val y1 = a.second
+        val x2 = b.first
+        val y2 = b.second
+        return (x2 - x1) * (y - y1) - (y2 - y1) * (x - x1)
+    }
+
+    private fun getMeanColor(pixelColors: IntArray, x: Int, y: Int, width: Int, height: Int): Int {
+        var count = 0
+        var red = 0
+        var green = 0
+        var blue = 0
+
+        for (i in max(0, x - 1)..min(x + 1, width - 1)) {
+            for (j in max(0, y - 1)..min(y + 1, height - 1)) {
+                val index = j * width + i
+                val pixel = pixelColors[index]
+                if (pixel != 0) {
+                    red += Color.red(pixel)
+                    green += Color.green(pixel)
+                    blue += Color.blue(pixel)
+                    count++
+                }
+            }
+        }
+
+        return if (count != 0) {
+            red /= count
+            green /= count
+            blue /= count
+            Color.argb(255, red, green, blue)
+        } else {
+            0
+        }
     }
 
     private fun toRadians(angle: Int): Double {
