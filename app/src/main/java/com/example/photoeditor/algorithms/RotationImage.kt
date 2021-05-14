@@ -3,68 +3,113 @@ package com.example.photoeditor.algorithms
 import android.graphics.Bitmap
 import android.graphics.Bitmap.createBitmap
 import android.graphics.Color
-import android.util.Log
 import kotlin.math.*
 
 class RotationImage {
-    fun rotateImage(image: Bitmap, angle: Int, receivedCorners: MutableList<Pair<Int, Int>>): Pair<Bitmap, MutableList<Pair<Int, Int>>> {
-        val angle = toRadians(angle)
-        val width = image.width
-        val height = image.height
-        val imagePixels = IntArray(height * width)
-        image.getPixels(imagePixels, 0, width, 0, 0, width, height)
+    private var angle: Double = 0.0
+    private lateinit var inputCorners: MutableList<Pair<Int, Int>>
+    private lateinit var outputCorners: MutableList<Pair<Int, Int>>
+    private lateinit var shifts: Pair<Int, Int>
+    private var width = 0
+    private var height = 0
 
-        val corners = getNewCorners(receivedCorners, angle)
-        val shifts = getShifts(corners)
+    fun rotateImage(image: Bitmap, intAngle: Int, receivedCorners: MutableList<Pair<Int, Int>>): Pair<Bitmap, MutableList<Pair<Int, Int>>> {
+        angle = toRadians(intAngle)
+        inputCorners = receivedCorners
 
-        shiftCorners(corners, shifts)
+        val oldWidth = image.width
+        val oldHeight = image.height
+        val imagePixels = IntArray(oldHeight * oldWidth)
+        image.getPixels(imagePixels, 0, oldWidth, 0, 0, oldWidth, oldHeight)
 
-        val newSize = getNewSize(corners)
-        val newWidth = newSize.first
-        val newHeight = newSize.second
+        setNewCorners()
+        setShifts()
+        shiftCorners()
+        setNewSize()
 
-        val resultPixels = IntArray(newWidth * newHeight)
+        val resultPixels = rotate(imagePixels, oldWidth)
+        removeBlankSpaces(resultPixels)
+        return Pair(createBitmap(resultPixels, width, height, Bitmap.Config.ARGB_8888), outputCorners)
+    }
+
+    private fun setNewCorners() {
+        val newCorners: MutableList<Pair<Int, Int>> = mutableListOf()
+
+        for (corner in outputCorners) {
+            newCorners.add(getNewCoords(corner, angle))
+        }
+
+        outputCorners = newCorners
+    }
+
+    private fun getNewCoords(coords: Pair<Int, Int>, angle: Double): Pair<Int, Int> {
+        val x = coords.first
+        val y = coords.second
+        val newX = (x * cos(angle) - y * sin(angle)).roundToInt()
+        val newY = (x * sin(angle) + y * cos(angle)).roundToInt()
+        return Pair(newX, newY)
+    }
+
+    private fun setShifts() {
+        var horizontalShift = Int.MAX_VALUE
+        var verticalShift = Int.MAX_VALUE
+
+        for (corner in outputCorners) {
+            verticalShift = min(verticalShift, corner.second)
+            horizontalShift = min(horizontalShift, corner.first)
+        }
+
+        shifts = Pair(-horizontalShift, -verticalShift)
+    }
+
+    private fun shiftCorners() {
+        for (i in outputCorners.indices) {
+            val x = outputCorners[i].first + shifts.first
+            val y = outputCorners[i].second + shifts.second
+            outputCorners[i] = Pair(x, y)
+        }
+    }
+
+    private fun setNewSize() {
+        var minX = Int.MAX_VALUE
+        var maxX = Int.MIN_VALUE
+        var minY = Int.MAX_VALUE
+        var maxY = Int.MIN_VALUE
+
+        for (corner in outputCorners) {
+            minX = min(minX, corner.first)
+            maxX = max(maxX, corner.first)
+            minY = min(minY, corner.second)
+            maxY = max(maxY, corner.second)
+        }
+
+        val width = maxX - minX
+        val height = maxY - minY
+
+        this.width = width + 1
+        this.height = height + 1
+    }
+
+    private fun rotate(imagePixels: IntArray, oldWidth: Int): IntArray {
+        val resultPixels = IntArray(width * height)
         for (i in resultPixels.indices) {
             resultPixels[i] = 0
         }
 
         for (i in imagePixels.indices) {
-            val y = i / width
-            val x = i % width
-            if (isInImage(x, y, receivedCorners)) {
+            val y = i / oldWidth
+            val x = i % oldWidth
+            if (isInImageRectangle(x, y, inputCorners)) {
                 val newCoords = getNewCoords(Pair(x, y), angle)
-                val newIndex = (newCoords.first + shifts.first) + (newCoords.second + shifts.second) * newWidth
+                val newIndex = (newCoords.first + shifts.first) + (newCoords.second + shifts.second) * width
                 resultPixels[newIndex] = imagePixels[i]
             }
         }
 
-        removeBlankSpaces(resultPixels, newWidth, newHeight, corners)
-
-        return Pair(createBitmap(resultPixels, newWidth, newHeight, Bitmap.Config.ARGB_8888), corners)
+        return resultPixels
     }
 
-    private fun shiftCorners(corners: MutableList<Pair<Int, Int>>, shifts: Pair<Int, Int>) {
-        for (i in corners.indices) {
-            val x = corners[i].first + shifts.first
-            val y = corners[i].second + shifts.second
-            corners[i] = Pair(x, y)
-        }
-    }
-
-    private fun removeBlankSpaces(resultPixels: IntArray, width: Int, height: Int, corners: MutableList<Pair<Int, Int>>) {
-        for (i in resultPixels.indices) {
-            val y = i / width
-            val x = i % width
-            val pixel = resultPixels[i]
-            if (pixel == 0) {
-                if (isInImage(x, y, corners)) {
-                    resultPixels[i] = getMeanColor(resultPixels, x, y, width, height)
-                }
-            }
-        }
-    }
-
-    private fun isInImage(x: Int, y: Int, corners: MutableList<Pair<Int, Int>>): Boolean {
+    private fun isInImageRectangle(x: Int, y: Int, corners: MutableList<Pair<Int, Int>>): Boolean {
         val p1 = dotsProduct(corners[0], corners[1], x, y)
         val p2 = dotsProduct(corners[1], corners[2], x, y)
         val p3 = dotsProduct(corners[2], corners[3], x, y)
@@ -78,6 +123,19 @@ class RotationImage {
         val x2 = b.first
         val y2 = b.second
         return (x2 - x1) * (y - y1) - (y2 - y1) * (x - x1)
+    }
+
+    private fun removeBlankSpaces(resultPixels: IntArray) {
+        for (i in resultPixels.indices) {
+            val y = i / width
+            val x = i % width
+            val pixel = resultPixels[i]
+            if (pixel == 0) {
+                if (isInImageRectangle(x, y, outputCorners)) {
+                    resultPixels[i] = getMeanColor(resultPixels, x, y, width, height)
+                }
+            }
+        }
     }
 
     private fun getMeanColor(pixelColors: IntArray, x: Int, y: Int, width: Int, height: Int): Int {
@@ -111,51 +169,5 @@ class RotationImage {
 
     private fun toRadians(angle: Int): Double {
         return -angle * PI / 180
-    }
-
-    private fun getNewCorners(corners: MutableList<Pair<Int, Int>>, angle: Double): MutableList<Pair<Int, Int>> {
-        val newCorners: MutableList<Pair<Int, Int>> = mutableListOf()
-
-        for (corner in corners) {
-            newCorners.add(getNewCoords(corner, angle))
-        }
-
-        return newCorners
-    }
-
-    private fun getNewCoords(coords: Pair<Int, Int>, angle: Double): Pair<Int, Int> {
-        val x = coords.first
-        val y = coords.second
-        val newX = (x * cos(angle) - y * sin(angle)).roundToInt()
-        val newY = (x * sin(angle) + y * cos(angle)).roundToInt()
-        return Pair(newX, newY)
-    }
-
-    private fun getShifts(corners: MutableList<Pair<Int, Int>>): Pair<Int, Int> {
-        var horizontalShift = Int.MAX_VALUE
-        var verticalShift = Int.MAX_VALUE
-        for (corner in corners) {
-            verticalShift = min(verticalShift, corner.second)
-            horizontalShift = min(horizontalShift, corner.first)
-        }
-        return Pair(-horizontalShift, -verticalShift)
-    }
-
-    private fun getNewSize(corners: MutableList<Pair<Int, Int>>): Pair<Int, Int> {
-        var minX = Int.MAX_VALUE
-        var maxX = Int.MIN_VALUE
-        var minY = Int.MAX_VALUE
-        var maxY = Int.MIN_VALUE
-
-        for (corner in corners) {
-            minX = min(minX, corner.first)
-            maxX = max(maxX, corner.first)
-            minY = min(minY, corner.second)
-            maxY = max(maxY, corner.second)
-        }
-
-        val width = maxX - minX
-        val height = maxY - minY
-        return Pair(width + 1, height + 1)
     }
 }
