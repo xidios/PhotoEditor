@@ -1,8 +1,6 @@
 package com.example.photoeditor
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -12,11 +10,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.photoeditor.algorithms.RotationImage
 import kotlinx.android.synthetic.main.activity_rotation.*
-import kotlinx.android.synthetic.main.fragment_save.*
 
 class RotationActivity : AppCompatActivity() {
+    private val KEY = "Image"
     private val RESULT_TAG = "resultImage"
-    private var image: Bitmap? = null
     private var corners: MutableList<Pair<Int, Int>>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,10 +25,9 @@ class RotationActivity : AppCompatActivity() {
         }
 
         try {
-            val receivedImage = intent.getByteArrayExtra("IMAGE")
+            val receivedImage = intent.getParcelableExtra<Parcelable>(KEY)
             if (receivedImage != null) {
-                image = BitmapFactory.decodeByteArray(receivedImage, 0, receivedImage.size)
-                rotationImage.setImageBitmap(image)
+                rotationImage.setImageURI(receivedImage as Uri)
             }
         } catch (e: Exception) {
             Log.d("RotationActivity", e.toString())
@@ -49,13 +45,11 @@ class RotationActivity : AppCompatActivity() {
         if (angle == null) {
             Toast.makeText(this, "Введите корректный угол", Toast.LENGTH_SHORT).show()
         } else {
-            var bitmap = (rotationImage.getDrawable() as BitmapDrawable).bitmap
+            var bitmap = (rotationImage.drawable as BitmapDrawable).bitmap
             if (corners == null) {
                 val width = bitmap.width
                 val height = bitmap.height
                 corners = mutableListOf(0 to 0, width - 1 to 0, width - 1 to height - 1, 0 to height - 1)
-            } else {
-                Log.d("RotationActivity", "Just a test")
             }
             try {
                 val received = rotate.rotateImage(bitmap, angle, corners as MutableList<Pair<Int, Int>>)
@@ -71,11 +65,11 @@ class RotationActivity : AppCompatActivity() {
 
             val resultIntent = Intent()
             try {
-                resultIntent.putExtra(RESULT_TAG, compressBitmap(bitmap))
+                resultIntent.putExtra(RESULT_TAG, saveTempImage(this, bitmap))
                 setResult(RESULT_OK, resultIntent)
             } catch (error: Exception) {
-                Log.d("RotationActivity", "Произошла ошибка при сжатии изображения")
-                Toast.makeText(this, "Произошла ошибка при сжатии изображения", Toast.LENGTH_SHORT).show()
+                Log.d("RotationActivity", "Произошла ошибка при сохранении изображения")
+                Toast.makeText(this, "Произошла ошибка при сохранении изображения", Toast.LENGTH_SHORT).show()
             }
         }
     }
