@@ -35,7 +35,7 @@ class RotationImage {
     private fun setNewCorners() {
         val newCorners: MutableList<Pair<Int, Int>> = mutableListOf()
 
-        for (corner in outputCorners) {
+        for (corner in inputCorners) {
             newCorners.add(getNewCoords(corner, angle))
         }
 
