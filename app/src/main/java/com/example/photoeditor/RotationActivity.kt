@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_rotation.*
 import kotlinx.android.synthetic.main.fragment_save.*
 
 class RotationActivity : AppCompatActivity() {
+    private val KEY = "Image"
     private val RESULT_TAG = "resultImage"
     private var image: Bitmap? = null
     private var corners: MutableList<Pair<Int, Int>>? = null
@@ -28,10 +29,9 @@ class RotationActivity : AppCompatActivity() {
         }
 
         try {
-            val receivedImage = intent.getByteArrayExtra("IMAGE")
+            val receivedImage = intent.getParcelableExtra<Parcelable>(KEY)
             if (receivedImage != null) {
-                image = BitmapFactory.decodeByteArray(receivedImage, 0, receivedImage.size)
-                rotationImage.setImageBitmap(image)
+                rotationImage.setImageURI(receivedImage as Uri)
             }
         } catch (e: Exception) {
             Log.d("RotationActivity", e.toString())
@@ -49,7 +49,7 @@ class RotationActivity : AppCompatActivity() {
         if (angle == null) {
             Toast.makeText(this, "Введите корректный угол", Toast.LENGTH_SHORT).show()
         } else {
-            var bitmap = (rotationImage.getDrawable() as BitmapDrawable).bitmap
+            var bitmap = (rotationImage.drawable as BitmapDrawable).bitmap
             try {
                 /*val received = rotate.rotateImage(bitmap, angle, corners as MutableList<Pair<Int, Int>>)
                 bitmap = received.first
@@ -65,7 +65,7 @@ class RotationActivity : AppCompatActivity() {
 
             val resultIntent = Intent()
             try {
-                resultIntent.putExtra(RESULT_TAG, compressBitmap(bitmap))
+                resultIntent.putExtra(RESULT_TAG, saveTempImage(this, bitmap))
                 setResult(RESULT_OK, resultIntent)
             } catch (error: Exception) {
                 Log.d("RotationActivity", "Произошла ошибка при сжатии изображения")
