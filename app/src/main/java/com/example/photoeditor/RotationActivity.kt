@@ -50,11 +50,17 @@ class RotationActivity : AppCompatActivity() {
             Toast.makeText(this, "Введите корректный угол", Toast.LENGTH_SHORT).show()
         } else {
             var bitmap = (rotationImage.getDrawable() as BitmapDrawable).bitmap
+            if (corners == null) {
+                val width = bitmap.width
+                val height = bitmap.height
+                corners = mutableListOf(0 to 0, width - 1 to 0, width - 1 to height - 1, 0 to height - 1)
+            } else {
+                Log.d("RotationActivity", "Just a test")
+            }
             try {
-                /*val received = rotate.rotateImage(bitmap, angle, corners as MutableList<Pair<Int, Int>>)
+                val received = rotate.rotateImage(bitmap, angle, corners as MutableList<Pair<Int, Int>>)
                 bitmap = received.first
-                corners = received.second*/
-                bitmap = rotate.rotateImage(bitmap, angle)
+                corners = received.second
                 Log.d("RotationActivity", "Алгоритм успешно выполнен")
             } catch(error: Exception) {
                 Log.d("RotationActivity", "Произошла ошибка при работе алгоритма ${error.toString()}")

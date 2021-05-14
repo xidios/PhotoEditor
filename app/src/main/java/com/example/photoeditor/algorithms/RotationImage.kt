@@ -7,16 +7,16 @@ import android.util.Log
 import kotlin.math.*
 
 class RotationImage {
-    fun rotateImage(image: Bitmap, angle: Int): Bitmap {
+    fun rotateImage(image: Bitmap, angle: Int, receivedCorners: MutableList<Pair<Int, Int>>): Pair<Bitmap, MutableList<Pair<Int, Int>>> {
         val angle = toRadians(angle)
         val width = image.width
         val height = image.height
         val imagePixels = IntArray(height * width)
         image.getPixels(imagePixels, 0, width, 0, 0, width, height)
 
-        var corners = mutableListOf(0 to 0, width - 1 to 0, width - 1 to height - 1, 0 to height - 1)
-        corners = getNewCorners(corners, angle)
+        val corners = getNewCorners(receivedCorners, angle)
         val shifts = getShifts(corners)
+
         shiftCorners(corners, shifts)
 
         val newSize = getNewSize(corners)
@@ -31,14 +31,16 @@ class RotationImage {
         for (i in imagePixels.indices) {
             val y = i / width
             val x = i % width
-            val newCoords = getNewCoords(Pair(x, y), angle)
-            val newIndex = (newCoords.first + shifts.first) + (newCoords.second + shifts.second) * newWidth
-            resultPixels[newIndex] = imagePixels[i]
+            if (isInImage(x, y, receivedCorners)) {
+                val newCoords = getNewCoords(Pair(x, y), angle)
+                val newIndex = (newCoords.first + shifts.first) + (newCoords.second + shifts.second) * newWidth
+                resultPixels[newIndex] = imagePixels[i]
+            }
         }
 
         removeBlankSpaces(resultPixels, newWidth, newHeight, corners)
 
-        return createBitmap(resultPixels, newWidth, newHeight, Bitmap.Config.ARGB_8888)
+        return Pair(createBitmap(resultPixels, newWidth, newHeight, Bitmap.Config.ARGB_8888), corners)
     }
 
     private fun shiftCorners(corners: MutableList<Pair<Int, Int>>, shifts: Pair<Int, Int>) {
@@ -130,13 +132,13 @@ class RotationImage {
     }
 
     private fun getShifts(corners: MutableList<Pair<Int, Int>>): Pair<Int, Int> {
-        var horizontalShift = 0
-        var verticalShift = 0
+        var horizontalShift = Int.MAX_VALUE
+        var verticalShift = Int.MAX_VALUE
         for (corner in corners) {
             verticalShift = min(verticalShift, corner.second)
             horizontalShift = min(horizontalShift, corner.first)
         }
-        return Pair(abs(horizontalShift), abs(verticalShift))
+        return Pair(-horizontalShift, -verticalShift)
     }
 
     private fun getNewSize(corners: MutableList<Pair<Int, Int>>): Pair<Int, Int> {
