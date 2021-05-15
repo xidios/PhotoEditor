@@ -19,15 +19,17 @@ class EffectsFragment : Fragment(R.layout.fragment_effects) {
         private var adapter: RecyclerView.Adapter<RVAdapter.ViewHolder>? = null
 
         const val TAG = "EffectsFragment"
-        fun newInstance(image: ByteArray) = EffectsFragment().apply {
-            arguments = bundleOf(Pair("Image", image))
+        private const val KEY = "Image"
+
+        fun newInstance(image: Parcelable) = EffectsFragment().apply {
+            arguments = bundleOf(Pair(KEY, image))
         }
     }
 
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
 
-        val image = arguments?.getByteArray("Image")
+        val image = arguments?.getParcelable<Parcelable>("Image")
         if (image != null) {
             recycler_view.apply {
                 layoutManager = LinearLayoutManager(activity)
@@ -36,7 +38,7 @@ class EffectsFragment : Fragment(R.layout.fragment_effects) {
         }
     }
 
-    fun rewriteImage(receivedImage: ByteArray?) {
+    fun rewriteImage(receivedImage: Parcelable?) {
         if (receivedImage != null) {
             recycler_view.apply {
                 layoutManager = LinearLayoutManager(activity)

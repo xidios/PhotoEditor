@@ -2,6 +2,7 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
@@ -19,10 +20,11 @@
             android:id="@+id/kodePertanyaan"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="56dp"
             android:text="taskName"
             android:textColor="@color/effectTitleColor"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/kategori"
+            app:layout_constraintEnd_toStartOf="@+id/imageRV"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,23 +33,24 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="56dp"
             android:text="taskDescription"
             android:textColor="@color/effectDescriptionColor"
             android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/kategori"
+            app:layout_constraintEnd_toStartOf="@+id/imageRV"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/kodePertanyaan" />
 
-        <TextView
-            android:id="@+id/kategori"
-            android:layout_width="72dp"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/imageRV"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="16dp"
             android:text="icon"
-            android:textColor="@color/accent"
-            android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

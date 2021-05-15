@@ -18,7 +18,7 @@ class SaveFragment : Fragment(R.layout.fragment_save) {
     companion object {
         val TAG = "SaveFragment"
         private const val KEY = "Image"
-        fun newInstance(image: ByteArray) = SaveFragment().apply {
+        fun newInstance(image: Parcelable) = SaveFragment().apply {
             arguments = bundleOf(Pair(KEY, image))
         }
     }
@@ -26,17 +26,18 @@ class SaveFragment : Fragment(R.layout.fragment_save) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val receivedImage = arguments?.getByteArray("Image")
+        val receivedImage = arguments?.getParcelable<Parcelable>("Image")
+//        val receivedImage = arguments?.getByteArray("Image")
         if (receivedImage != null) {
-            val image = BitmapFactory.decodeByteArray(receivedImage, 0, receivedImage.size)
-            resultImage.setImageBitmap(image)
+//            val image = BitmapFactory.decodeByteArray(receivedImage, 0, receivedImage.size)
+//            resultImage.setImageBitmap(image)
+            resultImage.setImageURI(receivedImage as Uri)
         }
     }
 
-    fun rewriteImage(receivedImage: ByteArray?) {
+    fun rewriteImage(receivedImage: Parcelable?) {
         if (receivedImage != null) {
-            val image = BitmapFactory.decodeByteArray(receivedImage, 0, receivedImage.size)
-            resultImage.setImageBitmap(image)
+            resultImage.setImageURI(receivedImage as Uri)
         }
     }
 }
