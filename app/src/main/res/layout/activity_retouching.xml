@@ -17,4 +17,64 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background" />
 
+    <SeekBar
+        android:id="@+id/seekBarRadius"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/seekBarCoef"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.075"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textSeekBarRadius"
+        app:layout_constraintVertical_bias="0.32" />
+
+    <SeekBar
+        android:id="@+id/seekBarCoef"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.075"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textSeekBarCoef"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/seekBarCoef"
+        app:layout_constraintEnd_toEndOf="@+id/seekBarCoef"
+        app:layout_constraintStart_toStartOf="@+id/seekBarCoef"
+        app:layout_constraintTop_toBottomOf="@+id/seekBarRadius" />
+
+    <TextView
+        android:id="@+id/textSeekBarRadius"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/seekBarRadius"
+        app:layout_constraintStart_toStartOf="@+id/seekBarRadius"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewRetouching" />
+
+    <Button
+        android:id="@+id/acceptChanging"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="accept"
+        tools:layout_editor_absoluteX="280dp"
+        tools:layout_editor_absoluteY="575dp" />
+
+    <Button
+        android:id="@+id/cancelChanging"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        tools:layout_editor_absoluteX="283dp"
+        tools:layout_editor_absoluteY="661dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
