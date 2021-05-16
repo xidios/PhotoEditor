@@ -2,16 +2,22 @@ package com.example.photoeditor
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.MotionEvent
+import android.view.View.MeasureSpec
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_retouching.*
 import kotlin.math.sqrt
 
+
+@Suppress("DEPRECATION")
 class RetouchingActivity : AppCompatActivity() {
-    private val RESULT_TAG = "resultImage"
+    private val KEY = "Image"
+
     private lateinit var originalPhoto: Bitmap
     private lateinit var workingPhoto: Bitmap
 
@@ -20,8 +26,8 @@ class RetouchingActivity : AppCompatActivity() {
     private var widthPhoto: Float = 0.0f
     private var heightPhoto: Float = 0.0f
 
-    private var stepRadius = 90
-    private var stepStrength = 100
+    private var stepRadius = 80
+    private var stepStrength = 60
 
     private var prevPixel: Int = 0
 
@@ -39,20 +45,35 @@ class RetouchingActivity : AppCompatActivity() {
         widthPhoto = imageViewRetouching.width.toFloat()
         heightPhoto = imageViewRetouching.height.toFloat()
 
-        receivedImage = intent.getByteArrayExtra("IMAGE")
+        val receivedImage = intent.getParcelableExtra<Parcelable>(KEY)
+
         if (receivedImage != null) {
-            originalPhoto = BitmapFactory.decodeByteArray(receivedImage, 0, receivedImage!!.size)
+            imageViewRetouching.setImageURI(receivedImage as Uri)
+
+            imageViewRetouching.isDrawingCacheEnabled = true
+            imageViewRetouching.measure(
+                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+            )
+            imageViewRetouching.layout(
+                0, 0,
+                imageViewRetouching.measuredWidth, imageViewRetouching.measuredHeight
+            )
+            imageViewRetouching.buildDrawingCache(true)
+
+            originalPhoto = Bitmap.createBitmap(imageViewRetouching.drawingCache)
+            imageViewRetouching.isDrawingCacheEnabled = false
+
             workingPhoto = originalPhoto
-            imageViewRetouching.setImageBitmap(originalPhoto)
         }
 
         textSeekBarCoef.text = "Strength: ${seekBarCoef.progress}%"
-        textSeekBarRadius.text = "Radius: ${seekBarRadius.progress}"
+        textSeekBarRadius.text = "Radius: ${seekBarRadius.progress}px"
 
         seekBarCoef.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             @SuppressLint("SetTextI18n")
             override fun onProgressChanged(seekBar: SeekBar, idx: Int, b: Boolean) {
-                textSeekBarCoef.text = "Radius: $idx"
+                textSeekBarCoef.text = "Strength: $idx%"
                 textSeekBarCoef.isSelected = true
             }
 
@@ -67,24 +88,24 @@ class RetouchingActivity : AppCompatActivity() {
         seekBarRadius.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             @SuppressLint("SetTextI18n")
             override fun onProgressChanged(seekBar: SeekBar, idx: Int, b: Boolean) {
-                textSeekBarCoef.text = "Radius: $idx"
-                textSeekBarCoef.isSelected = true
+                textSeekBarRadius.text = "Radius: ${idx}px"
+                textSeekBarRadius.isSelected = true
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                textSeekBarCoef.isSelected = false
-                stepRadius = seekBarCoef.progress
+                textSeekBarRadius.isSelected = false
+                stepRadius = seekBarRadius.progress
             }
         })
 
-        imageViewRetouching.setOnTouchListener {v, e ->
+        imageViewRetouching.setOnTouchListener { v, e ->
             if (e.action == MotionEvent.ACTION_MOVE || e.action == MotionEvent.ACTION_DOWN){
-                mouseEditing()
+                scale = mouseEditing(imageViewRetouching.width.toFloat(), imageViewRetouching.height.toFloat())
 
-                val motionTouchEventX = (e.x - (widthPhoto - scale * widthBitmap) / 2.0F) / scale
-                val motionTouchEventY = (e.y - (heightPhoto - scale * heightBitmap) / 2.0F) / scale
+                val motionTouchEventX = (e.x - (imageViewRetouching.width.toFloat() - scale * widthBitmap) / 2.0F) / scale
+                val motionTouchEventY = (e.y - (imageViewRetouching.height.toFloat() - scale * heightBitmap) / 2.0F) / scale
 
                 workingPhoto = retouchingPhoto(motionTouchEventX.toInt(), motionTouchEventY.toInt(), workingPhoto)
 
@@ -100,11 +121,12 @@ class RetouchingActivity : AppCompatActivity() {
 
         cancelChanging.setOnClickListener {
             imageViewRetouching.setImageDrawable(null)
-            imageViewRetouching.setImageBitmap(originalPhoto)
+            workingPhoto = originalPhoto
+            imageViewRetouching.setImageBitmap(workingPhoto)
         }
     }
 
-    private fun mouseEditing() {
+    private fun mouseEditing(widthPhoto: Float, heightPhoto: Float): Float {
         widthBitmap = workingPhoto.width.toFloat()
         heightBitmap = workingPhoto.height.toFloat()
 
@@ -116,16 +138,20 @@ class RetouchingActivity : AppCompatActivity() {
         } else {
             heightPhoto / heightBitmap
         }
+
+        return scale
     }
 
     private fun retouchingPhoto(centerX: Int, centerY: Int, imageBitmap: Bitmap): Bitmap {
         var matrixPixels = IntArray(imageBitmap.width * imageBitmap.height)
+        imageBitmap.getPixels(matrixPixels, 0, imageBitmap.width, 0, 0, imageBitmap.width, imageBitmap.height)
 
         val colorAverage = calculatingAverageColors(matrixPixels, centerY, centerX, imageBitmap.width, imageBitmap.height)
 
         matrixPixels = calculatingColorsWithCoeff(matrixPixels, centerY, centerX, imageBitmap.width, imageBitmap.height, colorAverage[0], colorAverage[1], colorAverage[2])
 
-        return Bitmap.createBitmap(matrixPixels, imageBitmap.width, imageBitmap.height, Bitmap.Config.ARGB_8888)
+        return Bitmap.createBitmap(matrixPixels, imageBitmap.width, imageBitmap.height, Bitmap.Config.ARGB_8888
+        )
     }
 
     private fun calculatingAverageColors(matrix: IntArray, yC: Int, xC: Int, width: Int, height: Int): Array<Double> {
@@ -216,3 +242,6 @@ class RetouchingActivity : AppCompatActivity() {
         return colorResult
     }
 }
+
+
+

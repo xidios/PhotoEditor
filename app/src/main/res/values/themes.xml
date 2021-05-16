@@ -43,4 +43,11 @@
     <style name="imagePreviewOnEffect">
         <item name="android:layout_height">520dp</item>
     </style>
+
+    <style name="MySeekBar">
+        <item name="android:progressBackgroundTint">#27201F1F</item>
+        <item name="android:progressTint">#1C1C1C</item>
+        <item name="android:thumbTint">#151515</item>
+    </style>
+
 </resources>

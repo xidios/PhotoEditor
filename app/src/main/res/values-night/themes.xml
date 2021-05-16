@@ -40,4 +40,11 @@
     <style name = "Theme.PhotoEditor.Header.Effect">
         <item name = "android:paddingStart">12dp</item>
     </style>
+
+    <style name="MySeekBar">
+        <item name="android:colorControlNormal">#D9FF00</item>
+        <item name="android:progressBackgroundTint">#27201F1F</item>
+        <item name="android:progressTint">#1C1C1C</item>
+        <item name="android:colorControlActivated">#500F0F</item>
+    </style>
 </resources>
