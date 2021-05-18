@@ -6,4 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".CubeActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/cubeToolbar"
+        style="@style/Theme.PhotoEditor.Header.Effect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back_button"
+        app:title="@string/cube_task_name"/>
+
+    <view
+        class="com.example.photoeditor.DrawView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/cubeToolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

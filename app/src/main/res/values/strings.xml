@@ -16,6 +16,8 @@
     <string name="rotation_image_desc">Текущее изображение</string>
     <string name="rotation_angle_hint">Угол поворота</string>
 
+    <string name="cube_task_name">Игральный кубик</string>
+
     <string name="apply_button">Применить</string>
     <string name="isi">isi</string>
     <string name="kategori">kategori</string>
