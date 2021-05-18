@@ -4,132 +4,181 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.Path
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import kotlin.math.cos
-import kotlin.math.sin
+import kotlinx.android.synthetic.main.activity_cube.*
+import kotlin.math.*
 
 
 class CubeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(DrawView(this))
-    }
+        setContentView(R.layout.activity_cube)
 
-    class DrawView(context: Context?) : View(context) {
-        var vertex = arrayOf(
-            arrayOf(-400f, -400f, -400f),arrayOf(-400f, -400f,  400f),
-            arrayOf(-400f,  400f, -400f),arrayOf(-400f,  400f,  400f),
-            arrayOf(400f, -400f, -400f),arrayOf(400f, -400f,  400f),
-            arrayOf(400f,  400f, -400f),arrayOf(400f,  400f,  400f))
-
-        var faces = arrayOf(
-            arrayOf(0, 1), arrayOf(1, 3),
-            arrayOf(3, 2), arrayOf(2, 0),
-            arrayOf(4, 5), arrayOf(5, 7),
-            arrayOf(7, 6), arrayOf(6, 4),
-            arrayOf(0, 4), arrayOf(1, 5),
-            arrayOf(2, 6), arrayOf(3, 7))
-
-        var radianX = 60f
-        var radianY = 60f
-
-        private fun rotateX(radian: Float){
-            var sinX = sin(radian)
-            var cosX = cos(radian)
-
-            for (i in vertex.indices) {
-                var v = vertex[i]
-
-                var z: Float = v[2]
-                var y: Float = v[1]
-
-                v[1] = y * cosX - z * sinX
-                v[2] = y * cosX + z * sinX
-                vertex[i] = v
-            }
-        }
-
-        private fun rotateY(radian: Float){
-            var sinY = sin(radian)
-            var cosY = cos(radian)
-
-            for (i in vertex.indices) {
-                var v = vertex[i]
-
-                var z: Float = v[2]
-                var x: Float = v[0]
-
-                v[0] = x * cosY + z * sinY
-                v[2] = -x * cosY + z * sinY
-                vertex[i] = v
-            }
-        }
-
-        var paint = Paint()
-        var path = Path()
-
-        override fun onDraw(canvas: Canvas) {
-            canvas.drawColor(Color.DKGRAY)
-            canvas.translate((width / 2).toFloat(), (height / 2).toFloat())
-
-            drawFaces(canvas)
-            drawVertex(canvas)
-        }
-
-        private fun drawFaces(canvas: Canvas){
-            for(i in faces.indices){
-                var n0 = faces[i][0]
-                var n1 = faces[i][1]
-
-                var v0 = vertex[n0]
-                var v1 = vertex[n1]
-
-                paint.color = Color.BLACK
-                paint.style = Paint.Style.STROKE
-                paint.strokeWidth = 10f
-
-                canvas.drawLine(v0[0], v0[1],v1[0], v1[1], paint)
-            }
-        }
-
-        private fun drawVertex(canvas: Canvas){
-            for(i in vertex.indices){
-                var v = vertex[i]
-
-                paint.color = Color.YELLOW
-                paint.style = Paint.Style.FILL
-
-                canvas.drawCircle(v[0], v[1], 10f, paint)
-            }
-        }
-
-        override fun onTouchEvent(event: MotionEvent?): Boolean {
-            when (event?.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    radianX = event.x
-                    radianY = event.y
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    rotateX((event.x - radianX)/200)
-                    rotateY((event.y - radianY)/200)
-
-                    radianX = event.x
-                    radianY = event.y
-
-                }
-            }
-            invalidate()
-            return true
+        cubeToolbar.setNavigationOnClickListener{
+            this.finish()
         }
     }
 }
 
+class DrawView (context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int): View(context, attrs, defStyleAttr, defStyleRes) {
+    @JvmOverloads
+    constructor(context: Context?, attrs: AttributeSet? = null) : this(context, attrs, 0)
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr,0)
 
+    private var vertexes = arrayOf(
+        arrayOf(-200f, -200f, -200f), arrayOf(-200f, 200f, -200f),
+        arrayOf(200f, 200f, -200f), arrayOf(200f, -200f, -200f),
+        arrayOf(-200f, -200f, 200f), arrayOf(-200f, 200f, 200f),
+        arrayOf(200f, 200f, 200f), arrayOf(200f, -200f, 200f)
+    )
+
+    private var faces = arrayOf(
+        arrayOf(0, 1, 2, 3), arrayOf(4, 5, 6, 7),
+        arrayOf(0, 1, 5, 4), arrayOf(2, 3, 7, 6),
+        arrayOf(0, 3, 7, 4), arrayOf(1, 2, 6, 5)
+    )
+
+    private var currentX = 0f
+    private var currentY = 0f
+    private var deepestZ = -200f
+    private var paint = Paint()
+    private val VERTEX_RADIUS = 15f
+    private val LINE_WIDTH = 10f
+
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        rotateY(45f)
+        rotateX(160f)
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        canvas.drawColor(Color.WHITE)
+        canvas.translate((width / 2).toFloat(), (height / 2).toFloat())
+
+        drawFaces(canvas)
+        drawVertex(canvas)
+    }
+
+    private fun rotateX(angle: Float) {
+        val sin = sin(toRadians(angle))
+        val cos = cos(toRadians(angle))
+        var minZ = Float.MAX_VALUE
+
+        for (vertex in vertexes) {
+            val y = vertex[1]
+            val z = vertex[2]
+
+            vertex[1] = (y * cos - z * sin).toFloat()
+            vertex[2] = (z * cos + y * sin).toFloat()
+
+            minZ = min(minZ, vertex[2])
+        }
+
+        deepestZ = minZ
+    }
+
+    private fun rotateY(angle: Float) {
+        val sin = sin(toRadians(angle))
+        val cos = cos(toRadians(angle))
+        var minZ = Float.MAX_VALUE
+
+        for (vertex in vertexes) {
+            val x = vertex[0]
+            val z = vertex[2]
+
+            vertex[0] = (x * cos + z * sin).toFloat()
+            vertex[2] = (z * cos - x * sin).toFloat()
+
+            minZ = min(minZ, vertex[2])
+        }
+
+        deepestZ = minZ
+    }
+
+    private fun rotateZ(angle: Float) {
+        val sin = sin(toRadians(angle))
+        val cos = cos(toRadians(angle))
+
+        for (vertex in vertexes) {
+            val x = vertex[0]
+            val y = vertex[1]
+
+            vertex[0] = (x * cos - y * sin).toFloat()
+            vertex[1] = (y * cos + x * sin).toFloat()
+        }
+    }
+
+    private fun drawVertex(canvas: Canvas) {
+        for (vertex in vertexes) {
+            if (vertex[2] > deepestZ) {
+                paint.color = Color.BLACK
+                if (vertex.contentEquals(vertexes[0])) {
+                    paint.color = Color.RED
+                }
+                paint.style = Paint.Style.FILL
+                canvas.drawCircle(vertex[0], vertex[1], VERTEX_RADIUS, paint)
+            }
+        }
+    }
+
+    private fun drawEdge(canvas: Canvas, vertex1: Array<Float>, vertex2: Array<Float>) {
+        paint.color = Color.BLACK
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = LINE_WIDTH
+        canvas.drawLine(vertex1[0], vertex1[1], vertex2[0], vertex2[1], paint)
+    }
+
+    private fun drawFaces(canvas: Canvas) {
+        for (face in faces) {
+            if (isVisible(face)) {
+                for (i in face.indices) {
+                    drawEdge(canvas, vertexes[face[i]], vertexes[face[(i + 1) % 4]])
+                }
+            }
+        }
+    }
+
+    private fun isVisible(face: Array<Int>): Boolean {
+        for (vertexNumber in face) {
+            val vertex = vertexes[vertexNumber]
+            if (vertex[2] == deepestZ) {
+                return false
+            }
+        }
+        return true
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+//            var coords = vertexes
+        when (event?.action) {
+            MotionEvent.ACTION_DOWN -> {
+                currentX = event.x
+                currentY = event.y
+            }
+            MotionEvent.ACTION_MOVE -> {
+                val deltaX = event.x - currentX
+                val deltaY = currentY - event.y
+                if (abs(deltaX) > abs(deltaY)) {
+                    rotateY(deltaX / 10)
+                } else {
+                    rotateX(deltaY / 10)
+                }
+                currentX = event.x
+                currentY = event.y
+            }
+        }
+        invalidate()
+        return true
+    }
+
+    private fun toRadians(angle: Float): Double {
+        return PI * angle / 180
+    }
+}
 
 
 
