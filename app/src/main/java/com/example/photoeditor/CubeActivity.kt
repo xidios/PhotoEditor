@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Path
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -11,7 +12,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_cube.*
 import kotlin.math.*
-
 
 class CubeActivity : AppCompatActivity() {
 
@@ -38,9 +38,9 @@ class DrawView (context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defS
     )
 
     private var faces = arrayOf(
-        arrayOf(0, 1, 2, 3), arrayOf(4, 5, 6, 7),
-        arrayOf(0, 1, 5, 4), arrayOf(2, 3, 7, 6),
-        arrayOf(0, 3, 7, 4), arrayOf(1, 2, 6, 5)
+        arrayOf(0, 1, 2, 3, Color.RED), arrayOf(4, 5, 6, 7, Color.GREEN),
+        arrayOf(0, 1, 5, 4, Color.BLUE), arrayOf(2, 3, 7, 6, Color.CYAN),
+        arrayOf(0, 3, 7, 4, Color.MAGENTA), arrayOf(1, 2, 6, 5, Color.YELLOW)
     )
 
     private var currentX = 0f
@@ -116,9 +116,6 @@ class DrawView (context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defS
         for (vertex in vertexes) {
             if (vertex[2] > deepestZ) {
                 paint.color = Color.BLACK
-                if (vertex.contentEquals(vertexes[0])) {
-                    paint.color = Color.RED
-                }
                 paint.style = Paint.Style.FILL
                 canvas.drawCircle(vertex[0], vertex[1], VERTEX_RADIUS, paint)
             }
@@ -135,16 +132,32 @@ class DrawView (context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defS
     private fun drawFaces(canvas: Canvas) {
         for (face in faces) {
             if (isVisible(face)) {
-                for (i in face.indices) {
+                fillFace(canvas, face)
+                for (i in 0..3) {
                     drawEdge(canvas, vertexes[face[i]], vertexes[face[(i + 1) % 4]])
                 }
             }
         }
     }
 
+    private fun fillFace(canvas: Canvas, face: Array<Int>) {
+        paint.color = face[4]
+        paint.style = Paint.Style.FILL
+
+        val path = Path()
+        path.moveTo(vertexes[face[0]][0], vertexes[face[0]][1])
+
+        for (i in 1..3) {
+            path.lineTo(vertexes[face[i]][0], vertexes[face[i]][1])
+        }
+        path.lineTo(vertexes[face[0]][0], vertexes[face[0]][1])
+
+        canvas.drawPath(path, paint)
+    }
+
     private fun isVisible(face: Array<Int>): Boolean {
-        for (vertexNumber in face) {
-            val vertex = vertexes[vertexNumber]
+        for (i in 0..3) {
+            val vertex = vertexes[face[i]]
             if (vertex[2] == deepestZ) {
                 return false
             }
@@ -153,7 +166,6 @@ class DrawView (context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defS
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-//            var coords = vertexes
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
                 currentX = event.x
