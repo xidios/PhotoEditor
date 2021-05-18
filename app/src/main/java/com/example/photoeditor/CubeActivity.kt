@@ -22,6 +22,14 @@ class CubeActivity : AppCompatActivity() {
         cubeToolbar.setNavigationOnClickListener{
             this.finish()
         }
+
+        rotateButton.setOnClickListener {
+            cubeView.rotateZ()
+        }
+
+        resetButton.setOnClickListener {
+            cubeView.requestLayout()
+        }
     }
 }
 
@@ -30,12 +38,7 @@ class DrawView (context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defS
     constructor(context: Context?, attrs: AttributeSet? = null) : this(context, attrs, 0)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr,0)
 
-    private var vertexes = arrayOf(
-        arrayOf(-200f, -200f, -200f), arrayOf(-200f, 200f, -200f),
-        arrayOf(200f, 200f, -200f), arrayOf(200f, -200f, -200f),
-        arrayOf(-200f, -200f, 200f), arrayOf(-200f, 200f, 200f),
-        arrayOf(200f, 200f, 200f), arrayOf(200f, -200f, 200f)
-    )
+    private lateinit var vertexes: Array<Array<Float>>
 
     private var faces = arrayOf(
         arrayOf(0, 1, 2, 3, Color.RED), arrayOf(4, 5, 6, 7, Color.GREEN),
@@ -51,6 +54,13 @@ class DrawView (context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defS
     private val LINE_WIDTH = 10f
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        vertexes = arrayOf(
+            arrayOf(-200f, -200f, -200f), arrayOf(-200f, 200f, -200f),
+            arrayOf(200f, 200f, -200f), arrayOf(200f, -200f, -200f),
+            arrayOf(-200f, -200f, 200f), arrayOf(-200f, 200f, 200f),
+            arrayOf(200f, 200f, 200f), arrayOf(200f, -200f, 200f)
+        )
+
         rotateY(45f)
         rotateX(160f)
     }
@@ -99,7 +109,8 @@ class DrawView (context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defS
         deepestZ = minZ
     }
 
-    private fun rotateZ(angle: Float) {
+    fun rotateZ() {
+        val angle = 15f
         val sin = sin(toRadians(angle))
         val cos = cos(toRadians(angle))
 
@@ -110,6 +121,8 @@ class DrawView (context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defS
             vertex[0] = (x * cos - y * sin).toFloat()
             vertex[1] = (y * cos + x * sin).toFloat()
         }
+
+        invalidate()
     }
 
     private fun drawVertex(canvas: Canvas) {
