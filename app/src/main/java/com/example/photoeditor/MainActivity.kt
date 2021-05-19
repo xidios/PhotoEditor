@@ -79,7 +79,6 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun createImageFile(): File {
-        // Classic title of the file with timestamp
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "IMG_$timeStamp"
 
