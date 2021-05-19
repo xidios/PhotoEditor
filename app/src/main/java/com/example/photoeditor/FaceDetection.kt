@@ -4,13 +4,6 @@ import android.app.Activity
 import org.bytedeco.javacpp.opencv_core.*
 import org.bytedeco.javacpp.opencv_imgproc.*
 import org.bytedeco.javacpp.opencv_objdetect
-//import org.bytedeco.opencv.global.opencv_cudaimgproc.cvtColor
-//import org.bytedeco.opencv.global.opencv_cudaimgproc.equalizeHist
-//import org.bytedeco.opencv.global.opencv_imgproc.COLOR_BGR2GRAY
-//import org.bytedeco.opencv.opencv_core.Mat
-//import org.bytedeco.opencv.opencv_core.RectVector
-//import org.bytedeco.opencv.opencv_core.Size
-//import org.bytedeco.opencv.opencv_objdetect.CascadeClassifier
 import java.io.File
 
 object FaceDetection {

@@ -7,7 +7,6 @@ plugins {
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
-
     defaultConfig {
         applicationId "com.example.photoeditor"
         minSdkVersion 23
@@ -17,7 +16,6 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -45,11 +43,9 @@ android {
             }
         }
     }
-
 }
 
 dependencies {
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'org.jetbrains.anko:anko-common:0.9'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -66,13 +62,6 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    //implementation "org.bytedeco:javacv:1.5.0"
-
-
     implementation group: 'org.bytedeco', name: 'javacv', version: '1.4.1'
     implementation "org.bytedeco.javacpp-presets:opencv:3.4.1-1.4.1:android-arm"
-//    implementation group: 'org.bytedeco', name: 'openblas', version: '0.3.13-1.5.5'
-//    implementation group: 'org.bytedeco', name: 'opencv', version: '4.5.1-1.5.5'
-//    implementation group: 'org.bytedeco', name: 'leptonica', version: '1.80.0-1.5.5'
-    //implementation group: 'org.bytedeco', name: 'openblas', version: '0.3.13-1.5.5', classifier: "android-x86_64"
 }
