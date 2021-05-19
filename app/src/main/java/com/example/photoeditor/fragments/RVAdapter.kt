@@ -6,6 +6,7 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +18,7 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) : Recycle
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var itemKode: TextView = itemView.findViewById(R.id.kodePertanyaan)
-        var itemKategori: TextView = itemView.findViewById(R.id.kategori)
+        var imageRV: ImageView = itemView.findViewById(R.id.imageRV)
         var itemIsi: TextView = itemView.findViewById(R.id.isiPertanyaan)
 
         init {
@@ -33,6 +34,7 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) : Recycle
                     4 -> intent = Intent(context, SplinesActivity::class.java)
                     5 -> intent = Intent(context, CubeActivity::class.java)
                     6 -> intent = Intent(context, UnsharpMaskActivity::class.java)
+                    7 -> intent = Intent(context, RetouchingActivity::class.java)
                 }
                 intent = intent.apply {
                     putExtra(KEY, image)
@@ -50,7 +52,7 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) : Recycle
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.itemKode.text = kode[i]
-        viewHolder.itemKategori.text = kategori[i]
+        viewHolder.imageRV.setImageResource(kategori[i])
         viewHolder.itemIsi.text = isi[i]
     }
 
@@ -63,16 +65,18 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) : Recycle
         "Сегментация",
         "Сплайны",
         "Кубик",
-        "Нерезкое маскирование")
+        "Нерезкое маскирование",
+        "Ретуширование")
 
     private val kategori = arrayOf(
-        "Иконка",
-        "Иконка",
-        "Иконка",
-        "Иконка",
-        "Иконка",
-        "Иконка",
-        "Иконка")
+        R.drawable.download,
+        R.drawable.image,
+        R.drawable.download,
+        R.drawable.download,
+        R.drawable.download,
+        R.drawable.download,
+        R.drawable.download,
+        R.drawable.download)
 
     private val isi = arrayOf(
         "Поворот изображения на угол, кратный 90 градусам",
@@ -81,6 +85,7 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) : Recycle
         "Распознавание лиц на изображении",
         "Преобразование ломаных линий в сплайны",
         "Вращение объемного игрального кубика",
-        "Увеличивает резкость изображения")
+        "Увеличение резкости изображения",
+        "Устранение дефектов")
 }
 

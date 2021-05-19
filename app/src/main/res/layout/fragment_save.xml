@@ -29,8 +29,8 @@
 
             <ImageView
                 android:id="@+id/resultImage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                style="@style/imagePreviewOnEffect"
+                android:layout_width="match_parent"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:src="@mipmap/ic_launcher"

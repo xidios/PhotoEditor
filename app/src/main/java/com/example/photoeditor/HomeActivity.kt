@@ -3,12 +3,10 @@ package com.example.photoeditor
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -33,11 +31,6 @@ class HomeActivity : AppCompatActivity() {
 
         val receivedImage = intent.getParcelableExtra<Parcelable>("Image")
         hiddenImage.setImageURI(receivedImage as Uri)
-        /*val image = compressBitmap((hiddenImage.drawable as BitmapDrawable).bitmap)
-
-        val imageFragment = ImageFragment.newInstance(image)
-        val saveFragment = SaveFragment.newInstance(image)
-        val effectsFragment = EffectsFragment.newInstance(image)*/
 
         val imageFragment = ImageFragment.newInstance(receivedImage)
         val saveFragment = SaveFragment.newInstance(receivedImage)
@@ -107,14 +100,6 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 }
-
-/*
-fun compressBitmap(image: Bitmap): ByteArray {
-    var stream: ByteArrayOutputStream = ByteArrayOutputStream()
-    image.compress(Bitmap.CompressFormat.PNG, 100, stream)
-    val bytes = stream.toByteArray()
-    return bytes
-}*/
 
 fun saveTempImage(context: Context, image: Bitmap): Parcelable {
     val stream = ByteArrayOutputStream()

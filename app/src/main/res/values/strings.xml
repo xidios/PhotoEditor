@@ -39,4 +39,6 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="resize_koef">Коэфицент масштабирования</string>
+    <string name="scaling">Масштабирование</string>
 </resources>

@@ -24,6 +24,7 @@
         <activity android:name=".ColorCorrectionActivity" />
         <activity android:name=".ScalingActivity" />
         <activity android:name=".RotationActivity" />
+        <activity android:name=".RetouchingActivity" />
 
         <meta-data
             android:name="com.google.android.actions"
