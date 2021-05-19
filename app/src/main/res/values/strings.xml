@@ -21,6 +21,9 @@
     <string name="amount_textView">Эффект:</string>
 
     <string name="save_picture_button">Сохранить</string>
+    <string name="cube_task_name">Игральный кубик</string>
+    <string name="rotate_cube_button">По часовой стрелке</string>
+    <string name="reset_cube_button">Сбросить</string>
 
     <string name="apply_button">Применить</string>
     <string name="isi">isi</string>

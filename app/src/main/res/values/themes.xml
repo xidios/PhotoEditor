@@ -14,18 +14,20 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.PhotoEditor.Button">
+    <style name="Theme.PhotoEditor.Button" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">48dp</item>
-        <item name="android:background">@color/buttonBackground</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">14sp</item>
+        <item name="strokeColor">@color/black</item>
     </style>
 
     <style name="Theme.PhotoEditor.Button.Accent">
         <item name="android:textColor">@color/accent</item>
+        <item name="strokeColor">@color/accent</item>
     </style>
 
     <style name="Theme.PhotoEditor.Header">
