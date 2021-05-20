@@ -1,6 +1,6 @@
 package com.example.photoeditor
 
-import android.graphics.*
+import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -14,7 +14,7 @@ class ColorCorrectionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_color_correction)
 
-        val image = intent.getParcelableExtra<Parcelable>("ImageF")
+        val image = intent.getParcelableExtra<Parcelable>("Image")
         imageViewFilter.setImageURI(image as Uri)
 
         var photoBitmap: Bitmap = (imageViewFilter.drawable as BitmapDrawable).bitmap
