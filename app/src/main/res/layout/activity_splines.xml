@@ -6,43 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".SplinesActivity">
 
-
-    <Button
-        android:id="@+id/applyAlgorithm"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="4dp"
-        android:text="Сплайн"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/splinesToolbar"
+        style="@style/Theme.PhotoEditor.Header.Effect"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.154"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/splinesView"
-        app:layout_constraintVertical_bias="0.583"
-        tools:ignore="HardcodedText" />
-
-    <Button
-        android:id="@+id/deletePoint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Удалить"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.836"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/splinesView"
-        app:layout_constraintVertical_bias="0.574" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/splines_task_name" />
 
     <com.example.photoeditor.SplinesView
         android:id="@+id/splinesView"
         android:layout_width="0dp"
-        android:layout_height="500dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/side_margin"
+        android:layout_marginEnd="@dimen/side_margin"
+        android:layout_marginTop="@dimen/standart"
+        android:layout_marginBottom="@dimen/standart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ExtraText"/>
+        app:layout_constraintTop_toBottomOf="@+id/splinesToolbar"
+        app:layout_constraintBottom_toTopOf="@id/applyAlgorithm"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/applyAlgorithm"
+        style="@style/Theme.PhotoEditor.Button.Accent"
+        android:layout_width="0dp"
+        android:layout_marginBottom="@dimen/standart"
+        android:layout_marginEnd="@dimen/half"
+        android:text="@string/apply_button"
+        app:icon="@drawable/ic_check"
+        app:layout_constraintEnd_toStartOf="@id/deletePoint"
+        app:layout_constraintStart_toStartOf="@+id/splinesView"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/deletePoint"
+        style="@style/Theme.PhotoEditor.Button.Accent"
+        android:layout_width="0dp"
+        android:layout_marginStart="@dimen/half"
+        android:layout_marginBottom="@dimen/standart"
+        android:text="@string/delete_point_button"
+        app:layout_constraintEnd_toEndOf="@+id/splinesView"
+        app:layout_constraintStart_toEndOf="@id/applyAlgorithm"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

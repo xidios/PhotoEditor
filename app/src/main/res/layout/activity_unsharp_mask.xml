@@ -6,14 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".UnsharpMaskActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/unsharpToolbar"
         style="@style/Theme.PhotoEditor.Header.Effect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_back_button"
-        app:title="@string/unsharp_mask" />
+        app:title="@string/unsharp_mask_task_name" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,44 +23,44 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="16dp">
+            android:layout_marginTop="@dimen/standart">
 
             <ImageView
                 android:id="@+id/unsharpImage"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:contentDescription="@string/rotation_image_desc"
+                android:layout_marginStart="@dimen/side_margin"
+                android:layout_marginEnd="@dimen/side_margin"
+                android:contentDescription="@string/current_image_desc"
+                android:src="@mipmap/ic_launcher"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/smoothRadiusContainer"
+                android:id="@+id/radiusContainer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/standart"
                 app:layout_constraintStart_toStartOf="@+id/unsharpImage"
                 app:layout_constraintTop_toBottomOf="@+id/unsharpImage"
                 app:layout_constraintEnd_toEndOf="@+id/unsharpImage">
 
                 <TextView
-                    android:id="@+id/smoothRadiusTextView"
+                    android:id="@+id/radiusTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/smooth_radius_textView"
+                    android:text="@string/radius_textView"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <SeekBar
-                    android:id="@+id/smoothRadiusPicker"
+                    android:id="@+id/radiusPicker"
                     android:layout_width="0dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="16dp"
-                    app:layout_constraintStart_toEndOf="@id/smoothRadiusTextView"
+                    android:layout_height="@dimen/two"
+                    android:layout_marginStart="@dimen/standart"
+                    app:layout_constraintStart_toEndOf="@id/radiusTextView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
@@ -71,10 +70,10 @@
                 android:id="@+id/amountContainer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="@+id/smoothRadiusContainer"
-                app:layout_constraintTop_toBottomOf="@+id/smoothRadiusContainer"
-                app:layout_constraintEnd_toEndOf="@+id/smoothRadiusContainer">
+                android:layout_marginTop="@dimen/half"
+                app:layout_constraintStart_toStartOf="@+id/radiusContainer"
+                app:layout_constraintTop_toBottomOf="@+id/radiusContainer"
+                app:layout_constraintEnd_toEndOf="@+id/radiusContainer">
 
                 <TextView
                     android:id="@+id/amountTextView"
@@ -88,8 +87,8 @@
                 <SeekBar
                     android:id="@+id/amountPicker"
                     android:layout_width="0dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="16dp"
+                    android:layout_height="@dimen/two"
+                    android:layout_marginLeft="@dimen/standart"
                     app:layout_constraintStart_toEndOf="@id/amountTextView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
@@ -99,13 +98,20 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/applyUnsharpMaskButton"
                 style="@style/Theme.PhotoEditor.Button.Accent"
-                android:layout_marginTop="16dp"
                 android:text="@string/apply_button"
-                app:backgroundTint="@color/buttonBackground"
-                app:icon="@drawable/ic_check"
-                app:iconTint="@color/accent"
-                app:layout_constraintEnd_toEndOf="@+id/amountContainer"
-                app:layout_constraintTop_toBottomOf="@+id/amountContainer"/>
+                android:layout_marginTop="@dimen/standart"
+                app:layout_constraintStart_toStartOf="@id/amountContainer"
+                app:layout_constraintEnd_toEndOf="@id/amountContainer"
+                app:layout_constraintTop_toBottomOf="@id/amountContainer"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancelChanging"
+                style="@style/Theme.PhotoEditor.Button"
+                android:text="@string/cancel_button"
+                android:layout_marginTop="@dimen/half"
+                app:layout_constraintStart_toStartOf="@id/applyUnsharpMaskButton"
+                app:layout_constraintEnd_toEndOf="@id/applyUnsharpMaskButton"
+                app:layout_constraintTop_toBottomOf="@id/applyUnsharpMaskButton"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

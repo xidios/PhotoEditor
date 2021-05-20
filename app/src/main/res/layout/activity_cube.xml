@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".CubeActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/cubeToolbar"
         style="@style/Theme.PhotoEditor.Header.Effect"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,39 +15,35 @@
         app:navigationIcon="@drawable/ic_back_button"
         app:title="@string/cube_task_name"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/rotateButton"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/rotate_cube_button"
-        app:backgroundTint="@color/buttonBackground"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/resetButton"
-        android:layout_height="48dp"
-        android:layout_width="0dp"
-        app:strokeColor="@color/accent"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/resetButton"
-        style="@style/Theme.PhotoEditor.Button"
-        android:layout_marginBottom="16dp"
-        android:text="@string/reset_cube_button"
-        app:backgroundTint="@color/buttonBackground"
-        app:layout_constraintStart_toStartOf="@+id/rotateButton"
-        app:layout_constraintEnd_toEndOf="@+id/rotateButton"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
     <view
         android:id="@+id/cubeView"
         class="com.example.photoeditor.DrawView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="@dimen/standart"
         app:layout_constraintTop_toBottomOf="@id/cubeToolbar"
         app:layout_constraintBottom_toTopOf="@+id/rotateButton"
         app:layout_constraintStart_toStartOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/rotateButton"
+        style="@style/Theme.PhotoEditor.Button.Accent"
+        android:layout_marginStart="@dimen/standart"
+        android:layout_marginEnd="@dimen/standart"
+        android:layout_marginBottom="@dimen/standart"
+        android:text="@string/rotate_cube_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/resetButton"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/resetButton"
+        style="@style/Theme.PhotoEditor.Button"
+        android:layout_marginBottom="@dimen/standart"
+        android:text="@string/reset_cube_button"
+        app:backgroundTint="@color/buttonBackground"
+        app:layout_constraintStart_toStartOf="@+id/rotateButton"
+        app:layout_constraintEnd_toEndOf="@+id/rotateButton"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,14 +7,13 @@
     android:scrollbars="vertical"
     tools:context=".fragments.ImageFragment">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/imageSectionHeader"
         style="@style/Theme.PhotoEditor.Header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/image_section_header"
-        app:titleMarginStart="32dp" />
+        app:title="@string/image_section_header"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -25,46 +24,45 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="16dp">
+            android:layout_marginTop="@dimen/standart"
+            android:paddingBottom="@dimen/standart">
 
             <ImageView
                 android:id="@+id/currentImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginStart="@dimen/side_margin"
+                android:layout_marginEnd="@dimen/side_margin"
                 android:src="@mipmap/ic_launcher"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/image_desc" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/takePictureButton"
-                style="@style/Theme.PhotoEditor.Button"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/button_border"
+                style="@style/Theme.PhotoEditor.Button.Accent"
+                android:layout_marginTop="@dimen/standart"
+                android:layout_marginEnd="@dimen/half"
                 android:text="@string/take_picture_button"
                 app:icon="@drawable/ic_photo"
-                app:iconTint="@color/black"
                 app:layout_constraintEnd_toStartOf="@+id/choosePictureButton"
                 app:layout_constraintStart_toStartOf="@+id/currentImage"
                 app:layout_constraintTop_toBottomOf="@+id/currentImage" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/choosePictureButton"
-                style="@style/Theme.PhotoEditor.Button"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/button_border"
+                style="@style/Theme.PhotoEditor.Button.Accent"
+                android:layout_marginStart="@dimen/half"
+                android:layout_marginTop="@dimen/standart"
                 android:text="@string/choose_picture_button"
                 app:icon="@drawable/ic_folder"
-                app:iconTint="@color/black"
                 app:layout_constraintEnd_toEndOf="@+id/currentImage"
                 app:layout_constraintStart_toEndOf="@id/takePictureButton"
                 app:layout_constraintTop_toBottomOf="@+id/currentImage" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

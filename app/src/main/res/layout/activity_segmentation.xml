@@ -4,66 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UnsharpMaskActivity">
+    tools:context=".SegmentationActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/SegmentationToolbar"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/segmentationToolbar"
         style="@style/Theme.PhotoEditor.Header.Effect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_back_button"
-        app:title="@string/Segmentation" />
+        app:title="@string/segmentation_task_name" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/SegmentationToolbar">
+        app:layout_constraintTop_toBottomOf="@id/segmentationToolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="16dp">
+            android:layout_marginTop="@dimen/standart">
 
             <ImageView
-                android:id="@+id/SegmentationImage"
-                style="@style/imagePreviewOnEffect"
+                android:id="@+id/segmentationImage"
                 android:layout_width="0dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:contentDescription="@string/rotation_image_desc"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/side_margin"
+                android:layout_marginEnd="@dimen/side_margin"
+                android:contentDescription="@string/current_image_desc"
+                android:src="@mipmap/ic_launcher"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
-
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/SegmentationButton"
+                android:id="@+id/applySegmentationButton"
                 style="@style/Theme.PhotoEditor.Button.Accent"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/standart"
                 android:text="@string/apply_button"
-                app:backgroundTint="@color/buttonBackground"
                 app:icon="@drawable/ic_check"
-                app:iconTint="@color/accent"
-                app:layout_constraintEnd_toEndOf="@+id/SegmentationImage"
-                app:layout_constraintTop_toBottomOf="@+id/SegmentationImage"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/SaveSegmentationButton"
-                style="@style/Theme.PhotoEditor.Button"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                app:backgroundTint="@color/buttonBackground"
-                android:text="@string/save_picture_button"
-                app:icon="@drawable/ic_folder"
-                app:iconTint="@color/black"
-
-                app:layout_constraintEnd_toStartOf="@id/SegmentationButton"
-                app:layout_constraintTop_toBottomOf="@+id/SegmentationImage"/> />
+                app:layout_constraintStart_toStartOf="@id/segmentationImage"
+                app:layout_constraintEnd_toEndOf="@+id/segmentationImage"
+                app:layout_constraintTop_toBottomOf="@+id/segmentationImage"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -7,14 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".fragments.EffectsFragment">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/effectSectionHeader"
         style="@style/Theme.PhotoEditor.Header"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:title="@string/effect_section_header"
-        app:titleMarginStart="32dp"
-        app:titleTextColor="@color/black" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/effect_section_header" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

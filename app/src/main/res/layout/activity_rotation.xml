@@ -6,14 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".RotationActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/rotationToolbar"
         style="@style/Theme.PhotoEditor.Header.Effect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_back_button"
-        app:title="@string/first_task_name" />
+        app:title="@string/rotation_task_name" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,16 +23,16 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="@dimen/standart">
 
             <ImageView
                 android:id="@+id/rotationImage"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginStart="@dimen/side_margin"
+                android:layout_marginEnd="@dimen/side_margin"
+                android:contentDescription="@string/current_image_desc"
                 android:src="@mipmap/ic_launcher"
-                android:contentDescription="@string/rotation_image_desc"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -42,29 +41,33 @@
                 android:id="@+id/rotationAnglePicker"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginTop="@dimen/standart"
                 android:ems="10"
                 android:hint="@string/rotation_angle_hint"
-                android:inputType="numberDecimal"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rotationImage" />
+                android:inputType="numberDecimal|numberSigned"
+                app:layout_constraintStart_toStartOf="@+id/rotationImage"
+                app:layout_constraintEnd_toEndOf="@+id/rotationImage"
+                app:layout_constraintTop_toBottomOf="@+id/rotationImage"
+                android:importantForAutofill="no" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/applyRotationButton"
                 style="@style/Theme.PhotoEditor.Button.Accent"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginTop="@dimen/standart"
                 android:text="@string/apply_button"
-                app:backgroundTint="@color/buttonBackground"
                 app:icon="@drawable/ic_check"
-                app:iconTint="@color/accent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/rotationAnglePicker"
+                app:layout_constraintEnd_toEndOf="@+id/rotationAnglePicker"
                 app:layout_constraintTop_toBottomOf="@+id/rotationAnglePicker" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancelChanging"
+                style="@style/Theme.PhotoEditor.Button"
+                android:text="@string/cancel_button"
+                android:layout_marginTop="@dimen/half"
+                app:layout_constraintStart_toStartOf="@id/applyRotationButton"
+                app:layout_constraintEnd_toEndOf="@id/applyRotationButton"
+                app:layout_constraintTop_toBottomOf="@id/applyRotationButton"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

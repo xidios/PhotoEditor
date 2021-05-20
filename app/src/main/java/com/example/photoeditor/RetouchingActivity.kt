@@ -41,88 +41,88 @@ class RetouchingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_retouching)
 
-        widthPhoto = imageViewRetouching.width.toFloat()
-        heightPhoto = imageViewRetouching.height.toFloat()
+        widthPhoto = retouchImage.width.toFloat()
+        heightPhoto = retouchImage.height.toFloat()
 
         //TODO(Исправить получение изображения в ретуши)
         val receivedImage = intent.getParcelableExtra<Parcelable>(KEY)
 
         if (receivedImage != null) {
-            imageViewRetouching.setImageURI(receivedImage as Uri)
+            retouchImage.setImageURI(receivedImage as Uri)
 
-            imageViewRetouching.isDrawingCacheEnabled = true
-            imageViewRetouching.measure(
+            retouchImage.isDrawingCacheEnabled = true
+            retouchImage.measure(
                 MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
                 MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
             )
-            imageViewRetouching.layout(
+            retouchImage.layout(
                 0, 0,
-                imageViewRetouching.measuredWidth, imageViewRetouching.measuredHeight
+                retouchImage.measuredWidth, retouchImage.measuredHeight
             )
-            imageViewRetouching.buildDrawingCache(true)
+            retouchImage.buildDrawingCache(true)
 
-            originalPhoto = Bitmap.createBitmap(imageViewRetouching.drawingCache)
-            imageViewRetouching.isDrawingCacheEnabled = false
+            originalPhoto = Bitmap.createBitmap(retouchImage.drawingCache)
+            retouchImage.isDrawingCacheEnabled = false
 
             workingPhoto = originalPhoto
         }
 
-        textSeekBarCoef.text = "Strength: ${seekBarCoef.progress}%"
-        textSeekBarRadius.text = "Radius: ${seekBarRadius.progress}px"
+        radiusTextView.text = "Радиус размытия: ${radiusPicker.progress}px"
+        strengthTextView.text = "Эффект: ${strengthPicker.progress}%"
 
-        seekBarCoef.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        strengthPicker.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             @SuppressLint("SetTextI18n")
             override fun onProgressChanged(seekBar: SeekBar, idx: Int, b: Boolean) {
-                textSeekBarCoef.text = "Strength: $idx%"
-                textSeekBarCoef.isSelected = true
+                strengthTextView.text = "Strength: $idx%"
+                strengthTextView.isSelected = true
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                textSeekBarCoef.isSelected = false
-                stepStrength = seekBarCoef.progress
+                strengthTextView.isSelected = false
+                stepStrength = strengthPicker.progress
             }
         })
 
-        seekBarRadius.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        radiusPicker.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             @SuppressLint("SetTextI18n")
             override fun onProgressChanged(seekBar: SeekBar, idx: Int, b: Boolean) {
-                textSeekBarRadius.text = "Radius: ${idx}px"
-                textSeekBarRadius.isSelected = true
+                radiusTextView.text = "Radius: ${idx}px"
+                radiusTextView.isSelected = true
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                textSeekBarRadius.isSelected = false
-                stepRadius = seekBarRadius.progress
+                radiusTextView.isSelected = false
+                stepRadius = radiusPicker.progress
             }
         })
 
-        imageViewRetouching.setOnTouchListener { v, e ->
+        retouchImage.setOnTouchListener { v, e ->
             if (e.action == MotionEvent.ACTION_MOVE || e.action == MotionEvent.ACTION_DOWN){
-                scale = mouseEditing(imageViewRetouching.width.toFloat(), imageViewRetouching.height.toFloat())
+                scale = mouseEditing(retouchImage.width.toFloat(), retouchImage.height.toFloat())
 
-                val motionTouchEventX = (e.x - (imageViewRetouching.width.toFloat() - scale * widthBitmap) / 2.0F) / scale
-                val motionTouchEventY = (e.y - (imageViewRetouching.height.toFloat() - scale * heightBitmap) / 2.0F) / scale
+                val motionTouchEventX = (e.x - (retouchImage.width.toFloat() - scale * widthBitmap) / 2.0F) / scale
+                val motionTouchEventY = (e.y - (retouchImage.height.toFloat() - scale * heightBitmap) / 2.0F) / scale
 
                 workingPhoto = retouchingPhoto(motionTouchEventX.toInt(), motionTouchEventY.toInt(), workingPhoto)
 
-                imageViewRetouching.setImageBitmap(workingPhoto)
+                retouchImage.setImageBitmap(workingPhoto)
             }
             true
         }
 
         acceptChanging.setOnClickListener {
-            imageViewRetouching.setImageDrawable(null)
-            imageViewRetouching.setImageBitmap(workingPhoto)
+            retouchImage.setImageDrawable(null)
+            retouchImage.setImageBitmap(workingPhoto)
         }
 
         cancelChanging.setOnClickListener {
-            imageViewRetouching.setImageDrawable(null)
+            retouchImage.setImageDrawable(null)
             workingPhoto = originalPhoto
-            imageViewRetouching.setImageBitmap(workingPhoto)
+            retouchImage.setImageBitmap(workingPhoto)
         }
     }
 

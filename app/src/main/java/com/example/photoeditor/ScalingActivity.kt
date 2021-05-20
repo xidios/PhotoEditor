@@ -22,7 +22,6 @@ class ScalingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scaling)
 
-
         scalingToolbar.setNavigationOnClickListener{
             this.finish()
         }
@@ -30,14 +29,14 @@ class ScalingActivity : AppCompatActivity() {
         //TODO(Исправить получение изображения в масштабировании)
         val receivedImage = intent.getParcelableExtra<Parcelable>(KEY)
         if (receivedImage != null) {
-            imageViewScaling.setImageURI(receivedImage as Uri)
-            NewPhoto = (imageViewScaling.getDrawable() as BitmapDrawable).bitmap
+            scalingImage.setImageURI(receivedImage as Uri)
+            NewPhoto = (scalingImage.getDrawable() as BitmapDrawable).bitmap
             PhotoOnSave = NewPhoto
             Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
         }
         buttonScalingApply.setOnClickListener() {
             PhotoOnSave = bilinearInterpolation(NewPhoto)
-            imageViewScaling.setImageBitmap(PhotoOnSave)
+            scalingImage.setImageBitmap(PhotoOnSave)
             Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
             val resultIntent = Intent()
             resultIntent.putExtra(RESULT_TAG, saveTempImage(this, PhotoOnSave))
@@ -77,7 +76,7 @@ class ScalingActivity : AppCompatActivity() {
     }
 
     fun resizeBitmap(source: Bitmap): Bitmap {
-        var k: Double = EditTextScaling.text.toString().toDouble()
+        var k: Double = scalePicker.text.toString().toDouble()
         if(k<0.01){
             Toast.makeText(this, "Минимальное значение 0.01", Toast.LENGTH_SHORT).show()
             return PhotoOnSave
@@ -109,7 +108,7 @@ class ScalingActivity : AppCompatActivity() {
     }
 
     fun bilinearInterpolation(bitmap: Bitmap): Bitmap {
-        var k: Double = EditTextScaling.text.toString().toDouble()
+        var k: Double = scalePicker.text.toString().toDouble()
 
         var oldw: Int = bitmap.width
         var oldh: Int = bitmap.height

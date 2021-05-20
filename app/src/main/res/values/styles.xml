@@ -7,7 +7,7 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="Theme.PhotoEditor.Button" parent="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon">
+    <style name="Theme.PhotoEditor.Button" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
         <item name="android:layout_width">0dp</item>
         <item name="android:minHeight">@dimen/min_button_height</item>
         <item name="android:layout_height">wrap_content</item>
@@ -35,15 +35,23 @@
     </style>
 
     <style name="Theme.PhotoEditor.Header">
+        <item name="colorPrimary">@color/headerBackground</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="titleMarginStart">@dimen/side_margin</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">80dp</item>
-        <item name="android:minHeight">80dp</item>
-        <item name="android:background">@color/headerBackground</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:layout_height">@dimen/header_height</item>
+
+        <item name="android:textSize">@dimen/header_title_size</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:titleTextColor">@color/black</item>
     </style>
 
     <style name="Theme.PhotoEditor.Header.Effect">
-        <item name="android:paddingStart">12dp</item>
+        <item name="titleMarginStart">0dp</item>
+        <item name="android:paddingStart">@dimen/standart</item>
+        <item name="android:minHeight">@dimen/header_height</item>
+        <item name="navigationIcon">@drawable/ic_back_button</item>
     </style>
 
     <style name="imagePreviewOnEffect">

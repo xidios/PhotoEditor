@@ -15,39 +15,39 @@ class ColorCorrectionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_color_correction)
 
         val image = intent.getParcelableExtra<Parcelable>("Image")
-        imageViewFilter.setImageURI(image as Uri)
+        filtersImage.setImageURI(image as Uri)
 
-        var photoBitmap: Bitmap = (imageViewFilter.drawable as BitmapDrawable).bitmap
+        var photoBitmap: Bitmap = (filtersImage.drawable as BitmapDrawable).bitmap
         var width = photoBitmap.width
         var height = photoBitmap.height
 
-        fWB.setOnClickListener {
+        blackAndWhiteFilter.setOnClickListener {
             var photoBitmapTemp : Bitmap = blackAndWhiteFilter(width, height, photoBitmap)
 
-            imageViewFilter.setImageDrawable(null)
-            imageViewFilter.setImageBitmap(photoBitmapTemp)
+            filtersImage.setImageDrawable(null)
+            filtersImage.setImageBitmap(photoBitmapTemp)
 
         }
 
-        fSepia.setOnClickListener {
+        sepiaFilter.setOnClickListener {
             var photoBitmapTemp : Bitmap = sepiaFilter(width, height, photoBitmap)
 
-            imageViewFilter.setImageDrawable(null)
-            imageViewFilter.setImageBitmap(photoBitmapTemp)
+            filtersImage.setImageDrawable(null)
+            filtersImage.setImageBitmap(photoBitmapTemp)
         }
 
-        fRed.setOnClickListener {
+        redFilter.setOnClickListener {
             var photoBitmapTemp : Bitmap = redFilter(width, height, photoBitmap)
 
-            imageViewFilter.setImageDrawable(null)
-            imageViewFilter.setImageBitmap(photoBitmapTemp)
+            filtersImage.setImageDrawable(null)
+            filtersImage.setImageBitmap(photoBitmapTemp)
         }
 
-        fNegative.setOnClickListener {
+        negativeFilter.setOnClickListener {
             var photoBitmapTemp : Bitmap = negativeFilter(width, height, photoBitmap)
 
-            imageViewFilter.setImageDrawable(null)
-            imageViewFilter.setImageBitmap(photoBitmapTemp)
+            filtersImage.setImageDrawable(null)
+            filtersImage.setImageBitmap(photoBitmapTemp)
         }
     }
 

@@ -10,11 +10,9 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import kotlinx.android.synthetic.main.activity_segmentation.*
-import kotlinx.android.synthetic.main.activity_unsharp_mask.*
 import org.bytedeco.javacv.AndroidFrameConverter
 import org.bytedeco.javacv.OpenCVFrameConverter
 
@@ -38,13 +36,13 @@ class SegmentationActivity : AppCompatActivity() {
         if (receivedImage != null) {
 
             image = getCapturedImage(uri)
-            SegmentationImage.setImageBitmap(image)
+            segmentationImage.setImageBitmap(image)
 
         }
-        SegmentationToolbar.setNavigationOnClickListener {
+        segmentationToolbar.setNavigationOnClickListener {
             this.finish()
         }
-        SegmentationButton.setOnClickListener() {
+        applySegmentationButton.setOnClickListener() {
             image = detectFace(image)
         }
         SaveSegmentationButton.setOnClickListener() {
@@ -133,7 +131,7 @@ class SegmentationActivity : AppCompatActivity() {
             Toast.LENGTH_LONG
         ).show()
 
-        SegmentationImage.setImageBitmap(mutableBitmap)
+        segmentationImage.setImageBitmap(mutableBitmap)
         return mutableBitmap
     }
 }

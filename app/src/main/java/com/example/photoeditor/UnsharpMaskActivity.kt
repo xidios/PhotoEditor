@@ -43,7 +43,7 @@ class UnsharpMaskActivity : AppCompatActivity() {
     private fun unsharp() {
         val unsharp = UnsharpMaskAlgorithm()
 
-        val radius = smoothRadiusPicker.progress + 1
+        val radius = radiusPicker.progress + 1
         val amount = amountPicker.progress / 100.0
 
         Log.d("UnsharpMaskActivity", "$radius, $amount")
