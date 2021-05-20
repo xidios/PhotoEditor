@@ -13,38 +13,4 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-
-    <style name = "Theme.PhotoEditor.Button">
-        <item name = "android:layout_width">0dp</item>
-        <item name = "android:layout_height">48dp</item>
-        <item name = "android:background">@color/buttonBackground</item>
-        <item name = "android:fontFamily">sans-serif</item>
-        <item name = "android:textAllCaps">true</item>
-        <item name = "android:textColor">@color/black</item>
-        <item name = "android:textSize">14sp</item>
-    </style>
-
-    <style name = "Theme.PhotoEditor.Button.Accent">
-        <item name = "android:textColor">@color/accent</item>
-    </style>
-
-    <style name = "Theme.PhotoEditor.Header">
-        <item name = "android:layout_width">match_parent</item>
-        <item name = "android:layout_height">80dp</item>
-        <item name = "android:minHeight">80dp</item>
-        <item name = "android:background">@color/headerBackground</item>
-        <item name = "android:textSize">24sp</item>
-        <item name = "android:titleTextColor">@color/black</item>
-    </style>
-
-    <style name = "Theme.PhotoEditor.Header.Effect">
-        <item name = "android:paddingStart">12dp</item>
-    </style>
-
-    <style name="MySeekBar">
-        <item name="android:colorControlNormal">#D9FF00</item>
-        <item name="android:progressBackgroundTint">#27201F1F</item>
-        <item name="android:progressTint">#1C1C1C</item>
-        <item name="android:colorControlActivated">#500F0F</item>
-    </style>
 </resources>

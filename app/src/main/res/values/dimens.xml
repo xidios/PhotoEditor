@@ -1,3 +1,19 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="half">8dp</dimen>
+    <dimen name="standart">16dp</dimen>
+    <dimen name="two">32dp</dimen>
+    <dimen name="three">48dp</dimen>
+    <dimen name="four">64dp</dimen>
+    <dimen name="five">80dp</dimen>
+    <dimen name="six">96dp</dimen>
+
+    <dimen name="min_button_height">@dimen/three</dimen>
+    <dimen name="min_accent_button_height">@dimen/four</dimen>
+    <dimen name="button_text_size">14sp</dimen>
+    <dimen name="button_corner_radius">4dp</dimen>
+    <dimen name="button_stroke_width">1dp</dimen>
+
+    <dimen name="welcome_icon_size">@dimen/six</dimen>
+    <dimen name="welcome_text_size">18sp</dimen>
+    <dimen name="main_optical_compensation">@dimen/two</dimen>
 </resources>
