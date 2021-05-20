@@ -2,7 +2,6 @@ package com.example.photoeditor
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
@@ -45,6 +44,7 @@ class RetouchingActivity : AppCompatActivity() {
         widthPhoto = imageViewRetouching.width.toFloat()
         heightPhoto = imageViewRetouching.height.toFloat()
 
+        //TODO(Исправить получение изображения в ретуши)
         val receivedImage = intent.getParcelableExtra<Parcelable>(KEY)
 
         if (receivedImage != null) {

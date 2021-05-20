@@ -2,21 +2,14 @@ package com.example.photoeditor
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.widget.SeekBar
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_rotation.*
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_scaling.*
-import kotlinx.android.synthetic.main.activity_unsharp_mask.*
-import kotlinx.android.synthetic.main.fragment_save.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import kotlin.math.floor
 
 class ScalingActivity : AppCompatActivity() {
@@ -34,7 +27,7 @@ class ScalingActivity : AppCompatActivity() {
             this.finish()
         }
 
-
+        //TODO(Исправить получение изображения в масштабировании)
         val receivedImage = intent.getParcelableExtra<Parcelable>(KEY)
         if (receivedImage != null) {
             imageViewScaling.setImageURI(receivedImage as Uri)

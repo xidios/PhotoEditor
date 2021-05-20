@@ -26,7 +26,7 @@ class SegmentationActivity : AppCompatActivity() {
     private val RESULT_TAG = "resultImage"
     private lateinit var image: Bitmap
 
-
+    //TODO(Исправить получение изображения в сегментации)
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
