@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">PhotoEditor</string>
 
+    <!-- MainActivity -->
+    <string name="welcome_icon_desc">Добавьте изображение</string>
+    <string name="welcome_text">Загрузите изображение из галереи или сделайте фотографию</string>
     <string name="take_picture_button">Камера</string>
     <string name="choose_picture_button">Галерея</string>
+    <string name="without_picture_button">Продолжить без изображения</string>
 
     <string name="image_section_name">Изображение</string>
     <string name="effect_section_name">Эффекты</string>

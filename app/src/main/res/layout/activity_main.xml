@@ -8,60 +8,66 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/takePictureButton"
-        style="@style/Theme.PhotoEditor.Button"
-        android:layout_marginStart = "32dp"
-        android:layout_marginEnd = "16dp"
-        android:layout_marginTop = "16dp"
-        android:background="@drawable/button_border"
-        android:text="@string/take_picture_button"
-        app:icon="@drawable/ic_photo"
-        app:iconTint = "@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintEnd_toStartOf="@+id/choosePictureButton"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/choosePictureButton"
-        style="@style/Theme.PhotoEditor.Button"
-        android:layout_marginStart = "16dp"
-        android:layout_marginEnd = "32dp"
-        android:layout_marginTop = "16dp"
-        android:background="@drawable/button_border"
-        android:text="@string/choose_picture_button"
-        app:icon="@drawable/ic_folder"
-        app:iconTint = "@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintStart_toEndOf="@id/takePictureButton"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/plus_square" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="sans-serif-medium"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="Загрузите изображение из галереи или сделайте фотографию"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="9pt"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        android:paddingBottom="@dimen/main_optical_compensation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/welcomeIcon"
+            android:layout_width="@dimen/welcome_icon_size"
+            android:layout_height="@dimen/welcome_icon_size"
+            android:contentDescription="@string/welcome_icon_desc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/plus_square" />
+
+        <TextView
+            android:id="@+id/welcomeText"
+            style="@style/Theme.PhotoEditor.WelcomeText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/standart"
+            android:layout_marginEnd="@dimen/standart"
+            android:text="@string/welcome_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/welcomeIcon" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/takePictureButton"
+            style="@style/Theme.PhotoEditor.Button.Accent"
+            android:layout_marginTop="@dimen/standart"
+            android:layout_marginEnd="@dimen/half"
+            android:text="@string/take_picture_button"
+            app:icon="@drawable/ic_photo"
+            app:layout_constraintEnd_toStartOf="@+id/choosePictureButton"
+            app:layout_constraintStart_toStartOf="@+id/welcomeText"
+            app:layout_constraintTop_toBottomOf="@+id/welcomeText" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/choosePictureButton"
+            style="@style/Theme.PhotoEditor.Button.Accent"
+            android:layout_marginStart="@dimen/half"
+            android:layout_marginTop="@dimen/standart"
+            android:text="@string/choose_picture_button"
+            app:icon="@drawable/ic_folder"
+            app:layout_constraintEnd_toEndOf="@+id/welcomeText"
+            app:layout_constraintStart_toEndOf="@id/takePictureButton"
+            app:layout_constraintTop_toBottomOf="@+id/welcomeText" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/withoutPictureButton"
+            style="@style/Theme.PhotoEditor.Button"
+            android:layout_marginTop="@dimen/half"
+            android:text="@string/without_picture_button"
+            app:layout_constraintEnd_toEndOf="@id/choosePictureButton"
+            app:layout_constraintStart_toStartOf="@id/takePictureButton"
+            app:layout_constraintTop_toBottomOf="@id/takePictureButton" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
