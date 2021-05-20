@@ -13,7 +13,18 @@ class RotationImage {
     private var width = 0
     private var height = 0
 
-    fun rotateImage(image: Bitmap, intAngle: Int, receivedCorners: MutableList<Pair<Int, Int>>): Pair<Bitmap, MutableList<Pair<Int, Int>>> {
+    fun prepare(bitmap: Bitmap, intAngle: Int, receivedCorners: MutableList<Pair<Int, Int>>?): Pair<Bitmap, MutableList<Pair<Int, Int>>> {
+        var newCorners: MutableList<Pair<Int, Int>>? = receivedCorners
+        if (receivedCorners == null) {
+            val width = bitmap.width
+            val height = bitmap.height
+            newCorners = mutableListOf(0 to 0, width - 1 to 0, width - 1 to height - 1, 0 to height - 1)
+        }
+
+        return rotateImage(bitmap, intAngle, newCorners as MutableList<Pair<Int, Int>>)
+    }
+
+    private fun rotateImage(image: Bitmap, intAngle: Int, receivedCorners: MutableList<Pair<Int, Int>>): Pair<Bitmap, MutableList<Pair<Int, Int>>> {
         angle = toRadians(intAngle)
         inputCorners = receivedCorners
 
@@ -93,7 +104,7 @@ class RotationImage {
     private fun rotate(imagePixels: IntArray, oldWidth: Int): IntArray {
         val resultPixels = IntArray(width * height)
         for (i in resultPixels.indices) {
-            resultPixels[i] = 0
+            resultPixels[i] = -1
         }
 
         for (i in imagePixels.indices) {
@@ -130,7 +141,7 @@ class RotationImage {
             val y = i / width
             val x = i % width
             val pixel = resultPixels[i]
-            if (pixel == 0) {
+            if (pixel == -1) {
                 if (isInImageRectangle(x, y, outputCorners)) {
                     resultPixels[i] = getMeanColor(resultPixels, x, y, width, height)
                 }
@@ -148,7 +159,7 @@ class RotationImage {
             for (j in max(0, y - 1)..min(y + 1, height - 1)) {
                 val index = j * width + i
                 val pixel = pixelColors[index]
-                if (pixel != 0) {
+                if (pixel != -1) {
                     red += Color.red(pixel)
                     green += Color.green(pixel)
                     blue += Color.blue(pixel)
@@ -163,7 +174,7 @@ class RotationImage {
             blue /= count
             Color.argb(255, red, green, blue)
         } else {
-            0
+            -1
         }
     }
 

@@ -14,63 +14,60 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/rotation_task_name" />
 
-    <ScrollView
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/rotationImage"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rotationToolbar">
+        android:layout_marginStart="@dimen/side_margin"
+        android:layout_marginTop="@dimen/standart"
+        android:layout_marginEnd="@dimen/side_margin"
+        android:layout_marginBottom="@dimen/standart"
+        android:contentDescription="@string/current_image_desc"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@id/rotationAngleContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rotationToolbar" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/rotationAngleContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/standart"
+        android:hint="@string/rotation_angle_hint"
+        app:boxStrokeColor="@color/accent"
+        app:layout_constraintBottom_toTopOf="@+id/applyRotationButton"
+        app:layout_constraintEnd_toEndOf="@+id/rotationImage"
+        app:layout_constraintStart_toStartOf="@+id/rotationImage">
+
+        <EditText
+            android:id="@+id/rotationAnglePicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standart">
+            android:inputType="numberDecimal|numberSigned"
+            android:importantForAutofill="no"
+            android:ems="10"/>
 
-            <ImageView
-                android:id="@+id/rotationImage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/side_margin"
-                android:layout_marginEnd="@dimen/side_margin"
-                android:contentDescription="@string/current_image_desc"
-                android:src="@mipmap/ic_launcher"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/rotationAnglePicker"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standart"
-                android:ems="10"
-                android:hint="@string/rotation_angle_hint"
-                android:inputType="numberDecimal|numberSigned"
-                app:layout_constraintStart_toStartOf="@+id/rotationImage"
-                app:layout_constraintEnd_toEndOf="@+id/rotationImage"
-                app:layout_constraintTop_toBottomOf="@+id/rotationImage"
-                android:importantForAutofill="no" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/applyRotationButton"
+        style="@style/Theme.PhotoEditor.Button.Accent"
+        android:layout_marginBottom="@dimen/half"
+        android:text="@string/apply_button"
+        app:icon="@drawable/ic_check"
+        app:layout_constraintBottom_toTopOf="@+id/cancelChanging"
+        app:layout_constraintEnd_toEndOf="@+id/rotationAngleContainer"
+        app:layout_constraintStart_toStartOf="@id/rotationAngleContainer" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/applyRotationButton"
-                style="@style/Theme.PhotoEditor.Button.Accent"
-                android:layout_marginTop="@dimen/standart"
-                android:text="@string/apply_button"
-                app:icon="@drawable/ic_check"
-                app:layout_constraintStart_toStartOf="@id/rotationAnglePicker"
-                app:layout_constraintEnd_toEndOf="@+id/rotationAnglePicker"
-                app:layout_constraintTop_toBottomOf="@+id/rotationAnglePicker" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancelChanging"
-                style="@style/Theme.PhotoEditor.Button"
-                android:text="@string/cancel_button"
-                android:layout_marginTop="@dimen/half"
-                app:layout_constraintStart_toStartOf="@id/applyRotationButton"
-                app:layout_constraintEnd_toEndOf="@id/applyRotationButton"
-                app:layout_constraintTop_toBottomOf="@id/applyRotationButton"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </ScrollView>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancelChanging"
+        style="@style/Theme.PhotoEditor.Button"
+        android:layout_marginBottom="@dimen/standart"
+        android:text="@string/cancel_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/applyRotationButton"
+        app:layout_constraintStart_toStartOf="@id/applyRotationButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
