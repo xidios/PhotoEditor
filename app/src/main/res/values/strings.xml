@@ -22,6 +22,7 @@
 
     <string name="rotation_task_name">Поворот</string>
     <string name="rotation_angle_hint">Угол поворота</string>
+    <string name="incorrect_angle_toast">Введите корректный угол</string>
 
     <string name="color_correction_task_name">Цветокоррекция</string>
     <string name="black_and_white_button">Черно-белый фильтр</string>
@@ -50,6 +51,10 @@
     <string name="apply_button">Применить</string>
     <string name="cancel_button">Отменить действие</string>
     <string name="current_image_desc">Текущее изображение</string>
+    <string name="empty_history_message">История изменений пуста</string>
+    <string name="algorithm_success_message">Алгоритм выполнен</string>
+    <string name="algorithm_error_message">Произошла ошибка при работе алгоритма</string>
+    <string name="image_save_error_message">Произошла ошибка при сохранении изображения</string>
 
     <string name="isi">isi</string>
     <string name="kategori">kategori</string>
