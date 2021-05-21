@@ -24,4 +24,5 @@
     <color name="effectCardBackground">#FFF9F9F9</color>
     <color name="effectTitleColor">@color/black</color>
     <color name="effectDescriptionColor">#FF515B60</color>
+    <color name="bonus">#95EC9A</color>
 </resources>

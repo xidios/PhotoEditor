@@ -28,6 +28,7 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) :
         var taskName: TextView = itemView.findViewById(R.id.task_name)
         var taskIcon: ImageView = itemView.findViewById(R.id.task_icon)
         var taskDescription: TextView = itemView.findViewById(R.id.task_description)
+        var bonusLabel: View = itemView.findViewById(R.id.bonus_label)
 
         init {
             itemView.setOnClickListener {
@@ -62,6 +63,7 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) :
         viewHolder.taskName.setText(taskName[i])
         viewHolder.taskIcon.setImageResource(taskIcon[i])
         viewHolder.taskDescription.setText(taskDescription[i])
+        viewHolder.bonusLabel.setVisibility(taskBonus[i])
     }
 
     override fun getItemCount() = taskName.size
@@ -97,5 +99,16 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) :
         R.string.cube_task_desc,
         R.string.unsharp_mask_task_desc,
         R.string.retouch_task_desc
+    )
+
+    private val taskBonus = arrayOf(
+        View.VISIBLE,
+        View.INVISIBLE,
+        View.VISIBLE,
+        View.INVISIBLE,
+        View.VISIBLE,
+        View.INVISIBLE,
+        View.INVISIBLE,
+        View.VISIBLE
     )
 }

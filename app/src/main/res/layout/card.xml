@@ -2,23 +2,26 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/standart"
     android:clickable="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/standart"
         android:layout_marginEnd="@dimen/standart"
         android:background="@color/effectCardBackground"
-        android:padding="@dimen/standart">
+        android:paddingBottom="@dimen/standart">
 
         <TextView
             android:id="@+id/task_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/standart"
+            android:layout_marginStart="@dimen/standart"
             android:layout_marginEnd="@dimen/standart"
             android:fontFamily="sans-serif-medium"
             android:text="@string/task_name"
@@ -37,19 +40,35 @@
             android:text="@string/task_description"
             android:textColor="@color/effectDescriptionColor"
             android:textSize="@dimen/task_desc_size"
-            app:layout_constraintEnd_toStartOf="@+id/task_icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/task_name" />
+            app:layout_constraintEnd_toStartOf="@id/task_icon"
+            app:layout_constraintStart_toStartOf="@id/task_name"
+            app:layout_constraintTop_toBottomOf="@id/task_name" />
 
         <ImageView
             android:id="@+id/task_icon"
             android:layout_width="@dimen/task_icon_size"
             android:layout_height="@dimen/task_icon_size"
             android:contentDescription="@string/task_icon_desc"
+            android:layout_marginEnd="@dimen/standart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/task_name" />
 
+        <jp.shts.android.library.TriangleLabelView
+            android:id="@+id/bonus_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            app:backgroundColor="@color/bonus"
+            app:corner="rightTop"
+            android:visibility="visible"
+            app:labelCenterPadding="@dimen/standart"
+            app:primaryText="Бонус"
+            app:primaryTextColor="@color/black"
+            app:primaryTextSize="14sp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
