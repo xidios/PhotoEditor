@@ -52,8 +52,8 @@ class LimitedRVAdapter(val context: AppCompatActivity?) :
     )
 
     private val taskIcon = arrayOf(
-        R.drawable.download,
-        R.drawable.image,
+        R.drawable.ic_splines,
+        R.drawable.ic_cube
     )
 
     private val taskDescription = arrayOf(

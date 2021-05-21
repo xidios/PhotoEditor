@@ -53,7 +53,7 @@ class RotationActivity : AppCompatActivity() {
             rotate(angle)
         }
 
-        cancelChanging.setOnClickListener {
+        undoButton.setOnClickListener {
             if (history.isEmpty()) {
                 Toast.makeText(this, R.string.empty_history_message, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener

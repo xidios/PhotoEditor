@@ -73,14 +73,14 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) :
     )
 
     private val taskIcon = arrayOf(
-        R.drawable.download,
-        R.drawable.image,
-        R.drawable.download,
-        R.drawable.download,
-        R.drawable.download,
-        R.drawable.download,
-        R.drawable.download,
-        R.drawable.download
+        R.drawable.ic_rotate,
+        R.drawable.ic_scaling,
+        R.drawable.ic_filters,
+        R.drawable.ic_segmentation,
+        R.drawable.ic_splines,
+        R.drawable.ic_cube,
+        R.drawable.ic_unsharp,
+        R.drawable.ic_retouch
     )
 
     private val taskDescription = arrayOf(

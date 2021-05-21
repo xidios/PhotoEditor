@@ -11,9 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.photoeditor.R
 import com.example.photoeditor.model.Tools
 import com.example.photoeditor.model.UnsharpMaskAlgorithm
-import kotlinx.android.synthetic.main.activity_rotation.*
 import kotlinx.android.synthetic.main.activity_unsharp_mask.*
-import kotlinx.android.synthetic.main.activity_unsharp_mask.cancelChanging
 import java.util.*
 
 class UnsharpMaskActivity : AppCompatActivity() {
@@ -49,7 +47,7 @@ class UnsharpMaskActivity : AppCompatActivity() {
             unsharp()
         }
 
-        cancelChanging.setOnClickListener {
+        undoButton.setOnClickListener {
             if (history.isEmpty()) {
                 Toast.makeText(this, R.string.empty_history_message, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
