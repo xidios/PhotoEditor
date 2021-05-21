@@ -61,9 +61,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/scalePicker"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancelChanging"
+                android:id="@+id/undoButton"
                 style="@style/Theme.PhotoEditor.Button"
-                android:text="@string/cancel_button"
+                android:text="@string/undo_button"
                 android:layout_marginTop="@dimen/half"
                 app:layout_constraintStart_toStartOf="@id/buttonScalingApply"
                 app:layout_constraintEnd_toEndOf="@id/buttonScalingApply"

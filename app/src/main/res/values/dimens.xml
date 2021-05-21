@@ -24,4 +24,5 @@
     <dimen name="task_icon_size">@dimen/four</dimen>
     <dimen name="task_title_size">16sp</dimen>
     <dimen name="task_desc_size">14sp</dimen>
+    <dimen name="icon_size">24dp</dimen>
 </resources>

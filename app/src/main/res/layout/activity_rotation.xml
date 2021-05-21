@@ -53,19 +53,16 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/applyRotationButton"
-        style="@style/Theme.PhotoEditor.Button.Accent"
+        style="@style/Theme.PhotoEditor.Button.Accent.Apply"
         android:layout_marginBottom="@dimen/half"
-        android:text="@string/apply_button"
-        app:icon="@drawable/ic_check"
-        app:layout_constraintBottom_toTopOf="@+id/cancelChanging"
+        app:layout_constraintBottom_toTopOf="@+id/undoButton"
         app:layout_constraintEnd_toEndOf="@+id/rotationAngleContainer"
         app:layout_constraintStart_toStartOf="@id/rotationAngleContainer" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/cancelChanging"
-        style="@style/Theme.PhotoEditor.Button"
+        android:id="@+id/undoButton"
+        style="@style/Theme.PhotoEditor.Button.Undo"
         android:layout_marginBottom="@dimen/standart"
-        android:text="@string/cancel_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/applyRotationButton"
         app:layout_constraintStart_toStartOf="@id/applyRotationButton" />

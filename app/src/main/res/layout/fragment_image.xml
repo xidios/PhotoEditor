@@ -44,7 +44,7 @@
                 style="@style/Theme.PhotoEditor.Button.Accent"
                 android:layout_marginTop="@dimen/standart"
                 android:text="@string/change_picture_button"
-                app:icon="@drawable/ic_folder"
+                app:icon="@drawable/ic_image"
                 app:layout_constraintEnd_toEndOf="@+id/currentImage"
                 app:layout_constraintStart_toStartOf="@id/currentImage"
                 app:layout_constraintTop_toBottomOf="@+id/currentImage" />

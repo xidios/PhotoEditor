@@ -43,7 +43,7 @@
                 style="@style/Theme.PhotoEditor.Button.Accent"
                 android:layout_marginTop="@dimen/standart"
                 android:text="@string/save_picture_button"
-                app:icon="@drawable/ic_folder"
+                app:icon="@drawable/ic_download"
                 app:layout_constraintStart_toStartOf="@id/resultImage"
                 app:layout_constraintEnd_toEndOf="@+id/resultImage"
                 app:layout_constraintTop_toBottomOf="@+id/resultImage" />

@@ -23,7 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/plus_square" />
+            app:srcCompat="@drawable/ic_welcome_icon" />
 
         <TextView
             android:id="@+id/welcomeText"
@@ -43,7 +43,7 @@
             android:layout_marginTop="@dimen/standart"
             android:layout_marginEnd="@dimen/half"
             android:text="@string/take_picture_button"
-            app:icon="@drawable/ic_photo"
+            app:icon="@drawable/ic_camera"
             app:layout_constraintEnd_toStartOf="@+id/choosePictureButton"
             app:layout_constraintStart_toStartOf="@+id/welcomeText"
             app:layout_constraintTop_toBottomOf="@+id/welcomeText" />
@@ -54,7 +54,7 @@
             android:layout_marginStart="@dimen/half"
             android:layout_marginTop="@dimen/standart"
             android:text="@string/choose_picture_button"
-            app:icon="@drawable/ic_folder"
+            app:icon="@drawable/ic_gallery"
             app:layout_constraintEnd_toEndOf="@+id/welcomeText"
             app:layout_constraintStart_toEndOf="@id/takePictureButton"
             app:layout_constraintTop_toBottomOf="@+id/welcomeText" />

@@ -73,7 +73,7 @@
         android:id="@+id/undoButton"
         style="@style/Theme.PhotoEditor.Button"
         android:layout_marginBottom="@dimen/standart"
-        android:text="@string/cancel_button"
+        android:text="@string/undo_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/negativeFilter"
         app:layout_constraintStart_toStartOf="@+id/sepiaFilter" />

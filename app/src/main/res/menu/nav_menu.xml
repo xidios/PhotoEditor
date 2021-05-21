@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/imageSectionButton"
-        android:icon="@drawable/image"
+        android:icon="@drawable/ic_image"
         android:title="@string/image_section_name" />
     <item
         android:id="@+id/effectSectionButton"
-        android:icon="@drawable/settings"
+        android:icon="@drawable/ic_effects"
         android:title="@string/effect_section_name" />
     <item
         android:id="@+id/saveSectionButton"
-        android:icon="@drawable/download"
+        android:icon="@drawable/ic_download"
         android:title="@string/save_section_name" />
 
 </menu>

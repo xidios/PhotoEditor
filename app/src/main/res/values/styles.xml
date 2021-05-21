@@ -1,5 +1,4 @@
 <resources>
-
     <style name="Theme.PhotoEditor.WelcomeText">
         <item name="android:textAlignment">center</item>
         <item name="android:fontFamily">sans-serif-medium</item>
@@ -34,6 +33,17 @@
         <item name="android:textColor">@color/accent</item>
     </style>
 
+    <style name="Theme.PhotoEditor.Button.Accent.Apply">
+        <item name="icon">@drawable/ic_check</item>
+        <item name="android:text">@string/apply_button</item>
+    </style>
+
+    <style name="Theme.PhotoEditor.Button.Undo">
+        <item name="iconSize">@dimen/standart</item>
+        <item name="icon">@drawable/ic_undo</item>
+        <item name="android:text">@string/undo_button</item>
+    </style>
+
     <style name="Theme.PhotoEditor.Header">
         <item name="colorPrimary">@color/headerBackground</item>
         <item name="colorOnPrimary">@color/black</item>
@@ -52,15 +62,5 @@
         <item name="android:paddingStart">@dimen/standart</item>
         <item name="android:minHeight">@dimen/header_height</item>
         <item name="navigationIcon">@drawable/ic_back_button</item>
-    </style>
-
-    <style name="imagePreviewOnEffect">
-        <item name="android:layout_height">520dp</item>
-    </style>
-
-    <style name="MySeekBar">
-        <item name="android:progressBackgroundTint">#27201F1F</item>
-        <item name="android:progressTint">#1C1C1C</item>
-        <item name="android:thumbTint">#151515</item>
     </style>
 </resources>

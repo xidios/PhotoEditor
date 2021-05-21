@@ -89,17 +89,15 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/applyUnsharpMaskButton"
-        style="@style/Theme.PhotoEditor.Button.Accent"
-        android:text="@string/apply_button"
+        style="@style/Theme.PhotoEditor.Button.Accent.Apply"
         android:layout_marginBottom="@dimen/half"
         app:layout_constraintStart_toStartOf="@id/amountContainer"
         app:layout_constraintEnd_toEndOf="@id/amountContainer"
-        app:layout_constraintBottom_toTopOf="@id/cancelChanging"/>
+        app:layout_constraintBottom_toTopOf="@id/undoButton"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/cancelChanging"
-        style="@style/Theme.PhotoEditor.Button"
-        android:text="@string/cancel_button"
+        android:id="@+id/undoButton"
+        style="@style/Theme.PhotoEditor.Button.Undo"
         android:layout_marginBottom="@dimen/half"
         app:layout_constraintStart_toStartOf="@id/applyUnsharpMaskButton"
         app:layout_constraintEnd_toEndOf="@id/applyUnsharpMaskButton"

@@ -41,20 +41,20 @@
     <string name="retouch_task_desc">Устранение дефектов</string>
 
     <string name="scaling_task_name">Масштабирование</string>
-    <string name="scaling_task_desc">Изменение размера изображения</string>
+    <string name="scaling_task_desc">Изменение размера</string>
     <string name="scale_coefficient">Коэффицент масштабирования</string>
 
     <string name="segmentation_task_name">Сегментация</string>
-    <string name="segmentation_task_desc">Распознавание лиц на изображении</string>
+    <string name="segmentation_task_desc">Распознавание лиц</string>
 
     <string name="splines_task_name">Сплайны</string>
     <string name="splines_task_desc">Преобразование ломаных линий в сплайны</string>
     <string name="delete_point_button">Удалить точку</string>
 
     <string name="unsharp_mask_task_name">Нерезкое маскирование</string>
-    <string name="unsharp_mask_task_desc">Увеличение резкости изображения</string>
-    <string name="radius_textView">Радиус размытия:</string>
-    <string name="amount_textView">Эффект:</string>
+    <string name="unsharp_mask_task_desc">Увеличение резкости</string>
+    <string name="radius_textView">Радиус размытия: </string>
+    <string name="amount_textView">Эффект: </string>
 
     <string name="cube_task_name">Игральный кубик</string>
     <string name="cube_task_desc">Вращение объемного игрального кубика</string>
@@ -63,7 +63,7 @@
 
     <string name="apply_button">Применить</string>
     <string name="change_picture_button">Заменить изображение</string>
-    <string name="cancel_button">Отменить действие</string>
+    <string name="undo_button">Отменить действие</string>
     <string name="current_image_desc">Текущее изображение</string>
     <string name="empty_history_message">История изменений пуста</string>
     <string name="algorithm_success_message">Алгоритм выполнен</string>

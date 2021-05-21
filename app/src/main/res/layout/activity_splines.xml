@@ -29,12 +29,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/applyAlgorithm"
-        style="@style/Theme.PhotoEditor.Button.Accent"
+        style="@style/Theme.PhotoEditor.Button.Accent.Apply"
         android:layout_width="0dp"
         android:layout_marginBottom="@dimen/standart"
         android:layout_marginEnd="@dimen/half"
-        android:text="@string/apply_button"
-        app:icon="@drawable/ic_check"
         app:layout_constraintEnd_toStartOf="@id/deletePoint"
         app:layout_constraintStart_toStartOf="@+id/splinesView"
         app:layout_constraintBottom_toBottomOf="parent" />
@@ -46,6 +44,7 @@
         android:layout_marginStart="@dimen/half"
         android:layout_marginBottom="@dimen/standart"
         android:text="@string/delete_point_button"
+        app:icon="@drawable/ic_remove"
         app:layout_constraintEnd_toEndOf="@+id/splinesView"
         app:layout_constraintStart_toEndOf="@id/applyAlgorithm"
         app:layout_constraintBottom_toBottomOf="parent" />

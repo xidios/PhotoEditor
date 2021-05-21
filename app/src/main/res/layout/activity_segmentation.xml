@@ -30,10 +30,8 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/applySegmentationButton"
-        style="@style/Theme.PhotoEditor.Button.Accent"
+        style="@style/Theme.PhotoEditor.Button.Accent.Apply"
         android:layout_marginBottom="@dimen/half"
-        android:text="@string/apply_button"
-        app:icon="@drawable/ic_check"
         app:layout_constraintStart_toStartOf="@id/segmentationImage"
         app:layout_constraintEnd_toEndOf="@+id/segmentationImage"
         app:layout_constraintBottom_toTopOf="@+id/saveButton"/>
@@ -42,7 +40,7 @@
         android:id="@+id/saveButton"
         style="@style/Theme.PhotoEditor.Button"
         android:text="@string/save_picture_button"
-        app:icon="@drawable/ic_folder"
+        app:icon="@drawable/ic_download"
         android:layout_marginBottom="@dimen/standart"
         app:layout_constraintStart_toStartOf="@id/applySegmentationButton"
         app:layout_constraintEnd_toEndOf="@+id/applySegmentationButton"

@@ -14,107 +14,93 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/retouch_task_name" />
 
-    <ScrollView
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/retouchImage"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/retouchToolbar">
+        android:layout_marginStart="@dimen/side_margin"
+        android:layout_marginEnd="@dimen/side_margin"
+        android:layout_marginTop="@dimen/standart"
+        android:layout_marginBottom="@dimen/standart"
+        android:contentDescription="@string/current_image_desc"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/retouchToolbar"
+        app:layout_constraintBottom_toTopOf="@id/radiusContainer"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/radiusContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/half"
+        app:layout_constraintStart_toStartOf="@id/retouchImage"
+        app:layout_constraintBottom_toTopOf="@id/strengthContainer"
+        app:layout_constraintEnd_toEndOf="@id/retouchImage">
+
+        <TextView
+            android:id="@+id/radiusTextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standart">
+            android:text="@string/radius_textView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/retouchImage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/side_margin"
-                android:layout_marginEnd="@dimen/side_margin"
-                android:contentDescription="@string/current_image_desc"
-                android:src="@mipmap/ic_launcher"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <SeekBar
+            android:id="@+id/radiusPicker"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/two"
+            android:layout_marginStart="@dimen/standart"
+            app:layout_constraintStart_toEndOf="@id/radiusTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/radiusContainer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standart"
-                app:layout_constraintStart_toStartOf="@+id/retouchImage"
-                app:layout_constraintTop_toBottomOf="@+id/retouchImage"
-                app:layout_constraintEnd_toEndOf="@+id/retouchImage">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/radiusTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/radius_textView"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/strengthContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/standart"
+        app:layout_constraintStart_toStartOf="@+id/radiusContainer"
+        app:layout_constraintBottom_toTopOf="@+id/applyButton"
+        app:layout_constraintEnd_toEndOf="@+id/radiusContainer">
 
-                <SeekBar
-                    android:id="@+id/radiusPicker"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/two"
-                    android:layout_marginStart="@dimen/standart"
-                    app:layout_constraintStart_toEndOf="@id/radiusTextView"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:id="@+id/strengthTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/amount_textView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        <SeekBar
+            android:id="@+id/strengthPicker"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/two"
+            android:layout_marginStart="@dimen/standart"
+            app:layout_constraintStart_toEndOf="@id/strengthTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/strengthContainer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/half"
-                app:layout_constraintStart_toStartOf="@+id/radiusContainer"
-                app:layout_constraintTop_toBottomOf="@+id/radiusContainer"
-                app:layout_constraintEnd_toEndOf="@+id/radiusContainer">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/strengthTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/amount_textView"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/applyButton"
+        style="@style/Theme.PhotoEditor.Button.Accent.Apply"
+        android:layout_marginBottom="@dimen/half"
+        app:layout_constraintBottom_toTopOf="@+id/undoButton"
+        app:layout_constraintEnd_toEndOf="@+id/strengthContainer"
+        app:layout_constraintStart_toStartOf="@id/strengthContainer" />
 
-                <SeekBar
-                    android:id="@+id/strengthPicker"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/two"
-                    android:layout_marginStart="@dimen/standart"
-                    app:layout_constraintStart_toEndOf="@id/strengthTextView"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/acceptChanging"
-                style="@style/Theme.PhotoEditor.Button.Accent"
-                android:text="@string/apply_button"
-                android:layout_marginTop="@dimen/standart"
-                app:layout_constraintStart_toStartOf="@id/strengthContainer"
-                app:layout_constraintEnd_toEndOf="@id/strengthContainer"
-                app:layout_constraintTop_toBottomOf="@id/strengthContainer"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancelChanging"
-                style="@style/Theme.PhotoEditor.Button"
-                android:text="@string/cancel_button"
-                android:layout_marginTop="@dimen/half"
-                app:layout_constraintStart_toStartOf="@id/acceptChanging"
-                app:layout_constraintEnd_toEndOf="@id/acceptChanging"
-                app:layout_constraintTop_toBottomOf="@id/acceptChanging"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </ScrollView>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/undoButton"
+        style="@style/Theme.PhotoEditor.Button.Undo"
+        android:layout_marginBottom="@dimen/standart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/applyButton"
+        app:layout_constraintStart_toStartOf="@id/applyButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
