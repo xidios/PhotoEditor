@@ -1,78 +1,33 @@
 <resources>
     <string name="app_name">PhotoEditor</string>
 
-    <string name="welcome_icon_desc">Добавьте изображение</string>
-    <string name="welcome_text">Загрузите изображение из галереи или сделайте фотографию</string>
     <string name="take_picture_button">Камера</string>
     <string name="choose_picture_button">Галерея</string>
-    <string name="without_picture_button">Продолжить без изображения</string>
-
-    <string name="alert_title">Нам нужны права!</string>
-    <string name="alert_message">Для полноценной работы приложения нам нужны разрешения на считывание и запись файлов. Разрешите их или используйте режим без загрузки изображений</string>
-    <string name="alert_positive">Дать разрешения</string>
-    <string name="alert_negative">Продолжить без загрузки</string>
 
     <string name="image_section_name">Изображение</string>
-    <string name="image_section_header">Загрузить изображение</string>
-    <string name="image_desc">Загруженное изображение</string>
-
     <string name="effect_section_name">Эффекты</string>
-    <string name="effect_section_header">Доступные эффекты</string>
+    <string name="save_section_name">Сохранить</string>
 
-    <string name="save_section_name">Сохранение</string>
+    <string name="image_section_header">Загрузить изображение</string>
+    <string name="effect_section_header">Доступные эффекты</string>
     <string name="save_section_header">Сохранить изображение</string>
-    <string name="save_image_desc">Изображение с результатом</string>
-    <string name="save_image_text">Текущий результат автоматически сохранен. Проверьте галерею :)</string>
+
+    <string name="first_task_name">Поворот</string>
+    <string name="rotation_image_desc">Текущее изображение</string>
+    <string name="rotation_angle_hint">Угол поворота</string>
+
+    <string name="unsharp_mask">Нерезкое маскирование</string>
+    <string name="smooth_radius_textView">Радиус размытия:</string>
+
     <string name="save_picture_button">Сохранить</string>
 
-    <string name="rotation_task_name">Поворот</string>
-    <string name="rotation_task_desc">Поворот изображения на произвольный угол</string>
-    <string name="rotation_angle_hint">Угол поворота</string>
-    <string name="incorrect_angle_toast">Введите корректный угол</string>
-
-    <string name="color_correction_task_name">Цветокоррекция</string>
-    <string name="color_correction_task_desc">Применение к изображению выбранного фильтра</string>
-    <string name="black_and_white_button">Черно-белый фильтр</string>
-    <string name="sepia_button">Сепия</string>
-    <string name="red_button">Красный фильтр</string>
-    <string name="negative_button">Инверсия</string>
-
-    <string name="retouch_task_name">Ретуширование</string>
-    <string name="retouch_task_desc">Устранение дефектов</string>
-
-    <string name="scaling_task_name">Масштабирование</string>
-    <string name="scaling_task_desc">Изменение размера изображения</string>
-    <string name="scale_coefficient">Коэффицент масштабирования</string>
-
-    <string name="segmentation_task_name">Сегментация</string>
-    <string name="segmentation_task_desc">Распознавание лиц на изображении</string>
-
-    <string name="splines_task_name">Сплайны</string>
-    <string name="splines_task_desc">Преобразование ломаных линий в сплайны</string>
-    <string name="delete_point_button">Удалить точку</string>
-
-    <string name="unsharp_mask_task_name">Нерезкое маскирование</string>
-    <string name="unsharp_mask_task_desc">Увеличение резкости изображения</string>
-    <string name="radius_textView">Радиус размытия: </string>
-    <string name="amount_textView">Эффект: </string>
-
-    <string name="cube_task_name">Игральный кубик</string>
-    <string name="cube_task_desc">Вращение объемного игрального кубика</string>
-    <string name="rotate_cube_button">По часовой стрелке</string>
-    <string name="reset_cube_button">Сбросить</string>
-
     <string name="apply_button">Применить</string>
-    <string name="change_picture_button">Заменить изображение</string>
-    <string name="undo_button">Отменить действие</string>
-    <string name="current_image_desc">Текущее изображение</string>
-    <string name="empty_history_message">История изменений пуста</string>
-    <string name="algorithm_success_message">Алгоритм выполнен</string>
-    <string name="algorithm_error_message">Произошла ошибка при работе алгоритма</string>
-    <string name="image_load_error_message">Произошла ошибка при загрузке изображения</string>
-    <string name="image_save_error_message">Произошла ошибка при сохранении изображения</string>
-
-    <string name="task_description">Описание эффекта</string>
-    <string name="task_icon_desc">Иконка эффекта</string>
-    <string name="task_name">Название эффекта</string>
-
+    <string name="isi">isi</string>
+    <string name="kategori">kategori</string>
+    <string name="kode">kode</string>
+    <string name="resize_koef">Коэфицент масштабирования</string>
+    <string name="scaling">Масштабирование</string>
+    <string name="bileneal">Билинейная</string>
+    <string name="trilenear">Трилинейная</string>
+    <string name="interpolation">Интерполяция</string>
 </resources>
