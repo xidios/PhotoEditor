@@ -1,22 +1,12 @@
-package com.example.photoeditor
+package com.example.photoeditor.algorithms
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
-import android.graphics.drawable.Drawable
-import android.provider.ContactsContract.Intents.Insert.ACTION
-import android.system.Os.remove
-import android.text.TextPaint
 import android.util.AttributeSet
-import android.view.KeyEvent.ACTION_DOWN
 import android.view.MotionEvent
-import android.view.MotionEvent.ACTION_DOWN
 import android.view.View
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_splines.*
-import kotlinx.android.synthetic.main.activity_splines.view.*
 import kotlin.math.pow
-import kotlin.math.sqrt
 
 class SplinesView @JvmOverloads constructor(
      context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -30,7 +20,6 @@ class SplinesView @JvmOverloads constructor(
 
      var arrPoint = arrayListOf<CoordinatePoints>()
      var arrSplines = arrayListOf<CoordinatePoints>()
-     var arrHelper = arrayListOf<CoordinatePoints>()
      var arrSegments = arrayListOf<ArrayList<CoordinatePoints>>()
 
      class CoordinatePoints(var x: Float, var y: Float)
@@ -58,7 +47,6 @@ class SplinesView @JvmOverloads constructor(
         path.reset()
         arrSplines.clear()
         arrSegments.clear()
-        arrHelper.clear()
 
         var i = 0
         var help = arrPoint.size
@@ -69,39 +57,30 @@ class SplinesView @JvmOverloads constructor(
                     help -= 4
                     when {
                         help >= 0 -> {
-                            if(i == 0) arrHelper.add(arrPoint[i])
                             arrSegments.add(arrayListOf(arrPoint[i], arrPoint[i + 1], arrPoint[i + 2], arrPoint[i + 3]))
-                            arrHelper.add(arrPoint[i + 3])
                             help++
                             i += 3
                         }
                         help == -1 -> {
                             arrSegments.add(arrayListOf(arrPoint[i], arrPoint[i + 1], arrPoint[i + 2]))
-                            arrHelper.add(arrPoint[i + 2])
                             break
                         }
                         help == -2 -> {
                             arrSegments.add(arrayListOf(arrPoint[i], arrPoint[i + 1]))
-                            arrHelper.add(arrPoint[i + 1])
                             break
                         }
                         help == -3 -> {
                             arrSegments.add(arrayListOf(arrPoint[i]))
-                            arrHelper.add(arrPoint[i])
                             break
                         }
                     }
                 }
                 arrPoint.size == 3 -> {
                     arrSegments.add(arrayListOf(arrPoint[i], arrPoint[i + 1], arrPoint[i + 2]))
-                    arrHelper.add(arrPoint[i])
-                    arrHelper.add(arrPoint[i + 2])
                     break
                 }
                 arrPoint.size == 2 -> {
                     arrSegments.add(arrayListOf(arrPoint[i], arrPoint[i + 1]))
-                    arrHelper.add(arrPoint[i])
-                    arrHelper.add(arrPoint[i + 1])
                     break
                 }
             }
@@ -130,25 +109,25 @@ class SplinesView @JvmOverloads constructor(
         if(code != codeDrawing){
             paint.color = Color.YELLOW
             paint.style = Paint.Style.FILL
-            canvas.drawCircle(xStart, yStart, 30f, paint)
+            canvas.drawCircle(xStart, yStart, 20f, paint)
 
             paint.color = Color.BLACK
             paint.style = Paint.Style.STROKE
             paint.strokeWidth = 3f
-            canvas.drawCircle(xStart, yStart, 30f, paint)
+            canvas.drawCircle(xStart, yStart, 20f, paint)
 
         }
         else{
-            for(i in arrHelper.indices){
+            for(i in arrPoint.indices){
                 paint.color = Color.RED
                 paint.alpha = 100
                 paint.style = Paint.Style.FILL
-                canvas.drawCircle(arrHelper[i].x, arrHelper[i].y, 30f, paint)
+                canvas.drawCircle(arrPoint[i].x, arrPoint[i].y, 20f, paint)
 
                 paint.color = Color.BLACK
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = 3f
-                canvas.drawCircle(arrHelper[i].x, arrHelper[i].y, 30f, paint)
+                canvas.drawCircle(arrPoint[i].x, arrPoint[i].y, 20f, paint)
             }
         }
 
@@ -182,14 +161,18 @@ class SplinesView @JvmOverloads constructor(
 
 
                          arrSplines.add(
-                             arrSplines.size, SplinesView.CoordinatePoints(xS.toFloat(), yS.toFloat())
+                             arrSplines.size,
+                             CoordinatePoints(
+                                 xS.toFloat(),
+                                 yS.toFloat()
+                             )
                          )
                      }
                  }
                  3 -> {
                      if(i != 0){
                          arrSegments[i].add(arrSegments[i].size,
-                             SplinesView.CoordinatePoints(
+                             CoordinatePoints(
                                  (arrSegments[i - 1][arrSegments[i - 1].size - 1].x + arrSegments[i][arrSegments[i].size - 1].x) / 2,
                                  (arrSegments[i - 1][arrSegments[i - 1].size - 1].y + arrSegments[i][arrSegments[i].size - 1].y) / 2
                              )
@@ -203,14 +186,17 @@ class SplinesView @JvmOverloads constructor(
                          yS =(1.0 - t).pow(2.0) * arrSegments[i][0].y + 2.0 * t * (1.0 - t) * arrSegments[i][1].y + t.pow(2.0)  * arrSegments[i][2].y
 
                          arrSplines.add(arrSplines.size,
-                             SplinesView.CoordinatePoints(xS.toFloat(), yS.toFloat())
+                             CoordinatePoints(
+                                 xS.toFloat(),
+                                 yS.toFloat()
+                             )
                          )
                      }
                  }
                  2 -> {
                      if(i != 0){
                          arrSegments[i].add(arrSegments[i].size,
-                             SplinesView.CoordinatePoints(
+                             CoordinatePoints(
                                  (arrSegments[i - 1][arrSegments[i - 1].size - 1].x + arrSegments[i][arrSegments[i].size - 1].x) / 2,
                                  (arrSegments[i - 1][arrSegments[i - 1].size - 1].y + arrSegments[i][arrSegments[i].size - 1].y) / 2
                              )
@@ -224,21 +210,27 @@ class SplinesView @JvmOverloads constructor(
                          yS =(1.0 - t) * arrSegments[i][0].y + t * arrSegments[i][1].y
 
                          arrSplines.add(arrSplines.size,
-                             SplinesView.CoordinatePoints(xS.toFloat(), yS.toFloat())
+                             CoordinatePoints(
+                                 xS.toFloat(),
+                                 yS.toFloat()
+                             )
                          )
                      }
                  }
                  1 -> {
                      if(i != 0){
                          arrSegments[i].add(arrSegments[i].size,
-                             SplinesView.CoordinatePoints(
+                             CoordinatePoints(
                                  (arrSegments[i - 1][arrSegments[i - 1].size - 1].x + arrSegments[i][arrSegments[i].size - 1].x) / 2,
                                  (arrSegments[i - 1][arrSegments[i - 1].size - 1].y + arrSegments[i][arrSegments[i].size - 1].y) / 2
                              )
                          )
                      }
                      arrSplines.add(arrSplines.size,
-                         SplinesView.CoordinatePoints(arrSegments[i][0].x, arrSegments[i][0].y)
+                         CoordinatePoints(
+                             arrSegments[i][0].x,
+                             arrSegments[i][0].y
+                         )
                      )
                  }
              }
@@ -259,7 +251,12 @@ class SplinesView @JvmOverloads constructor(
         when(event?.action) {
             MotionEvent.ACTION_DOWN -> {
                 if(arrSplines.isEmpty()){
-                    arrPoint.add(CoordinatePoints(event.x, event.y))
+                    arrPoint.add(
+                        CoordinatePoints(
+                            event.x,
+                            event.y
+                        )
+                    )
 
                     invalidate()
                 }
@@ -269,7 +266,6 @@ class SplinesView @JvmOverloads constructor(
                         if((event.x < arrPoint[i].x + 60f && event.x >= arrPoint[i].x && event.y < arrPoint[i].y + 60f && event.y >= arrPoint[i].y) ||
                             (event.x >= arrPoint[i].x - 60f && event.x < arrPoint[i].x && event.y >= arrPoint[i].y - 60f && event.y < arrPoint[i].y)){
 
-                                Toast.makeText(context, "del", Toast.LENGTH_SHORT).show()
                             arrPoint.removeAt(i)
 
                             deletePoints = 0

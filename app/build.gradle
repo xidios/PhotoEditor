@@ -62,7 +62,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation group: 'org.bytedeco', name: 'javacv', version: '1.4.1'
-    implementation "org.bytedeco.javacpp-presets:opencv:3.4.1-1.4.1:android-arm"
+//    implementation group: 'org.bytedeco', name: 'javacv', version: '1.4.1'
+//    implementation "org.bytedeco.javacpp-presets:opencv:3.4.1-1.4.1:android-arm"
     implementation 'com.android.support:design:28.0.0'
 }

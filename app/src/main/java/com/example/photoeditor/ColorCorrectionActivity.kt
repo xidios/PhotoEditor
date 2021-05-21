@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_color_correction.*
+import com.example.photoeditor.algorithms.FilteringImage
 
 class ColorCorrectionActivity : AppCompatActivity() {
 
@@ -18,174 +19,71 @@ class ColorCorrectionActivity : AppCompatActivity() {
         filtersImage.setImageURI(image as Uri)
 
         var photoBitmap: Bitmap = (filtersImage.drawable as BitmapDrawable).bitmap
-        var width = photoBitmap.width
-        var height = photoBitmap.height
+        val originalPhoto: Bitmap = (filtersImage.drawable as BitmapDrawable).bitmap
+
+        val width = photoBitmap.width
+        val height = photoBitmap.height
+
+        val output = FilteringImage()
+
+        var arrActions = arrayListOf<Bitmap>(originalPhoto)
 
         blackAndWhiteFilter.setOnClickListener {
-            var photoBitmapTemp : Bitmap = blackAndWhiteFilter(width, height, photoBitmap)
+            photoBitmap = output.blackAndWhiteFilter(width, height, photoBitmap)
+            arrActions.add(arrActions.size, photoBitmap)
 
-            filtersImage.setImageDrawable(null)
-            filtersImage.setImageBitmap(photoBitmapTemp)
-
+            filtersImage.setImageBitmap(photoBitmap)
         }
 
         sepiaFilter.setOnClickListener {
-            var photoBitmapTemp : Bitmap = sepiaFilter(width, height, photoBitmap)
+            photoBitmap = output.sepiaFilter(width, height, photoBitmap)
 
-            filtersImage.setImageDrawable(null)
-            filtersImage.setImageBitmap(photoBitmapTemp)
+            arrActions = checkingSize(arrActions)
+            arrActions.add(arrActions.size, photoBitmap)
+
+            filtersImage.setImageBitmap(photoBitmap)
         }
 
         redFilter.setOnClickListener {
-            var photoBitmapTemp : Bitmap = redFilter(width, height, photoBitmap)
+            photoBitmap = output.redFilter(width, height, photoBitmap)
 
-            filtersImage.setImageDrawable(null)
-            filtersImage.setImageBitmap(photoBitmapTemp)
+            arrActions = checkingSize(arrActions)
+            arrActions.add(arrActions.size, photoBitmap)
+
+            filtersImage.setImageBitmap(photoBitmap)
         }
 
         negativeFilter.setOnClickListener {
-            var photoBitmapTemp : Bitmap = negativeFilter(width, height, photoBitmap)
+            photoBitmap = output.negativeFilter(width, height, photoBitmap)
 
-            filtersImage.setImageDrawable(null)
-            filtersImage.setImageBitmap(photoBitmapTemp)
+            arrActions = checkingSize(arrActions)
+            arrActions.add(arrActions.size, photoBitmap)
+
+            filtersImage.setImageBitmap(photoBitmap)
         }
-    }
 
-    private fun  blackAndWhiteFilter(width: Int, height:Int, photoBitmap: Bitmap): Bitmap {
-
-        var srcPixelMatrix  = IntArray(width*height)
-        photoBitmap.getPixels(srcPixelMatrix, 0, width, 0, 0, width, height)
-
-        var pixelSeparator = 255/2 * 3
-        var sourcePixels: Int
-        var totalColor: Int
-
-        var r: Int
-        var g: Int
-        var b: Int
-
-        for(y in 0 until height){
-            for(x in 0 until width){
-                sourcePixels = srcPixelMatrix[width * y + x]
-
-                r = sourcePixels shr 16 and 0xff
-                g = sourcePixels shr 8 and 0xff
-                b = sourcePixels and 0xff
-                totalColor = r + g + b
-
-                if (totalColor > pixelSeparator) {
-                    srcPixelMatrix[width * y + x] = -0x1111111
+        cancelFilter.setOnClickListener {
+            when (arrActions.size) {
+                0 -> {
+                    filtersImage.setImageBitmap(arrActions[0])
                 }
-
-                else {
-                    srcPixelMatrix[width * y + x] = -0x1000000
+                1 -> {
+                    filtersImage.setImageBitmap(arrActions[0])
+                }
+                else -> {
+                    filtersImage.setImageBitmap(arrActions[arrActions.size - 2])
+                    arrActions.removeAt(arrActions.size - 1)
                 }
             }
         }
-
-        return Bitmap.createBitmap(srcPixelMatrix, width, height, Bitmap.Config.ARGB_8888)
     }
 
-    private fun  sepiaFilter(width: Int, height:Int, photoBitmap: Bitmap): Bitmap {
-
-        var srcPixelMatrix = IntArray(width*height)
-        photoBitmap.getPixels(srcPixelMatrix, 0, width, 0, 0, width, height)
-
-        var pixelSeparator = 255
-        var sourcePixels: Int
-        var totalColor: Int
-
-        var r: Int
-        var g: Int
-        var b: Int
-
-        for(y in 0 until height){
-            for(x in 0 until width){
-                sourcePixels = srcPixelMatrix[width * y + x]
-
-                r = sourcePixels shr 16 and 0xff
-                g = sourcePixels shr 8 and 0xff
-                b = sourcePixels and 0xff
-
-                totalColor = (r + g + b)/3
-
-                b = totalColor
-                g = b
-                r = g
-                r += 40
-                g += 20
-
-                if (r > pixelSeparator) {
-                    r = pixelSeparator
-                }
-                if (g > pixelSeparator) {
-                    g = pixelSeparator
-                }
-
-                srcPixelMatrix[width * y + x] = -0x1000000 or (r shl 16) or (g shl 8) or b
-            }
+    private fun checkingSize(arr: ArrayList<Bitmap>): ArrayList<Bitmap>{
+        if(arr.size == 15){
+            arr.removeAt(1)
         }
 
-        return Bitmap.createBitmap(srcPixelMatrix, width, height, Bitmap.Config.ARGB_8888)
-    }
-
-    private fun  redFilter(width: Int, height:Int, photoBitmap: Bitmap): Bitmap {
-
-        var srcPixelMatrix = IntArray(width*height)
-        photoBitmap.getPixels(srcPixelMatrix, 0, width, 0, 0, width, height)
-
-        var sourcePixels: Int
-
-        var r: Int
-        var g: Int
-        var b: Int
-
-        for(y in 0 until height){
-            for(x in 0 until width){
-                sourcePixels = srcPixelMatrix[width * y + x]
-
-                r = (sourcePixels shr 16 and 0xff) + 10
-
-                if (r > 255)
-                    r = 255
-
-                g = sourcePixels shr 8 and 0xff
-                b = sourcePixels and 0xff
-
-
-                srcPixelMatrix[width * y + x] = -0x10000 or (r shl 16) or (g shl 8) or b
-            }
-        }
-
-        return Bitmap.createBitmap(srcPixelMatrix, width, height, Bitmap.Config.ARGB_8888)
-    }
-
-
-    private fun  negativeFilter(width: Int, height:Int, photoBitmap: Bitmap): Bitmap {
-
-        var srcPixelMatrix = IntArray(width*height)
-        photoBitmap.getPixels(srcPixelMatrix, 0, width, 0, 0, width, height)
-
-        var pixelSeparator = 255
-        var sourcePixels: Int
-
-        var r: Int
-        var g: Int
-        var b: Int
-
-        for(y in 0 until height){
-            for(x in 0 until width){
-                sourcePixels = srcPixelMatrix[width * y + x]
-
-                r = pixelSeparator - (sourcePixels shr 16 and 0xff)
-                g = pixelSeparator - (sourcePixels shr 8 and 0xff)
-                b = pixelSeparator - (sourcePixels and 0xff)
-
-                srcPixelMatrix[width * y + x] = -0x1000000 or (r shl 16) or (g shl 8) or b
-            }
-        }
-
-        return Bitmap.createBitmap(srcPixelMatrix, width, height, Bitmap.Config.ARGB_8888)
+        return arr
     }
 }
 

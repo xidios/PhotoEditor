@@ -40,10 +40,37 @@ class DrawView (context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defS
 
     private lateinit var vertexes: Array<Array<Float>>
 
+    class CoordinateNum(var x: Float, var y: Float, var z: Float)
+
+    private var numberFaces = arrayOf(
+        arrayOf(CoordinateNum(0f, 0f,-200f),
+                CoordinateNum(0f, -100f,-200f), CoordinateNum(0f, 100f,-200f)),  //1
+
+        arrayOf(CoordinateNum(0f, 0f,200f),
+                CoordinateNum(-20f, -100f,200f), CoordinateNum(-20f, 100f,200f),
+               CoordinateNum(20f, -100f,200f),  CoordinateNum(20f, 100f,200f)),) //2
+//
+//        arrayOf(CoordinateNum(0f, -205f,0f),
+//                CoordinateNum(0f, -205f,-120f), CoordinateNum(0f, -205f,120f),
+//                CoordinateNum(0f, -205f,-120f),   CoordinateNum(0f, -205f,120f),
+//                CoordinateNum(100f, -205f,-120f),  CoordinateNum(100f, -205f,120f)), //3
+//
+//        arrayOf(CoordinateNum(0f, -200f,0f),
+//                CoordinateNum(-20f, -100f,-100f), CoordinateNum(-20f, 100f,100f),
+//                CoordinateNum(0f, 100f,100f), CoordinateNum(10f, -100f,-100f), CoordinateNum(20f, 100f,-100f)), //4
+//
+//        arrayOf(CoordinateNum(200f, 0f,0f),
+//                CoordinateNum(200f, 100f,50f), CoordinateNum(200f, -100f,0f), CoordinateNum(200f, 100f,-50f)),
+//
+//        arrayOf(CoordinateNum(-200f, 0f,0f),
+//                CoordinateNum(200f, 0f,-100f), CoordinateNum(-200f, 0f,100f), CoordinateNum(-200f, 0f,100f),
+//                CoordinateNum(200f, 0f,100f), CoordinateNum(200f, 0f,100f)) //6
+//    )
+
     private var faces = arrayOf(
-        arrayOf(0, 1, 2, 3, Color.RED), arrayOf(4, 5, 6, 7, Color.GREEN),
-        arrayOf(0, 1, 5, 4, Color.BLUE), arrayOf(2, 3, 7, 6, Color.CYAN),
-        arrayOf(0, 3, 7, 4, Color.MAGENTA), arrayOf(1, 2, 6, 5, Color.YELLOW)
+        arrayOf(0, 1, 2, 3, Color.RED, 0), arrayOf(4, 5, 6, 7, Color.GREEN, 1),
+        arrayOf(0, 1, 5, 4, Color.BLUE, 2), arrayOf(2, 3, 7, 6, Color.CYAN, 3),
+        arrayOf(0, 3, 7, 4, Color.MAGENTA, 4), arrayOf(1, 2, 6, 5, Color.YELLOW, 5)
     )
 
     private var currentX = 0f
@@ -60,9 +87,6 @@ class DrawView (context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defS
             arrayOf(-200f, -200f, 200f), arrayOf(-200f, 200f, 200f),
             arrayOf(200f, 200f, 200f), arrayOf(200f, -200f, 200f)
         )
-
-        rotateY(45f)
-        rotateX(160f)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -89,6 +113,17 @@ class DrawView (context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defS
         }
 
         deepestZ = minZ
+
+        for (i in numberFaces.indices) {
+            for(j in numberFaces[i].indices){
+                val y = numberFaces[i][j].y
+                val z = numberFaces[i][j].z
+
+                numberFaces[i][j].y = (y * cos - z * sin).toFloat()
+                numberFaces[i][j].z = (z * cos + y * sin).toFloat()
+
+            }
+        }
     }
 
     private fun rotateY(angle: Float) {
@@ -107,6 +142,17 @@ class DrawView (context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defS
         }
 
         deepestZ = minZ
+
+        for (i in numberFaces.indices) {
+            for(j in numberFaces[i].indices){
+                val x = numberFaces[i][j].x
+                val z = numberFaces[i][j].z
+
+                numberFaces[i][j].x = (x * cos + z * sin).toFloat()
+                numberFaces[i][j].z = (z * cos - x * sin).toFloat()
+
+            }
+        }
     }
 
     fun rotateZ() {
@@ -120,6 +166,16 @@ class DrawView (context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defS
 
             vertex[0] = (x * cos - y * sin).toFloat()
             vertex[1] = (y * cos + x * sin).toFloat()
+        }
+
+        for (i in numberFaces.indices) {
+            for(j in numberFaces[i].indices){
+                val x = numberFaces[i][j].x
+                val y = numberFaces[i][j].y
+
+                numberFaces[i][j].x = (x * cos - y * sin).toFloat()
+                numberFaces[i][j].y = (y * cos + x * sin).toFloat()
+            }
         }
 
         invalidate()
@@ -154,9 +210,6 @@ class DrawView (context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defS
     }
 
     private fun fillFace(canvas: Canvas, face: Array<Int>) {
-        paint.color = face[4]
-        paint.style = Paint.Style.FILL
-
         val path = Path()
         path.moveTo(vertexes[face[0]][0], vertexes[face[0]][1])
 
@@ -165,16 +218,178 @@ class DrawView (context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defS
         }
         path.lineTo(vertexes[face[0]][0], vertexes[face[0]][1])
 
+        paint.color = face[4]
+        paint.style = Paint.Style.FILL
         canvas.drawPath(path, paint)
+
+        idxNumbers(face[5], canvas)
     }
+
+
+    private fun idxNumbers(i: Int, canvas: Canvas){
+        val path = Path()
+        when (i) {
+            0 -> {
+                path.moveTo(numberFaces[i][1].x, numberFaces[i][1].y)
+
+                for(j in numberFaces[i].indices){
+                    if(j == 0) continue
+                    if(numberFaces[i][0].z > 0){
+                        path.lineTo(numberFaces[i][j].x, numberFaces[i][j].y)
+                    }
+                }
+
+                paint.color = Color.BLACK
+                paint.style = Paint.Style.STROKE
+                canvas.drawPath(path, paint)
+
+                path.reset()
+            }
+            1 -> {
+                path.moveTo(numberFaces[i][1].x, numberFaces[i][1].y)
+
+                for(j in 0..2){
+                    if(j == 0 || j == 1) continue
+                    if(numberFaces[i][0].z > 0){
+                        path.lineTo(numberFaces[i][j].x, numberFaces[i][j].y)
+                    }
+                }
+
+                paint.color = Color.BLACK
+                paint.style = Paint.Style.STROKE
+                canvas.drawPath(path, paint)
+
+                path.reset()
+                path.moveTo(numberFaces[i][3].x, numberFaces[i][3].y)
+                for(j in 3..4){
+                    if(numberFaces[i][0].z > 0){
+                        path.lineTo(numberFaces[i][j].x, numberFaces[i][j].y)
+                    }
+                }
+
+                paint.color = Color.BLACK
+                paint.style = Paint.Style.STROKE
+                canvas.drawPath(path, paint)
+
+                path.reset()
+            }
+//            2 -> {
+//                path.moveTo(numberFaces[i][1].x, numberFaces[i][1].y)
+//
+//                for(j in 0..2){
+//                    if(j == 0 || j == 1) continue
+//                    if(numberFaces[i][0].z > 0){
+//                        path.lineTo(numberFaces[i][j].x, numberFaces[i][j].y)
+//                    }
+//                }
+//
+//                paint.color = Color.BLACK
+//                paint.style = Paint.Style.STROKE
+//                canvas.drawPath(path, paint)
+//
+//                path.reset()
+//                path.moveTo(numberFaces[i][3].x, numberFaces[i][3].y)
+//                for(j in 3..4){
+//                    if(numberFaces[i][0].z > 0){
+//                        path.lineTo(numberFaces[i][j].x, numberFaces[i][j].y)
+//                    }
+//                }
+//
+//                paint.color = Color.BLACK
+//                paint.style = Paint.Style.STROKE
+//                canvas.drawPath(path, paint)
+//
+//                path.reset()
+//                path.moveTo(numberFaces[i][5].x, numberFaces[i][5].y)
+//                for(j in 5..6){
+//                    if(numberFaces[i][0].z > 0){
+//                        path.lineTo(numberFaces[i][j].x, numberFaces[i][j].y)
+//                    }
+//                }
+//
+//                paint.color = Color.BLACK
+//                paint.style = Paint.Style.STROKE
+//                canvas.drawPath(path, paint)
+//            }
+//            3 -> {
+//                path.moveTo(numberFaces[i][1].x, numberFaces[i][1].y)
+//
+//                for(j in 0..2){
+//                    if(j == 0 || j == 1) continue
+//                    if(numberFaces[i][0].z > 0){
+//                        path.lineTo(numberFaces[i][j].x, numberFaces[i][j].y)
+//                    }
+//                }
+//
+//                paint.color = Color.BLACK
+//                paint.style = Paint.Style.STROKE
+//                canvas.drawPath(path, paint)
+//
+//                path.reset()
+//
+//                path.moveTo(numberFaces[i][3].x, numberFaces[i][3].y)
+//                for(j in 3..4){
+//                    if(numberFaces[i][0].z > 0){
+//                        path.lineTo(numberFaces[i][j].x, numberFaces[i][j].y)
+//                    }
+//                }
+//
+//                paint.color = Color.BLACK
+//                paint.style = Paint.Style.STROKE
+//                canvas.drawPath(path, paint)
+//            }
+//            4 -> {
+//                path.moveTo(numberFaces[i][1].x, numberFaces[i][1].y)
+//                if (numberFaces[i][0].z > 0f) {
+//                    for (j in 0..3) {
+//                        if (j == 0 || j == 1) continue
+//                        path.lineTo(numberFaces[i][j].x, numberFaces[i][j].y)
+//                    }
+//                }
+
+//                paint.color = Color.BLACK
+//                paint.style = Paint.Style.STROKE
+//                canvas.drawPath(path, paint)
+//
+//            }
+//            5 -> {
+//                path.moveTo(numberFaces[i][1].x, numberFaces[i][1].y)
+//
+//                for(j in 0..3){
+//                    if(j == 0 || j == 1) continue
+//                    if(numberFaces[i][0].z > 0){
+//                        path.lineTo(numberFaces[i][j].x, numberFaces[i][j].y)
+//                    }
+//                }
+//
+//                paint.color = Color.BLACK
+//                paint.style = Paint.Style.STROKE
+//                canvas.drawPath(path, paint)
+//
+//                path.reset()
+//                for(j in 4..5){
+//                    if(numberFaces[i][0].z > 0){
+//                        path.lineTo(numberFaces[i][j].x, numberFaces[i][j].y)
+//                    }
+//                }
+//
+//                paint.color = Color.BLACK
+//                paint.style = Paint.Style.STROKE
+//                canvas.drawPath(path, paint)
+//            }
+        }
+    }
+
 
     private fun isVisible(face: Array<Int>): Boolean {
         for (i in 0..3) {
             val vertex = vertexes[face[i]]
+
             if (vertex[2] == deepestZ) {
                 return false
             }
         }
+
         return true
     }
 
