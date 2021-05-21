@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.photoeditor.*
+import com.example.photoeditor.effect_activities.RotationActivity
+import com.example.photoeditor.effect_activities.UnsharpMaskActivity
 
 class RVAdapter(val context: FragmentActivity?, val image: Parcelable) :
     RecyclerView.Adapter<RVAdapter.ViewHolder>() {

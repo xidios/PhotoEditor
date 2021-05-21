@@ -1,4 +1,4 @@
-package com.example.photoeditor
+package com.example.photoeditor.effect_activities
 
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
@@ -8,26 +8,28 @@ import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.photoeditor.model.RotationAlgorithm
+import com.example.photoeditor.R
 import com.example.photoeditor.model.Tools
+import com.example.photoeditor.model.UnsharpMaskAlgorithm
 import kotlinx.android.synthetic.main.activity_rotation.*
+import kotlinx.android.synthetic.main.activity_unsharp_mask.*
+import kotlinx.android.synthetic.main.activity_unsharp_mask.cancelChanging
 import java.util.*
 
-class RotationActivity : AppCompatActivity() {
+class UnsharpMaskActivity : AppCompatActivity() {
     private val KEY = "Image"
     private val RESULT_TAG = "resultImage"
-    private val DEBUG_TAG = "PhotoEditor > Rotation"
+    private val DEBUG_TAG = "PhotoEditor > UnsharpMask"
 
-    private var corners: MutableList<Pair<Int, Int>>? = null
     private lateinit var currentUri: Uri
     var history = ArrayDeque<Uri>()
     private val resultIntent = Intent()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_rotation)
+        setContentView(R.layout.activity_unsharp_mask)
 
-        rotationToolbar.setNavigationOnClickListener {
+        unsharpToolbar.setNavigationOnClickListener {
             this.finish()
         }
 
@@ -35,7 +37,7 @@ class RotationActivity : AppCompatActivity() {
             val receivedImage = intent.getParcelableExtra<Parcelable>(KEY)
             if (receivedImage != null) {
                 currentUri = receivedImage as Uri
-                rotationImage.setImageURI(currentUri)
+                unsharpImage.setImageURI(currentUri)
             }
         } catch (e: Exception) {
             Toast.makeText(this, R.string.image_load_error_message, Toast.LENGTH_SHORT).show()
@@ -43,13 +45,8 @@ class RotationActivity : AppCompatActivity() {
             this.finish()
         }
 
-        applyRotationButton.setOnClickListener {
-            val angle = rotationAnglePicker.text.toString().toIntOrNull()
-            if (angle == null) {
-                Toast.makeText(this, R.string.incorrect_angle_toast, Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            rotate(angle)
+        applyUnsharpMaskButton.setOnClickListener {
+            unsharp()
         }
 
         cancelChanging.setOnClickListener {
@@ -60,19 +57,19 @@ class RotationActivity : AppCompatActivity() {
 
             Tools.deleteFile(this, currentUri)
             currentUri = history.pop()
-            rotationImage.setImageURI(currentUri)
+            unsharpImage.setImageURI(currentUri)
             resultIntent.putExtra(RESULT_TAG, currentUri)
             setResult(RESULT_OK, resultIntent)
         }
     }
 
-    private fun rotate(angle: Int) {
-        var bitmap = (rotationImage.drawable as BitmapDrawable).bitmap
+    private fun unsharp() {
+        val radius = radiusPicker.progress + 1
+        val amount = amountPicker.progress / 100.0
+        var bitmap = (unsharpImage.drawable as BitmapDrawable).bitmap
 
         try {
-            val received = RotationAlgorithm.runAlgorithm(bitmap, angle, corners)
-            bitmap = received.first
-            corners = received.second
+            bitmap = UnsharpMaskAlgorithm.runAlgorithm(bitmap, radius, amount)
             Log.d(DEBUG_TAG, "Алгоритм выполнен")
             Toast.makeText(this, R.string.algorithm_success_message, Toast.LENGTH_SHORT).show()
         } catch (error: Exception) {
@@ -83,14 +80,13 @@ class RotationActivity : AppCompatActivity() {
         try {
             history.push(currentUri)
             currentUri = Tools.saveTempImage(this, bitmap) as Uri
-            rotationImage.setImageBitmap(bitmap)
+            unsharpImage.setImageBitmap(bitmap)
 
             resultIntent.putExtra(RESULT_TAG, currentUri)
             setResult(RESULT_OK, resultIntent)
         } catch (error: Exception) {
             Log.d(DEBUG_TAG, "Произошла ошибка при сохранении изображения")
-            Toast.makeText(this, R.string.image_save_error_message, Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(this, R.string.image_save_error_message, Toast.LENGTH_SHORT).show()
         }
     }
 
