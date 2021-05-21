@@ -7,6 +7,12 @@ import java.lang.Math.*
 
 class UnsharpMaskAlgorithm {
 
+    companion object {
+        fun runAlgorithm(input: Bitmap, radius: Int, amount: Double): Bitmap {
+            return UnsharpMaskAlgorithm().getResult(input, radius, amount)
+        }
+    }
+
     fun getResult(input: Bitmap, radius: Int, amount: Double): Bitmap {
         var output = gaussianBlur(input, radius)
         output = subtraction(input, output)
