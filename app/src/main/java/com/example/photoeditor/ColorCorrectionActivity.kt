@@ -1,5 +1,6 @@
 package com.example.photoeditor
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -9,54 +10,62 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_color_correction.*
 
 class ColorCorrectionActivity : AppCompatActivity() {
+    private val TAG = "Image"
+    private val RESULT_TAG = "resultImage"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_color_correction)
 
-        val image = intent.getParcelableExtra<Parcelable>("Image")
+        colorCorrectionToolbar.setNavigationOnClickListener{
+            this.finish()
+        }
+
+        val image = intent.getParcelableExtra<Parcelable>(TAG)
         filtersImage.setImageURI(image as Uri)
 
-        var photoBitmap: Bitmap = (filtersImage.drawable as BitmapDrawable).bitmap
-        var width = photoBitmap.width
-        var height = photoBitmap.height
-
+        val bitmap = (filtersImage.drawable as BitmapDrawable).bitmap
+        val resultIntent = Intent()
         blackAndWhiteFilter.setOnClickListener {
-            var photoBitmapTemp : Bitmap = blackAndWhiteFilter(width, height, photoBitmap)
-
-            filtersImage.setImageDrawable(null)
-            filtersImage.setImageBitmap(photoBitmapTemp)
-
+            applyFilter("blackAndWhite", resultIntent, bitmap)
         }
 
         sepiaFilter.setOnClickListener {
-            var photoBitmapTemp : Bitmap = sepiaFilter(width, height, photoBitmap)
-
-            filtersImage.setImageDrawable(null)
-            filtersImage.setImageBitmap(photoBitmapTemp)
+            applyFilter("sepia", resultIntent, bitmap)
         }
 
         redFilter.setOnClickListener {
-            var photoBitmapTemp : Bitmap = redFilter(width, height, photoBitmap)
-
-            filtersImage.setImageDrawable(null)
-            filtersImage.setImageBitmap(photoBitmapTemp)
+            applyFilter("red", resultIntent, bitmap)
         }
 
         negativeFilter.setOnClickListener {
-            var photoBitmapTemp : Bitmap = negativeFilter(width, height, photoBitmap)
-
-            filtersImage.setImageDrawable(null)
-            filtersImage.setImageBitmap(photoBitmapTemp)
+            applyFilter("negative", resultIntent, bitmap)
         }
     }
 
-    private fun  blackAndWhiteFilter(width: Int, height:Int, photoBitmap: Bitmap): Bitmap {
+    private fun applyFilter(filter: String, intent: Intent, bitmap: Bitmap) {
+        val width = bitmap.width
+        val height = bitmap.height
+        lateinit var resultBitmap: Bitmap
 
-        var srcPixelMatrix  = IntArray(width*height)
+        when (filter) {
+            "blackAndWhite" -> resultBitmap = blackAndWhiteFilter(width, height, bitmap)
+            "sepia" -> resultBitmap = sepiaFilter(width, height, bitmap)
+            "red" -> resultBitmap = redFilter(width, height, bitmap)
+            "negative" -> resultBitmap = negativeFilter(width, height, bitmap)
+        }
+
+        filtersImage.setImageBitmap(resultBitmap)
+        intent.putExtra(RESULT_TAG, saveTempImage(this, resultBitmap))
+        setResult(RESULT_OK, intent)
+    }
+
+    private fun blackAndWhiteFilter(width: Int, height:Int, photoBitmap: Bitmap): Bitmap {
+
+        val srcPixelMatrix  = IntArray(width*height)
         photoBitmap.getPixels(srcPixelMatrix, 0, width, 0, 0, width, height)
 
-        var pixelSeparator = 255/2 * 3
+        val pixelSeparator = 255/2 * 3
         var sourcePixels: Int
         var totalColor: Int
 
@@ -88,10 +97,10 @@ class ColorCorrectionActivity : AppCompatActivity() {
 
     private fun  sepiaFilter(width: Int, height:Int, photoBitmap: Bitmap): Bitmap {
 
-        var srcPixelMatrix = IntArray(width*height)
+        val srcPixelMatrix = IntArray(width*height)
         photoBitmap.getPixels(srcPixelMatrix, 0, width, 0, 0, width, height)
 
-        var pixelSeparator = 255
+        val pixelSeparator = 255
         var sourcePixels: Int
         var totalColor: Int
 
@@ -131,7 +140,7 @@ class ColorCorrectionActivity : AppCompatActivity() {
 
     private fun  redFilter(width: Int, height:Int, photoBitmap: Bitmap): Bitmap {
 
-        var srcPixelMatrix = IntArray(width*height)
+        val srcPixelMatrix = IntArray(width*height)
         photoBitmap.getPixels(srcPixelMatrix, 0, width, 0, 0, width, height)
 
         var sourcePixels: Int
@@ -163,10 +172,10 @@ class ColorCorrectionActivity : AppCompatActivity() {
 
     private fun  negativeFilter(width: Int, height:Int, photoBitmap: Bitmap): Bitmap {
 
-        var srcPixelMatrix = IntArray(width*height)
+        val srcPixelMatrix = IntArray(width*height)
         photoBitmap.getPixels(srcPixelMatrix, 0, width, 0, 0, width, height)
 
-        var pixelSeparator = 255
+        val pixelSeparator = 255
         var sourcePixels: Int
 
         var r: Int
