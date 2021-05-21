@@ -22,7 +22,7 @@
         <activity android:name=".CubeActivity" />
         <activity android:name=".SplinesActivity" />
         <activity android:name=".SegmentationActivity" />
-        <activity android:name=".ColorCorrectionActivity" />
+        <activity android:name=".effect_activities.ColorCorrectionActivity" />
         <activity android:name=".ScalingActivity" />
         <activity android:name=".effect_activities.RotationActivity" />
         <activity android:name=".RetouchingActivity" />

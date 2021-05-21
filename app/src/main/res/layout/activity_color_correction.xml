@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ColorCorrectionActivity">
+    tools:context=".effect_activities.ColorCorrectionActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/colorCorrectionToolbar"
@@ -14,83 +14,68 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/color_correction_task_name" />
 
-    <ScrollView
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/filtersImage"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="@dimen/side_margin"
+        android:layout_marginTop="@dimen/standart"
+        android:layout_marginEnd="@dimen/side_margin"
+        android:layout_marginBottom="@dimen/standart"
+        android:contentDescription="@string/current_image_desc"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@id/blackAndWhiteFilter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/colorCorrectionToolbar" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/blackAndWhiteFilter"
+        style="@style/Theme.PhotoEditor.Button.Accent"
+        android:layout_marginEnd="@dimen/half"
+        android:layout_marginBottom="@dimen/half"
+        android:text="@string/black_and_white_button"
+        app:layout_constraintBottom_toTopOf="@id/sepiaFilter"
+        app:layout_constraintEnd_toStartOf="@id/redFilter"
+        app:layout_constraintStart_toStartOf="@id/filtersImage" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/redFilter"
+        style="@style/Theme.PhotoEditor.Button.Accent"
+        android:layout_marginStart="@dimen/half"
+        android:layout_marginBottom="@dimen/half"
+        android:text="@string/red_button"
+        app:layout_constraintBottom_toTopOf="@id/negativeFilter"
+        app:layout_constraintEnd_toEndOf="@id/filtersImage"
+        app:layout_constraintStart_toEndOf="@id/blackAndWhiteFilter" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/sepiaFilter"
+        style="@style/Theme.PhotoEditor.Button.Accent"
+        android:layout_marginEnd="@dimen/half"
+        android:layout_marginBottom="@dimen/half"
+        android:text="@string/sepia_button"
+        app:layout_constraintBottom_toTopOf="@id/undoButton"
+        app:layout_constraintEnd_toStartOf="@id/negativeFilter"
+        app:layout_constraintStart_toStartOf="@id/filtersImage" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/negativeFilter"
+        style="@style/Theme.PhotoEditor.Button.Accent"
+        android:layout_marginStart="@dimen/half"
+        android:layout_marginBottom="@dimen/half"
+        android:text="@string/negative_button"
+        app:layout_constraintBottom_toTopOf="@id/undoButton"
+        app:layout_constraintEnd_toEndOf="@id/filtersImage"
+        app:layout_constraintStart_toEndOf="@id/sepiaFilter" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/undoButton"
+        style="@style/Theme.PhotoEditor.Button"
+        android:layout_marginBottom="@dimen/standart"
+        android:text="@string/cancel_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/colorCorrectionToolbar"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="0dp">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standart">
-
-            <ImageView
-                android:id="@+id/filtersImage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/side_margin"
-                android:layout_marginEnd="@dimen/side_margin"
-                android:contentDescription="@string/current_image_desc"
-                android:src="@mipmap/ic_launcher"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/blackAndWhiteFilter"
-                style="@style/Theme.PhotoEditor.Button"
-                android:layout_marginTop="@dimen/standart"
-                android:layout_marginEnd="@dimen/half"
-                android:text="@string/black_and_white_button"
-                app:layout_constraintEnd_toStartOf="@id/redFilter"
-                app:layout_constraintStart_toStartOf="@id/filtersImage"
-                app:layout_constraintTop_toBottomOf="@id/filtersImage" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/redFilter"
-                style="@style/Theme.PhotoEditor.Button"
-                android:layout_marginStart="@dimen/half"
-                android:layout_marginTop="@dimen/standart"
-                android:text="@string/red_button"
-                app:layout_constraintEnd_toEndOf="@id/filtersImage"
-                app:layout_constraintStart_toEndOf="@id/blackAndWhiteFilter"
-                app:layout_constraintTop_toBottomOf="@id/filtersImage" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/sepiaFilter"
-                style="@style/Theme.PhotoEditor.Button"
-                android:layout_marginTop="@dimen/half"
-                android:layout_marginEnd="@dimen/half"
-                android:text="@string/sepia_button"
-                app:layout_constraintEnd_toStartOf="@id/negativeFilter"
-                app:layout_constraintStart_toStartOf="@id/filtersImage"
-                app:layout_constraintTop_toBottomOf="@id/blackAndWhiteFilter" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/negativeFilter"
-                style="@style/Theme.PhotoEditor.Button"
-                android:layout_marginStart="@dimen/half"
-                android:layout_marginTop="@dimen/half"
-                android:text="@string/negative_button"
-                app:layout_constraintEnd_toEndOf="@id/filtersImage"
-                app:layout_constraintStart_toEndOf="@id/sepiaFilter"
-                app:layout_constraintTop_toBottomOf="@id/redFilter" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancelFilter"
-                style="@style/Theme.PhotoEditor.Button"
-                android:layout_marginTop="12dp"
-                android:text="Отмена"
-                app:layout_constraintEnd_toEndOf="@+id/negativeFilter"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/negativeFilter"
-                app:layout_constraintTop_toBottomOf="@+id/negativeFilter" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </ScrollView>
+        app:layout_constraintEnd_toEndOf="@+id/negativeFilter"
+        app:layout_constraintStart_toStartOf="@+id/sepiaFilter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

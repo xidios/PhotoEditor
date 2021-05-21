@@ -1,14 +1,29 @@
-package com.example.photoeditor.algorithms
+package com.example.photoeditor.model
 
 import android.graphics.Bitmap
 
-class FilteringImage {
-    fun blackAndWhiteFilter(width: Int, height: Int, photoBitmap: Bitmap): Bitmap {
+class FilteringAlgorithm {
+    companion object {
+        fun runAlgorithm(bitmap: Bitmap, tag: String): Bitmap {
+            val output = FilteringAlgorithm()
+            val width = bitmap.width
+            val height = bitmap.height
 
-        var srcPixelMatrix = IntArray(width * height)
+            return when (tag) {
+                "blackAndWhiteFilter" -> output.blackAndWhiteFilter(width, height, bitmap)
+                "sepiaFilter" -> output.sepiaFilter(width, height, bitmap)
+                "redFilter" -> output.redFilter(width, height, bitmap)
+                "negativeFilter" -> output.negativeFilter(width, height, bitmap)
+                else -> bitmap
+            }
+        }
+    }
+
+    fun blackAndWhiteFilter(width: Int, height: Int, photoBitmap: Bitmap): Bitmap {
+        val srcPixelMatrix = IntArray(width * height)
         photoBitmap.getPixels(srcPixelMatrix, 0, width, 0, 0, width, height)
 
-        var pixelSeparator = 255 / 2 * 3
+        val pixelSeparator = 255 / 2 * 3
         var sourcePixels: Int
         var totalColor: Int
 
@@ -37,7 +52,6 @@ class FilteringImage {
     }
 
     fun sepiaFilter(width: Int, height: Int, photoBitmap: Bitmap): Bitmap {
-
         val srcPixelMatrix = IntArray(width * height)
         photoBitmap.getPixels(srcPixelMatrix, 0, width, 0, 0, width, height)
 
@@ -80,7 +94,6 @@ class FilteringImage {
     }
 
     fun redFilter(width: Int, height: Int, photoBitmap: Bitmap): Bitmap {
-
         val srcPixelMatrix = IntArray(width * height)
         photoBitmap.getPixels(srcPixelMatrix, 0, width, 0, 0, width, height)
 
@@ -111,7 +124,6 @@ class FilteringImage {
     }
 
     fun negativeFilter(width: Int, height: Int, photoBitmap: Bitmap): Bitmap {
-
         val srcPixelMatrix = IntArray(width * height)
         photoBitmap.getPixels(srcPixelMatrix, 0, width, 0, 0, width, height)
 

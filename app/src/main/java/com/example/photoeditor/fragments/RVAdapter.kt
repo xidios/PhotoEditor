@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.photoeditor.*
+import com.example.photoeditor.effect_activities.ColorCorrectionActivity
 import com.example.photoeditor.effect_activities.RotationActivity
 import com.example.photoeditor.effect_activities.UnsharpMaskActivity
 

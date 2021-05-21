@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         takePictureButton.setOnClickListener { loader.loadImage(this, "camera") }
-        choosePictureButton.setOnClickListener { loader.loadImage(this, "gallery")}
+        choosePictureButton.setOnClickListener { loader.loadImage(this, "gallery") }
         withoutPictureButton.setOnClickListener {
             val intent = Intent(this, LimitedEffectsActivity::class.java)
             startActivity(intent)
