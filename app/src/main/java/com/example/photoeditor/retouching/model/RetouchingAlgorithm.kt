@@ -1,13 +1,51 @@
-package com.example.photoeditor.algorithms
+package com.example.photoeditor.retouching.model
 
+import android.app.Activity
 import android.graphics.Bitmap
+import kotlinx.android.synthetic.main.activity_retouching.*
 import kotlin.math.sqrt
 
-class RetouchingImage {
+class RetouchingAlgorithm {
     private var prevPixel: Int = 0
-
     var stepRadius = 80
     var stepStrength = 60
+    private lateinit var currentPhoto: Bitmap
+    private var widthPhoto = 0f
+    private var heightPhoto = 0f
+    private var widthBitmap = 0f
+    private var heightBitmap = 0f
+    private var scale = 0f
+
+    fun setData(activity: Activity, bitmap: Bitmap) {
+        currentPhoto = bitmap
+        widthPhoto = activity.retouchImage.width.toFloat()
+        heightPhoto = activity.retouchImage.height.toFloat()
+        scale = setScale(widthPhoto, heightPhoto)
+    }
+
+    fun runAlgorithm(x: Int, y: Int, radius: Int, strength: Int, bitmap: Bitmap): Bitmap {
+        val motionTouchEventX =
+            ((x - (widthPhoto - scale * widthBitmap) / 2.0F) / scale).toInt()
+        val motionTouchEventY =
+            ((y - (heightPhoto - scale * heightBitmap) / 2.0F) / scale).toInt()
+        stepRadius = radius
+        stepStrength = strength
+        return retouchingPhoto(motionTouchEventX, motionTouchEventY, bitmap)
+    }
+
+    private fun setScale(widthPhoto: Float, heightPhoto: Float): Float {
+        widthBitmap = currentPhoto.width.toFloat()
+        heightBitmap = currentPhoto.height.toFloat()
+
+        val scaleW = widthBitmap / widthPhoto
+        val scaleH = heightBitmap / heightPhoto
+
+        return if (scaleW > scaleH) {
+            widthPhoto / widthBitmap
+        } else {
+            heightPhoto / heightBitmap
+        }
+    }
 
     fun retouchingPhoto(centerX: Int, centerY: Int, imageBitmap: Bitmap): Bitmap {
         var matrixPixels = IntArray(imageBitmap.width * imageBitmap.height)

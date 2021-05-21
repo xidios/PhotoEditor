@@ -1,4 +1,4 @@
-package com.example.photoeditor.fragments
+package com.example.photoeditor.fragments.model
 
 import android.content.Intent
 import android.os.Parcelable
@@ -9,10 +9,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.photoeditor.*
-import com.example.photoeditor.effect_activities.ColorCorrectionActivity
-import com.example.photoeditor.effect_activities.RotationActivity
-import com.example.photoeditor.effect_activities.UnsharpMaskActivity
+import com.example.photoeditor.CubeActivity
+import com.example.photoeditor.R
+import com.example.photoeditor.filters.ColorCorrectionActivity
+import com.example.photoeditor.retouching.RetouchingActivity
+import com.example.photoeditor.rotation.RotationActivity
+import com.example.photoeditor.scaling.ScalingActivity
+import com.example.photoeditor.segmentation.SegmentationActivity
+import com.example.photoeditor.splines.SplinesActivity
+import com.example.photoeditor.unsharp.UnsharpMaskActivity
 
 class RVAdapter(val context: FragmentActivity?, val image: Parcelable) :
     RecyclerView.Adapter<RVAdapter.ViewHolder>() {

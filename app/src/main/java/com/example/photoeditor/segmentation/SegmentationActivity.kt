@@ -1,4 +1,4 @@
-package com.example.photoeditor
+package com.example.photoeditor.segmentation
 
 import android.graphics.*
 import android.media.ExifInterface
@@ -10,7 +10,8 @@ import android.provider.MediaStore
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.example.photoeditor.model.FaceDetection
+import com.example.photoeditor.R
+import com.example.photoeditor.segmentation.model.FaceDetection
 import kotlinx.android.synthetic.main.activity_segmentation.*
 import org.bytedeco.javacv.AndroidFrameConverter
 import org.bytedeco.javacv.OpenCVFrameConverter

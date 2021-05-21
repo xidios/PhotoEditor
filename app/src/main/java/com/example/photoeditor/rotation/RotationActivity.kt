@@ -1,7 +1,6 @@
-package com.example.photoeditor.effect_activities
+package com.example.photoeditor.rotation
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -10,29 +9,34 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.photoeditor.R
-import com.example.photoeditor.model.FilteringAlgorithm
 import com.example.photoeditor.model.Tools
-import kotlinx.android.synthetic.main.activity_color_correction.*
+import com.example.photoeditor.rotation.model.RotationAlgorithm
+import kotlinx.android.synthetic.main.activity_rotation.*
 import java.util.*
 
-class ColorCorrectionActivity : AppCompatActivity() {
+class RotationActivity : AppCompatActivity() {
     private val KEY = "Image"
     private val RESULT_TAG = "resultImage"
-    private val DEBUG_TAG = "PhotoEditor > Filters"
+    private val DEBUG_TAG = "PhotoEditor > Rotation"
 
+    private var corners: MutableList<Pair<Int, Int>>? = null
     private lateinit var currentUri: Uri
     var history = ArrayDeque<Uri>()
     private val resultIntent = Intent()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_color_correction)
+        setContentView(R.layout.activity_rotation)
+
+        rotationToolbar.setNavigationOnClickListener {
+            this.finish()
+        }
 
         try {
             val receivedImage = intent.getParcelableExtra<Parcelable>(KEY)
             if (receivedImage != null) {
                 currentUri = receivedImage as Uri
-                filtersImage.setImageURI(currentUri)
+                rotationImage.setImageURI(currentUri)
             }
         } catch (e: Exception) {
             Toast.makeText(this, R.string.image_load_error_message, Toast.LENGTH_SHORT).show()
@@ -40,14 +44,14 @@ class ColorCorrectionActivity : AppCompatActivity() {
             this.finish()
         }
 
-        colorCorrectionToolbar.setNavigationOnClickListener {
-            this.finish()
+        applyRotationButton.setOnClickListener {
+            val angle = rotationAnglePicker.text.toString().toIntOrNull()
+            if (angle == null) {
+                Toast.makeText(this, R.string.incorrect_angle_toast, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            rotate(angle)
         }
-
-        blackAndWhiteFilter.setOnClickListener { applyFilter("blackAndWhiteFilter") }
-        sepiaFilter.setOnClickListener { applyFilter("sepiaFilter") }
-        redFilter.setOnClickListener { applyFilter("redFilter") }
-        negativeFilter.setOnClickListener { applyFilter("negativeFilter") }
 
         undoButton.setOnClickListener {
             if (history.isEmpty()) {
@@ -57,17 +61,19 @@ class ColorCorrectionActivity : AppCompatActivity() {
 
             Tools.deleteFile(this, currentUri)
             currentUri = history.pop()
-            filtersImage.setImageURI(currentUri)
+            rotationImage.setImageURI(currentUri)
             resultIntent.putExtra(RESULT_TAG, currentUri)
             setResult(RESULT_OK, resultIntent)
         }
     }
 
-    private fun applyFilter(tag: String) {
-        var photoBitmap: Bitmap = (filtersImage.drawable as BitmapDrawable).bitmap
+    private fun rotate(angle: Int) {
+        var bitmap = (rotationImage.drawable as BitmapDrawable).bitmap
 
         try {
-            photoBitmap = FilteringAlgorithm.runAlgorithm(photoBitmap, tag)
+            val received = RotationAlgorithm.runAlgorithm(bitmap, angle, corners)
+            bitmap = received.first
+            corners = received.second
             Log.d(DEBUG_TAG, "Алгоритм выполнен")
         } catch (error: Exception) {
             Log.d(DEBUG_TAG, "Произошла ошибка при работе алгоритма: $error")
@@ -76,8 +82,8 @@ class ColorCorrectionActivity : AppCompatActivity() {
 
         try {
             history.push(currentUri)
-            currentUri = Tools.saveTempImage(this, photoBitmap) as Uri
-            filtersImage.setImageBitmap(photoBitmap)
+            currentUri = Tools.saveTempImage(this, bitmap) as Uri
+            rotationImage.setImageBitmap(bitmap)
 
             resultIntent.putExtra(RESULT_TAG, currentUri)
             setResult(RESULT_OK, resultIntent)
@@ -93,5 +99,3 @@ class ColorCorrectionActivity : AppCompatActivity() {
         super.onDestroy()
     }
 }
-
-

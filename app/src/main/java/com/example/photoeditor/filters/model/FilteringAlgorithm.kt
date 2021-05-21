@@ -1,4 +1,4 @@
-package com.example.photoeditor.model
+package com.example.photoeditor.filters.model
 
 import android.graphics.Bitmap
 

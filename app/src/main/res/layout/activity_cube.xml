@@ -15,9 +15,8 @@
         app:navigationIcon="@drawable/ic_back_button"
         app:title="@string/cube_task_name"/>
 
-    <view
+    <com.example.photoeditor.cube.model.DrawView
         android:id="@+id/cubeView"
-        class="com.example.photoeditor.DrawView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/standart"

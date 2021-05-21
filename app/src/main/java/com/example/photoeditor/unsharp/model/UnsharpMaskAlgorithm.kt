@@ -1,4 +1,4 @@
-package com.example.photoeditor.model
+package com.example.photoeditor.unsharp.model
 
 import android.graphics.Bitmap
 import android.graphics.Bitmap.createBitmap

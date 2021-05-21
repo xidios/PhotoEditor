@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SplinesActivity">
+    tools:context=".splines.SplinesActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/splinesToolbar"
@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/splines_task_name" />
 
-    <com.example.photoeditor.algorithms.SplinesView
+    <com.example.photoeditor.splines.model.SplinesView
         android:id="@+id/splinesView"
         android:layout_width="0dp"
         android:layout_height="0dp"

@@ -1,4 +1,4 @@
-package com.example.photoeditor.model
+package com.example.photoeditor.segmentation.model
 
 import android.app.Activity
 import org.bytedeco.javacpp.opencv_core.*

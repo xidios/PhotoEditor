@@ -18,14 +18,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PhotoEditor">
         <activity android:name=".LimitedEffectsActivity"></activity>
-        <activity android:name=".effect_activities.UnsharpMaskActivity" />
+        <activity android:name=".unsharp.UnsharpMaskActivity" />
         <activity android:name=".CubeActivity" />
-        <activity android:name=".SplinesActivity" />
-        <activity android:name=".SegmentationActivity" />
-        <activity android:name=".effect_activities.ColorCorrectionActivity" />
-        <activity android:name=".ScalingActivity" />
-        <activity android:name=".effect_activities.RotationActivity" />
-        <activity android:name=".RetouchingActivity" />
+        <activity android:name=".splines.SplinesActivity" />
+        <activity android:name=".segmentation.SegmentationActivity" />
+        <activity android:name=".filters.ColorCorrectionActivity" />
+        <activity android:name=".scaling.ScalingActivity" />
+        <activity android:name=".rotation.RotationActivity" />
+        <activity android:name=".retouching.RetouchingActivity" />
 
         <meta-data
             android:name="com.google.android.actions"

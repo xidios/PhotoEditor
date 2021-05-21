@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RetouchingActivity">
+    tools:context=".retouching.RetouchingActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/retouchToolbar"
@@ -19,24 +19,24 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/side_margin"
-        android:layout_marginEnd="@dimen/side_margin"
         android:layout_marginTop="@dimen/standart"
+        android:layout_marginEnd="@dimen/side_margin"
         android:layout_marginBottom="@dimen/standart"
         android:contentDescription="@string/current_image_desc"
         android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@id/radiusContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/retouchToolbar"
-        app:layout_constraintBottom_toTopOf="@id/radiusContainer"/>
+        app:layout_constraintTop_toBottomOf="@id/retouchToolbar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/radiusContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/half"
-        app:layout_constraintStart_toStartOf="@id/retouchImage"
         app:layout_constraintBottom_toTopOf="@id/strengthContainer"
-        app:layout_constraintEnd_toEndOf="@id/retouchImage">
+        app:layout_constraintEnd_toEndOf="@id/retouchImage"
+        app:layout_constraintStart_toStartOf="@id/retouchImage">
 
         <TextView
             android:id="@+id/radiusTextView"
@@ -52,9 +52,9 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/two"
             android:layout_marginStart="@dimen/standart"
-            app:layout_constraintStart_toEndOf="@id/radiusTextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintStart_toEndOf="@id/radiusTextView"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -63,9 +63,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/standart"
-        app:layout_constraintStart_toStartOf="@+id/radiusContainer"
         app:layout_constraintBottom_toTopOf="@+id/applyButton"
-        app:layout_constraintEnd_toEndOf="@+id/radiusContainer">
+        app:layout_constraintEnd_toEndOf="@+id/radiusContainer"
+        app:layout_constraintStart_toStartOf="@+id/radiusContainer">
 
         <TextView
             android:id="@+id/strengthTextView"
@@ -81,9 +81,9 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/two"
             android:layout_marginStart="@dimen/standart"
-            app:layout_constraintStart_toEndOf="@id/strengthTextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintStart_toEndOf="@id/strengthTextView"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.photoeditor.model.LimitedRVAdapter
 import kotlinx.android.synthetic.main.activity_limited_effects.*
 
 class LimitedEffectsActivity : AppCompatActivity() {

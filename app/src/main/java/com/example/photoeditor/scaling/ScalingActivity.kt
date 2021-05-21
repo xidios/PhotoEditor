@@ -1,4 +1,4 @@
-package com.example.photoeditor
+package com.example.photoeditor.scaling
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -9,6 +9,7 @@ import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.photoeditor.R
 import com.example.photoeditor.model.Tools
 import kotlinx.android.synthetic.main.activity_scaling.*
 import kotlin.math.floor

@@ -1,4 +1,4 @@
-package com.example.photoeditor.model
+package com.example.photoeditor.rotation.model
 
 import android.graphics.Bitmap
 import android.graphics.Bitmap.createBitmap

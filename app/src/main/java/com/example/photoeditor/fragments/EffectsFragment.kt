@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.photoeditor.R
+import com.example.photoeditor.fragments.model.RVAdapter
 import kotlinx.android.synthetic.main.fragment_effects.*
 
 class EffectsFragment : Fragment(R.layout.fragment_effects) {

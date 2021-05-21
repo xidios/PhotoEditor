@@ -1,6 +1,7 @@
-package com.example.photoeditor.effect_activities
+package com.example.photoeditor.filters
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -9,15 +10,15 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.photoeditor.R
+import com.example.photoeditor.filters.model.FilteringAlgorithm
 import com.example.photoeditor.model.Tools
-import com.example.photoeditor.model.UnsharpMaskAlgorithm
-import kotlinx.android.synthetic.main.activity_unsharp_mask.*
+import kotlinx.android.synthetic.main.activity_color_correction.*
 import java.util.*
 
-class UnsharpMaskActivity : AppCompatActivity() {
+class ColorCorrectionActivity : AppCompatActivity() {
     private val KEY = "Image"
     private val RESULT_TAG = "resultImage"
-    private val DEBUG_TAG = "PhotoEditor > UnsharpMask"
+    private val DEBUG_TAG = "PhotoEditor > Filters"
 
     private lateinit var currentUri: Uri
     var history = ArrayDeque<Uri>()
@@ -25,17 +26,13 @@ class UnsharpMaskActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_unsharp_mask)
-
-        unsharpToolbar.setNavigationOnClickListener {
-            this.finish()
-        }
+        setContentView(R.layout.activity_color_correction)
 
         try {
             val receivedImage = intent.getParcelableExtra<Parcelable>(KEY)
             if (receivedImage != null) {
                 currentUri = receivedImage as Uri
-                unsharpImage.setImageURI(currentUri)
+                filtersImage.setImageURI(currentUri)
             }
         } catch (e: Exception) {
             Toast.makeText(this, R.string.image_load_error_message, Toast.LENGTH_SHORT).show()
@@ -43,9 +40,14 @@ class UnsharpMaskActivity : AppCompatActivity() {
             this.finish()
         }
 
-        applyUnsharpMaskButton.setOnClickListener {
-            unsharp()
+        colorCorrectionToolbar.setNavigationOnClickListener {
+            this.finish()
         }
+
+        blackAndWhiteFilter.setOnClickListener { applyFilter("blackAndWhiteFilter") }
+        sepiaFilter.setOnClickListener { applyFilter("sepiaFilter") }
+        redFilter.setOnClickListener { applyFilter("redFilter") }
+        negativeFilter.setOnClickListener { applyFilter("negativeFilter") }
 
         undoButton.setOnClickListener {
             if (history.isEmpty()) {
@@ -55,21 +57,18 @@ class UnsharpMaskActivity : AppCompatActivity() {
 
             Tools.deleteFile(this, currentUri)
             currentUri = history.pop()
-            unsharpImage.setImageURI(currentUri)
+            filtersImage.setImageURI(currentUri)
             resultIntent.putExtra(RESULT_TAG, currentUri)
             setResult(RESULT_OK, resultIntent)
         }
     }
 
-    private fun unsharp() {
-        val radius = radiusPicker.progress + 1
-        val amount = amountPicker.progress / 100.0
-        var bitmap = (unsharpImage.drawable as BitmapDrawable).bitmap
+    private fun applyFilter(tag: String) {
+        var photoBitmap: Bitmap = (filtersImage.drawable as BitmapDrawable).bitmap
 
         try {
-            bitmap = UnsharpMaskAlgorithm.runAlgorithm(bitmap, radius, amount)
+            photoBitmap = FilteringAlgorithm.runAlgorithm(photoBitmap, tag)
             Log.d(DEBUG_TAG, "Алгоритм выполнен")
-            Toast.makeText(this, R.string.algorithm_success_message, Toast.LENGTH_SHORT).show()
         } catch (error: Exception) {
             Log.d(DEBUG_TAG, "Произошла ошибка при работе алгоритма: $error")
             Toast.makeText(this, R.string.algorithm_error_message, Toast.LENGTH_SHORT).show()
@@ -77,14 +76,15 @@ class UnsharpMaskActivity : AppCompatActivity() {
 
         try {
             history.push(currentUri)
-            currentUri = Tools.saveTempImage(this, bitmap) as Uri
-            unsharpImage.setImageBitmap(bitmap)
+            currentUri = Tools.saveTempImage(this, photoBitmap) as Uri
+            filtersImage.setImageBitmap(photoBitmap)
 
             resultIntent.putExtra(RESULT_TAG, currentUri)
             setResult(RESULT_OK, resultIntent)
         } catch (error: Exception) {
             Log.d(DEBUG_TAG, "Произошла ошибка при сохранении изображения")
-            Toast.makeText(this, R.string.image_save_error_message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.image_save_error_message, Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
@@ -93,3 +93,5 @@ class UnsharpMaskActivity : AppCompatActivity() {
         super.onDestroy()
     }
 }
+
+

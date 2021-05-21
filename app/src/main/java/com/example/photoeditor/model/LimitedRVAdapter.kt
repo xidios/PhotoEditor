@@ -1,4 +1,4 @@
-package com.example.photoeditor
+package com.example.photoeditor.model
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,6 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.photoeditor.CubeActivity
+import com.example.photoeditor.R
+import com.example.photoeditor.splines.SplinesActivity
 
 class LimitedRVAdapter(val context: AppCompatActivity?) :
     RecyclerView.Adapter<LimitedRVAdapter.ViewHolder>() {
