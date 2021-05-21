@@ -7,16 +7,16 @@
     tools:context=".ScalingActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/scalingToolbar"
+        android:id="@+id/interpolationToolbar"
         style="@style/Theme.PhotoEditor.Header.Effect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back_button"
-        app:title="@string/scaling" />
+        app:title="@string/interpolation" />
 
     <ImageView
-        android:id="@+id/imageViewScaling"
+        android:id="@+id/imageViewInterpolation"
         style="@style/imagePreviewOnEffect"
         android:layout_width="match_parent"
         android:layout_marginStart="16dp"
@@ -27,44 +27,40 @@
         app:srcCompat="@drawable/ic_launcher_background" />
 
 
-    <EditText
-        android:id="@+id/EditTextScaling"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:hint="@string/resize_koef"
-        android:inputType="numberDecimal"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewScaling" />
-
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonScalingApply"
+        android:id="@+id/buttonBilInterpolationApply"
         style="@style/Theme.PhotoEditor.Button.Accent"
         android:layout_marginTop="16dp"
-        android:text="@string/apply_button"
+        android:text="@string/trilenear"
         app:backgroundTint="@color/buttonBackground"
         app:icon="@drawable/ic_check"
         app:iconTint="@color/accent"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditTextScaling"/>
+        app:layout_constraintTop_toBottomOf="@+id/imageViewInterpolation"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonScalingSave"
-        style="@style/Theme.PhotoEditor.Button"
+        android:id="@+id/buttonInterpolationSave"
+        style="@style/Theme.PhotoEditor.Button.Accent"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="32dp"
         android:text="@string/save_section_name"
         app:backgroundTint="@color/buttonBackground"
         app:icon="@drawable/ic_check"
         app:iconTint="@color/accent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonScalingApply"
-        app:layout_constraintTop_toBottomOf="@+id/EditTextScaling" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonBilInterpolationApply" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonTrilInterpolationApply"
+        style="@style/Theme.PhotoEditor.Button"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/bileneal"
+        app:backgroundTint="@color/buttonBackground"
+        app:icon="@drawable/ic_check"
+        app:iconTint="@color/accent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewInterpolation" />
 </androidx.constraintlayout.widget.ConstraintLayout>

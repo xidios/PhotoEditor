@@ -27,4 +27,7 @@
     <string name="kode">kode</string>
     <string name="resize_koef">Коэфицент масштабирования</string>
     <string name="scaling">Масштабирование</string>
+    <string name="bileneal">Билинейная</string>
+    <string name="trilenear">Трилинейная</string>
+    <string name="interpolation">Интерполяция</string>
 </resources>

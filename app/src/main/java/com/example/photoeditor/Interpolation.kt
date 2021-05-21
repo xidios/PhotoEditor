@@ -2,7 +2,6 @@ package com.example.photoeditor
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -10,17 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.widget.SeekBar
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_rotation.*
-import kotlinx.android.synthetic.main.activity_scaling.*
-import kotlinx.android.synthetic.main.activity_unsharp_mask.*
-import kotlinx.android.synthetic.main.fragment_save.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
-import kotlin.math.floor
+import kotlinx.android.synthetic.main.activity_interpolation.*
 
-class ScalingActivity : AppCompatActivity() {
+class Interpolation : AppCompatActivity() {
     private val KEY = "Image"
     private val RESULT_TAG = "resultImage"
     private lateinit var NewPhoto: Bitmap
@@ -28,41 +20,42 @@ class ScalingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_scaling)
+        setContentView(R.layout.activity_interpolation)
 
-
-        scalingToolbar.setNavigationOnClickListener {
+        interpolationToolbar.setNavigationOnClickListener {
             this.finish()
         }
 
 
         val receivedImage = intent.getParcelableExtra<Parcelable>(KEY)
         if (receivedImage != null) {
-            imageViewScaling.setImageURI(receivedImage as Uri)
-            NewPhoto = (imageViewScaling.getDrawable() as BitmapDrawable).bitmap
+            imageViewInterpolation.setImageURI(receivedImage as Uri)
+            NewPhoto = (imageViewInterpolation.getDrawable() as BitmapDrawable).bitmap
             PhotoOnSave = NewPhoto
-            Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
         }
 
-        buttonScalingApply.setOnClickListener() {
-            var k: Double = EditTextScaling.text.toString().toDouble()
+        buttonBilInterpolationApply.setOnClickListener() {
             try {
-                if (k < 1) {
-                    PhotoOnSave = trilinearInterpolation(NewPhoto, k)
-                } else if (k > 1) {
-                    PhotoOnSave = bilinearInterpolation(NewPhoto, k)
-                } else {
-                    PhotoOnSave = NewPhoto
-                }
+                    PhotoOnSave = bilinearInterpolation(NewPhoto, 1.0)
+
             } catch (e: Exception) {
                 Toast.makeText(this, "Неудалось масштабировать изображение", Toast.LENGTH_SHORT)
                     .show()
             }
-            imageViewScaling.setImageBitmap(PhotoOnSave)
-            Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
+            imageViewInterpolation.setImageBitmap(PhotoOnSave)
 
         }
-        buttonScalingSave.setOnClickListener() {
+        buttonTrilInterpolationApply.setOnClickListener(){
+            try {
+                PhotoOnSave = trilinearInterpolation(NewPhoto, 1.0)
+
+            } catch (e: Exception) {
+                Toast.makeText(this, "Неудалось масштабировать изображение", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            imageViewInterpolation.setImageBitmap(PhotoOnSave)
+        }
+        buttonInterpolationSave.setOnClickListener() {
             try {
                 val resultIntent = Intent()
                 resultIntent.putExtra(RESULT_TAG, saveTempImage(this, PhotoOnSave))
@@ -71,41 +64,6 @@ class ScalingActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 Toast.makeText(this, "Ошибка", Toast.LENGTH_SHORT).show()
             }
-        }
-
-        Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
-
-    }
-
-    private fun resizeBitmap(source: Bitmap, k: Double): Bitmap {
-        if (k < 0.01) {
-            Toast.makeText(this, "Минимальное значение 0.01", Toast.LENGTH_SHORT).show()
-            return PhotoOnSave
-        }
-        var maxLength = source.height * k
-        try {
-            if (source.height >= source.width) {
-
-                val aspectRatio = source.width.toDouble() / source.height.toDouble()
-                val targetWidth = (maxLength * aspectRatio).toInt()
-                val result =
-                    Bitmap.createScaledBitmap(source, targetWidth, maxLength.toInt(), false)
-                return result
-            } else {
-                if (source.width <= maxLength) { // if image width already smaller than the required width
-                    return source
-                }
-
-                val aspectRatio = source.height.toDouble() / source.width.toDouble()
-                val targetHeight = (maxLength * aspectRatio).toInt()
-
-                val result =
-                    Bitmap.createScaledBitmap(source, maxLength.toInt(), targetHeight, false)
-                Toast.makeText(this, "Изображение масштабировано", Toast.LENGTH_SHORT).show()
-                return result
-            }
-        } catch (e: Exception) {
-            return source
         }
     }
 
@@ -228,6 +186,4 @@ class ScalingActivity : AppCompatActivity() {
         Toast.makeText(this, "Изображение масштабировано", Toast.LENGTH_SHORT).show()
         return Bitmap.createBitmap(newArray, neww, newh, Bitmap.Config.ARGB_8888)
     }
-
-
 }
