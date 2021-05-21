@@ -16,7 +16,7 @@ import java.util.*
 
 class Tools {
     companion object {
-        fun saveTempImage(context: Context, image: Bitmap): Parcelable {
+        fun createFile(): File {
             val fileDirectory = File(
                 Environment.getExternalStorageDirectory()
                     .toString() + File.separator + "PhotoEditor"
@@ -26,7 +26,11 @@ class Tools {
             }
 
             val fileName = "img_${SystemClock.uptimeMillis()}.jpg"
-            val file = File(fileDirectory, fileName)
+            return File(fileDirectory, fileName)
+        }
+
+        fun saveTempImage(context: Context, image: Bitmap): Parcelable {
+            val file = createFile()
             image.compress(Bitmap.CompressFormat.JPEG, 100, FileOutputStream(file))
 
             val values = ContentValues()

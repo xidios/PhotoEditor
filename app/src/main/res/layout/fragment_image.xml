@@ -40,6 +40,16 @@
                 android:contentDescription="@string/image_desc" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/changePictureButton"
+                style="@style/Theme.PhotoEditor.Button.Accent"
+                android:layout_marginTop="@dimen/standart"
+                android:text="@string/change_picture_button"
+                app:icon="@drawable/ic_folder"
+                app:layout_constraintEnd_toEndOf="@+id/currentImage"
+                app:layout_constraintStart_toStartOf="@id/currentImage"
+                app:layout_constraintTop_toBottomOf="@+id/currentImage" />
+
+            <!--<com.google.android.material.button.MaterialButton
                 android:id="@+id/takePictureButton"
                 style="@style/Theme.PhotoEditor.Button.Accent"
                 android:layout_marginTop="@dimen/standart"
@@ -59,7 +69,7 @@
                 app:icon="@drawable/ic_folder"
                 app:layout_constraintEnd_toEndOf="@+id/currentImage"
                 app:layout_constraintStart_toEndOf="@id/takePictureButton"
-                app:layout_constraintTop_toBottomOf="@+id/currentImage" />
+                app:layout_constraintTop_toBottomOf="@+id/currentImage" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

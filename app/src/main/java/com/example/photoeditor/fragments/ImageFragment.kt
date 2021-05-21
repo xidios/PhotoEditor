@@ -25,5 +25,9 @@ class ImageFragment : Fragment(R.layout.fragment_image) {
         if (receivedImage != null) {
             currentImage.setImageURI(receivedImage as Uri)
         }
+
+        changePictureButton.setOnClickListener {
+            activity?.finish()
+        }
     }
 }

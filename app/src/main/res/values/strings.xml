@@ -8,6 +8,11 @@
     <string name="choose_picture_button">Галерея</string>
     <string name="without_picture_button">Продолжить без изображения</string>
 
+    <string name="alert_title">Нам нужны права!</string>
+    <string name="alert_message">Для полноценной работы приложения нам нужны разрешения на считывание и запись файлов. Разрешите их или используйте режим без загрузки изображений</string>
+    <string name="alert_positive">Дать разрешения</string>
+    <string name="alert_negative">Продолжить без загрузки</string>
+
     <string name="image_section_name">Изображение</string>
     <string name="image_section_header">Загрузить изображение</string>
     <string name="image_desc">Загруженное изображение</string>
@@ -57,6 +62,7 @@
     <string name="reset_cube_button">Сбросить</string>
 
     <string name="apply_button">Применить</string>
+    <string name="change_picture_button">Заменить изображение</string>
     <string name="cancel_button">Отменить действие</string>
     <string name="current_image_desc">Текущее изображение</string>
     <string name="empty_history_message">История изменений пуста</string>
@@ -69,7 +75,6 @@
     <string name="task_icon_desc">Иконка эффекта</string>
     <string name="task_name">Название эффекта</string>
 
-    <string name="title_activity_main2">MainActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>

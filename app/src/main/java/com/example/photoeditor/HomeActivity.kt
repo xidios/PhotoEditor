@@ -15,15 +15,19 @@ import com.example.photoeditor.model.Tools
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_rotation.*
 import kotlinx.android.synthetic.main.fragment_effects.*
+import kotlinx.android.synthetic.main.fragment_save.*
 import java.util.*
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(R.layout.activity_home) {
     private val REQUEST_ID = 1
     private val RESULT_TAG = "resultImage"
 
+    private val effectsFragmentTarget =
+        supportFragmentManager.findFragmentByTag(EffectsFragment.TAG)
+    private val saveFragmentTarget = supportFragmentManager.findFragmentByTag(SaveFragment.TAG)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
 
         val receivedImage = intent.getParcelableExtra<Parcelable>("Image")
         hiddenImage.setImageURI(receivedImage as Uri)
@@ -91,14 +95,12 @@ class HomeActivity : AppCompatActivity() {
 
         if (data == null) return
         if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_ID) {
-                val image = data.getParcelableExtra<Parcelable>(RESULT_TAG)
-                val effectsFragmentTarget =
-                    supportFragmentManager.findFragmentByTag(EffectsFragment.TAG)
-                val saveFragmentTarget = supportFragmentManager.findFragmentByTag(SaveFragment.TAG)
-
-                (effectsFragmentTarget as? EffectsFragment)?.rewriteImage(image)
-                (saveFragmentTarget as? SaveFragment)?.rewriteImage(image)
+            when (requestCode) {
+                REQUEST_ID -> {
+                    val image = data.getParcelableExtra<Parcelable>(RESULT_TAG)
+                    (effectsFragmentTarget as? EffectsFragment)?.rewriteImage(image)
+                    (saveFragmentTarget as? SaveFragment)?.rewriteImage(image)
+                }
             }
         }
     }
