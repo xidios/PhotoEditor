@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-
     private val IMAGE = "Image"
     private val REQUEST_CAMERA = 1
     private val REQUEST_GALLERY = 2
@@ -38,6 +37,7 @@ class MainActivity : AppCompatActivity() {
                 request()
             }
         }
+
         choosePictureButton.setOnClickListener {
             if (checkPermissions()) {
                 photosFromGallery()
@@ -45,6 +45,11 @@ class MainActivity : AppCompatActivity() {
             else {
                 request()
             }
+        }
+
+        withoutPictureButton.setOnClickListener {
+            val intent = Intent(this, LimitedEffectsActivity::class.java)
+            startActivity(intent)
         }
     }
 
