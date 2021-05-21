@@ -54,6 +54,7 @@
     <string name="empty_history_message">История изменений пуста</string>
     <string name="algorithm_success_message">Алгоритм выполнен</string>
     <string name="algorithm_error_message">Произошла ошибка при работе алгоритма</string>
+    <string name="image_load_error_message">Произошла ошибка при загрузке изображения</string>
     <string name="image_save_error_message">Произошла ошибка при сохранении изображения</string>
 
     <string name="isi">isi</string>

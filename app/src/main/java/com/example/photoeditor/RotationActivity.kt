@@ -8,7 +8,7 @@ import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.photoeditor.model.RotationImage
+import com.example.photoeditor.model.RotationAlgorithm
 import com.example.photoeditor.model.Tools
 import kotlinx.android.synthetic.main.activity_rotation.*
 import java.util.*
@@ -16,7 +16,7 @@ import java.util.*
 class RotationActivity : AppCompatActivity() {
     private val KEY = "Image"
     private val RESULT_TAG = "resultImage"
-    private val DEBUG_TAG = "PhotoEditor > RotationActivity"
+    private val DEBUG_TAG = "PhotoEditor > Rotation"
 
     private var corners: MutableList<Pair<Int, Int>>? = null
     private lateinit var currentUri: Uri
@@ -38,6 +38,7 @@ class RotationActivity : AppCompatActivity() {
                 rotationImage.setImageURI(currentUri)
             }
         } catch (e: Exception) {
+            Toast.makeText(this, R.string.image_load_error_message, Toast.LENGTH_SHORT).show()
             Log.d(DEBUG_TAG, e.toString())
             this.finish()
         }
@@ -69,13 +70,13 @@ class RotationActivity : AppCompatActivity() {
         var bitmap = (rotationImage.drawable as BitmapDrawable).bitmap
 
         try {
-            val received = RotationImage.runAlgorithm(bitmap, angle, corners)
+            val received = RotationAlgorithm.runAlgorithm(bitmap, angle, corners)
             bitmap = received.first
             corners = received.second
-            Log.d(DEBUG_TAG, "${R.string.algorithm_success_message}")
-            Toast.makeText(this, R.string.algorithm_error_message, Toast.LENGTH_SHORT).show()
+            Log.d(DEBUG_TAG, "Алгоритм выполнен")
+            Toast.makeText(this, R.string.algorithm_success_message, Toast.LENGTH_SHORT).show()
         } catch (error: Exception) {
-            Log.d(DEBUG_TAG, "${R.string.algorithm_error_message}: $error")
+            Log.d(DEBUG_TAG, "Произошла ошибка при работе алгоритма: $error")
             Toast.makeText(this, R.string.algorithm_error_message, Toast.LENGTH_SHORT).show()
         }
 
@@ -87,7 +88,7 @@ class RotationActivity : AppCompatActivity() {
             resultIntent.putExtra(RESULT_TAG, currentUri)
             setResult(RESULT_OK, resultIntent)
         } catch (error: Exception) {
-            Log.d(DEBUG_TAG, "${R.string.image_save_error_message}")
+            Log.d(DEBUG_TAG, "Произошла ошибка при сохранении изображения")
             Toast.makeText(this, R.string.image_save_error_message, Toast.LENGTH_SHORT)
                 .show()
         }

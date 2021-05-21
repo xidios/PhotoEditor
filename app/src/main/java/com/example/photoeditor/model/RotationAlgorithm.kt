@@ -5,7 +5,7 @@ import android.graphics.Bitmap.createBitmap
 import android.graphics.Color
 import kotlin.math.*
 
-class RotationImage {
+class RotationAlgorithm {
     private var angle: Double = 0.0
     private lateinit var inputCorners: MutableList<Pair<Int, Int>>
     private lateinit var outputCorners: MutableList<Pair<Int, Int>>
@@ -26,7 +26,7 @@ class RotationImage {
                 newCorners =
                     mutableListOf(0 to 0, width - 1 to 0, width - 1 to height - 1, 0 to height - 1)
             }
-            return RotationImage().rotateImage(
+            return RotationAlgorithm().rotateImage(
                 bitmap,
                 intAngle,
                 newCorners as MutableList<Pair<Int, Int>>
