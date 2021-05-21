@@ -1,7 +1,6 @@
 package com.example.photoeditor.fragments
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
@@ -12,18 +11,19 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.photoeditor.*
 
-class RVAdapter(val context: FragmentActivity?, val image: Parcelable) : RecyclerView.Adapter<RVAdapter.ViewHolder>() {
+class RVAdapter(val context: FragmentActivity?, val image: Parcelable) :
+    RecyclerView.Adapter<RVAdapter.ViewHolder>() {
     val REQUEST_ID = 1
     val KEY = "Image"
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var itemKode: TextView = itemView.findViewById(R.id.kodePertanyaan)
-        var imageRV: ImageView = itemView.findViewById(R.id.imageRV)
-        var itemIsi: TextView = itemView.findViewById(R.id.isiPertanyaan)
+        var taskName: TextView = itemView.findViewById(R.id.task_name)
+        var taskIcon: ImageView = itemView.findViewById(R.id.task_icon)
+        var taskDescription: TextView = itemView.findViewById(R.id.task_description)
 
         init {
             itemView.setOnClickListener {
-                val position: Int = getAdapterPosition()
+                val position: Int = adapterPosition
                 var intent = Intent()
 
                 when (position) {
@@ -51,24 +51,25 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) : Recycle
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
-        viewHolder.itemKode.text = kode[i]
-        viewHolder.imageRV.setImageResource(kategori[i])
-        viewHolder.itemIsi.text = isi[i]
+        viewHolder.taskName.setText(taskName[i])
+        viewHolder.taskIcon.setImageResource(taskIcon[i])
+        viewHolder.taskDescription.setText(taskDescription[i])
     }
 
-    override fun getItemCount() = kode.size
+    override fun getItemCount() = taskName.size
 
-    private val kode = arrayOf(
-        "Поворот",
-        "Масштабирование",
-        "Цветокоррекция",
-        "Сегментация",
-        "Сплайны",
-        "Кубик",
-        "Нерезкое маскирование",
-        "Ретуширование")
+    private val taskName = arrayOf(
+        R.string.rotation_task_name,
+        R.string.scaling_task_name,
+        R.string.color_correction_task_name,
+        R.string.segmentation_task_name,
+        R.string.splines_task_name,
+        R.string.cube_task_name,
+        R.string.unsharp_mask_task_name,
+        R.string.retouch_task_name
+    )
 
-    private val kategori = arrayOf(
+    private val taskIcon = arrayOf(
         R.drawable.download,
         R.drawable.image,
         R.drawable.download,
@@ -76,16 +77,18 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) : Recycle
         R.drawable.download,
         R.drawable.download,
         R.drawable.download,
-        R.drawable.download)
+        R.drawable.download
+    )
 
-    private val isi = arrayOf(
-        "Поворот изображения на угол, кратный 90 градусам",
-        "Изменение размера изображения",
-        "Применение к изображению выбранного фильтра",
-        "Распознавание лиц на изображении",
-        "Преобразование ломаных линий в сплайны",
-        "Вращение объемного игрального кубика",
-        "Увеличение резкости изображения",
-        "Устранение дефектов")
+    private val taskDescription = arrayOf(
+        R.string.rotation_task_desc,
+        R.string.scaling_task_desc,
+        R.string.color_correction_task_desc,
+        R.string.segmentation_task_desc,
+        R.string.splines_task_desc,
+        R.string.cube_task_desc,
+        R.string.unsharp_mask_task_desc,
+        R.string.retouch_task_desc
+    )
 }
 

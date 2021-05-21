@@ -20,4 +20,8 @@
 
     <dimen name="header_title_size">24sp</dimen>
     <dimen name="header_height">@dimen/five</dimen>
+
+    <dimen name="task_icon_size">@dimen/four</dimen>
+    <dimen name="task_title_size">16sp</dimen>
+    <dimen name="task_desc_size">14sp</dimen>
 </resources>
