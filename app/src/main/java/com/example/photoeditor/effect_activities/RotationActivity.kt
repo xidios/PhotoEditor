@@ -75,7 +75,6 @@ class RotationActivity : AppCompatActivity() {
             bitmap = received.first
             corners = received.second
             Log.d(DEBUG_TAG, "Алгоритм выполнен")
-            Toast.makeText(this, R.string.algorithm_success_message, Toast.LENGTH_SHORT).show()
         } catch (error: Exception) {
             Log.d(DEBUG_TAG, "Произошла ошибка при работе алгоритма: $error")
             Toast.makeText(this, R.string.algorithm_error_message, Toast.LENGTH_SHORT).show()

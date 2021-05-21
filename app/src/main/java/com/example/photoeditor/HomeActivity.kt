@@ -22,10 +22,6 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
     private val REQUEST_ID = 1
     private val RESULT_TAG = "resultImage"
 
-    private val effectsFragmentTarget =
-        supportFragmentManager.findFragmentByTag(EffectsFragment.TAG)
-    private val saveFragmentTarget = supportFragmentManager.findFragmentByTag(SaveFragment.TAG)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -95,12 +91,14 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
 
         if (data == null) return
         if (resultCode == RESULT_OK) {
-            when (requestCode) {
-                REQUEST_ID -> {
-                    val image = data.getParcelableExtra<Parcelable>(RESULT_TAG)
-                    (effectsFragmentTarget as? EffectsFragment)?.rewriteImage(image)
-                    (saveFragmentTarget as? SaveFragment)?.rewriteImage(image)
-                }
+            if (requestCode == REQUEST_ID) {
+                val image = data.getParcelableExtra<Parcelable>(RESULT_TAG)
+                val effectsFragmentTarget =
+                    supportFragmentManager.findFragmentByTag(EffectsFragment.TAG)
+                val saveFragmentTarget = supportFragmentManager.findFragmentByTag(SaveFragment.TAG)
+
+                (effectsFragmentTarget as? EffectsFragment)?.rewriteImage(image)
+                (saveFragmentTarget as? SaveFragment)?.rewriteImage(image)
             }
         }
     }
