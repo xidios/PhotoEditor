@@ -1,24 +1,27 @@
 package com.example.photoeditor
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.os.Parcelable
+import android.os.SystemClock
 import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.photoeditor.fragments.EffectsFragment
 import com.example.photoeditor.fragments.ImageFragment
-import com.example.photoeditor.fragments.RVAdapter
 import com.example.photoeditor.fragments.SaveFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_rotation.*
 import kotlinx.android.synthetic.main.fragment_effects.*
-import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.util.*
 
 class HomeActivity : AppCompatActivity() {
@@ -31,10 +34,12 @@ class HomeActivity : AppCompatActivity() {
 
         val receivedImage = intent.getParcelableExtra<Parcelable>("Image")
         hiddenImage.setImageURI(receivedImage as Uri)
+        val bitmap = (hiddenImage.drawable as BitmapDrawable).bitmap
+        val receivedCopy = saveTempImage(this, bitmap)
 
-        val imageFragment = ImageFragment.newInstance(receivedImage)
-        val saveFragment = SaveFragment.newInstance(receivedImage)
-        val effectsFragment = EffectsFragment.newInstance(receivedImage)
+        val imageFragment = ImageFragment.newInstance(receivedCopy)
+        val saveFragment = SaveFragment.newInstance(receivedCopy)
+        val effectsFragment = EffectsFragment.newInstance(receivedCopy)
 
         firstRun(imageFragment, saveFragment, effectsFragment)
 
@@ -102,8 +107,22 @@ class HomeActivity : AppCompatActivity() {
 }
 
 fun saveTempImage(context: Context, image: Bitmap): Parcelable {
-    val stream = ByteArrayOutputStream()
+    val fileDirectory = File(Environment.getExternalStorageDirectory().toString() + File.separator + "PhotoEditor")
+    if (!fileDirectory.exists()) {
+        fileDirectory.mkdirs()
+    }
+
+    val fileName = "img_${SystemClock.uptimeMillis()}.jpg"
+    val file = File(fileDirectory, fileName)
+    image.compress(Bitmap.CompressFormat.JPEG, 100, FileOutputStream(file))
+
+    val values = ContentValues()
+    values.put(MediaStore.MediaColumns.DATA, file.absolutePath)
+    context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+    return Uri.fromFile(file)
+
+    /*val stream = ByteArrayOutputStream()
     image.compress(Bitmap.CompressFormat.PNG, 100, stream)
     val path = MediaStore.Images.Media.insertImage(context.contentResolver, image, UUID.randomUUID().toString() + ".png", "drawing")
-    return Uri.parse(path)
+    return Uri.parse(path)*/
 }

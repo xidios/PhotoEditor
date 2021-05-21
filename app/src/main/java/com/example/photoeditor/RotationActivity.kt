@@ -1,5 +1,6 @@
 package com.example.photoeditor
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -8,9 +9,11 @@ import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.photoeditor.algorithms.RotationImage
+import androidx.core.net.toFile
+import com.example.photoeditor.model.RotationImage
 import kotlinx.android.synthetic.main.activity_rotation.*
 import java.util.*
+
 
 class RotationActivity : AppCompatActivity() {
     private val KEY = "Image"
@@ -24,7 +27,7 @@ class RotationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rotation)
 
-        rotationToolbar.setNavigationOnClickListener{
+        rotationToolbar.setNavigationOnClickListener {
             this.finish()
         }
 
@@ -40,7 +43,12 @@ class RotationActivity : AppCompatActivity() {
         }
 
         applyRotationButton.setOnClickListener {
-            rotate()
+            val angle = rotationAnglePicker.text.toString().toIntOrNull()
+            if (angle == null) {
+                Toast.makeText(this, "Введите корректный угол", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            rotate(angle)
         }
 
         cancelChanging.setOnClickListener {
@@ -49,7 +57,7 @@ class RotationActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            deleteFile(currentUri)
+            deleteFile(this, currentUri)
             currentUri = history.pop()
             rotationImage.setImageURI(currentUri)
             resultIntent.putExtra(RESULT_TAG, currentUri)
@@ -57,22 +65,16 @@ class RotationActivity : AppCompatActivity() {
         }
     }
 
-    private fun rotate() {
-        val angle = rotationAnglePicker.text.toString().toIntOrNull()
+    private fun rotate(angle: Int) {
         val rotate = RotationImage()
-
-        if (angle == null) {
-            Toast.makeText(this, "Введите корректный угол", Toast.LENGTH_SHORT).show()
-            return
-        }
-
         var bitmap = (rotationImage.drawable as BitmapDrawable).bitmap
+
         try {
             val received = rotate.prepare(bitmap, angle, corners)
             bitmap = received.first
             corners = received.second
             Log.d("RotationActivity", "Алгоритм успешно выполнен")
-        } catch(error: Exception) {
+        } catch (error: Exception) {
             Log.d("RotationActivity", "Произошла ошибка при работе алгоритма ${error.toString()}")
             Toast.makeText(this, "Произошла ошибка при работе алгоритма", Toast.LENGTH_SHORT).show()
         }
@@ -85,19 +87,29 @@ class RotationActivity : AppCompatActivity() {
             rotationImage.setImageBitmap(bitmap)
         } catch (error: Exception) {
             Log.d("RotationActivity", "Произошла ошибка при сохранении изображения")
-            Toast.makeText(this, "Произошла ошибка при сохранении изображения", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Произошла ошибка при сохранении изображения", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
     override fun onDestroy() {
         for (image in history) {
-            deleteFile(image)
-//            Log.d("RotationActivity", image.toString())
+            deleteFile(this, image)
         }
         super.onDestroy()
     }
 
-    private fun deleteFile(image: Uri) {
-
+    private fun deleteFile(context: Context, image: Uri) {
+        val file = image.toFile()
+        if (file.exists()) {
+            if (file.delete()) {
+                context.sendBroadcast(
+                    Intent(
+                        Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                        Uri.fromFile(image.toFile())
+                    )
+                )
+            }
+        }
     }
 }
