@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
+import com.example.photoeditor.model.Tools
 import kotlinx.android.synthetic.main.activity_color_correction.*
 
 class ColorCorrectionActivity : AppCompatActivity() {
@@ -56,7 +57,7 @@ class ColorCorrectionActivity : AppCompatActivity() {
         }
 
         filtersImage.setImageBitmap(resultBitmap)
-        intent.putExtra(RESULT_TAG, saveTempImage(this, resultBitmap))
+        intent.putExtra(RESULT_TAG, Tools.saveTempImage(this, resultBitmap))
         setResult(RESULT_OK, intent)
     }
 

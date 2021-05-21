@@ -1,27 +1,20 @@
 package com.example.photoeditor
 
-import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.os.Parcelable
-import android.os.SystemClock
-import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.example.photoeditor.fragments.EffectsFragment
 import com.example.photoeditor.fragments.ImageFragment
 import com.example.photoeditor.fragments.SaveFragment
+import com.example.photoeditor.model.Tools
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_rotation.*
 import kotlinx.android.synthetic.main.fragment_effects.*
-import java.io.File
-import java.io.FileOutputStream
 import java.util.*
 
 class HomeActivity : AppCompatActivity() {
@@ -35,7 +28,7 @@ class HomeActivity : AppCompatActivity() {
         val receivedImage = intent.getParcelableExtra<Parcelable>("Image")
         hiddenImage.setImageURI(receivedImage as Uri)
         val bitmap = (hiddenImage.drawable as BitmapDrawable).bitmap
-        val receivedCopy = saveTempImage(this, bitmap)
+        val receivedCopy = Tools.saveTempImage(this, bitmap)
 
         val imageFragment = ImageFragment.newInstance(receivedCopy)
         val saveFragment = SaveFragment.newInstance(receivedCopy)
@@ -62,7 +55,11 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun firstRun(imageFragment: ImageFragment, saveFragment: SaveFragment, effectsFragment: EffectsFragment) {
+    private fun firstRun(
+        imageFragment: ImageFragment,
+        saveFragment: SaveFragment,
+        effectsFragment: EffectsFragment
+    ) {
         supportFragmentManager.commit {
             add(R.id.fragmentContainer, saveFragment, SaveFragment.TAG)
             hide(saveFragment)
@@ -87,7 +84,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun findActiveFragment() = supportFragmentManager.fragments.find {it.isVisible}
+    private fun findActiveFragment() = supportFragmentManager.fragments.find { it.isVisible }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -96,7 +93,8 @@ class HomeActivity : AppCompatActivity() {
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_ID) {
                 val image = data.getParcelableExtra<Parcelable>(RESULT_TAG)
-                val effectsFragmentTarget = supportFragmentManager.findFragmentByTag(EffectsFragment.TAG)
+                val effectsFragmentTarget =
+                    supportFragmentManager.findFragmentByTag(EffectsFragment.TAG)
                 val saveFragmentTarget = supportFragmentManager.findFragmentByTag(SaveFragment.TAG)
 
                 (effectsFragmentTarget as? EffectsFragment)?.rewriteImage(image)
@@ -104,25 +102,4 @@ class HomeActivity : AppCompatActivity() {
             }
         }
     }
-}
-
-fun saveTempImage(context: Context, image: Bitmap): Parcelable {
-    val fileDirectory = File(Environment.getExternalStorageDirectory().toString() + File.separator + "PhotoEditor")
-    if (!fileDirectory.exists()) {
-        fileDirectory.mkdirs()
-    }
-
-    val fileName = "img_${SystemClock.uptimeMillis()}.jpg"
-    val file = File(fileDirectory, fileName)
-    image.compress(Bitmap.CompressFormat.JPEG, 100, FileOutputStream(file))
-
-    val values = ContentValues()
-    values.put(MediaStore.MediaColumns.DATA, file.absolutePath)
-    context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-    return Uri.fromFile(file)
-
-    /*val stream = ByteArrayOutputStream()
-    image.compress(Bitmap.CompressFormat.PNG, 100, stream)
-    val path = MediaStore.Images.Media.insertImage(context.contentResolver, image, UUID.randomUUID().toString() + ".png", "drawing")
-    return Uri.parse(path)*/
 }

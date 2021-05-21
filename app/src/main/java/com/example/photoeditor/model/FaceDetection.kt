@@ -1,4 +1,4 @@
-package com.example.photoeditor
+package com.example.photoeditor.model
 
 import android.app.Activity
 import org.bytedeco.javacpp.opencv_core.*

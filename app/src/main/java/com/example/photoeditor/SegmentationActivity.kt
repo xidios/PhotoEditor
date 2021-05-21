@@ -14,6 +14,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.example.photoeditor.model.FaceDetection
+import com.example.photoeditor.model.Tools
 import kotlinx.android.synthetic.main.activity_segmentation.*
 import org.bytedeco.javacv.AndroidFrameConverter
 import org.bytedeco.javacv.OpenCVFrameConverter
@@ -49,7 +51,7 @@ class SegmentationActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener() {
             try {
-                resultIntent.putExtra(RESULT_TAG, saveTempImage(this, image))
+                resultIntent.putExtra(RESULT_TAG, Tools.saveTempImage(this, image))
                 setResult(RESULT_OK, resultIntent)
             } catch (error: Exception) {
                 Log.d("SegmentationActivity", "Произошла ошибка при сохранении изображения")

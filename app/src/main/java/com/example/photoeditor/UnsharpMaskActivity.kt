@@ -9,6 +9,7 @@ import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.photoeditor.model.Tools
 import com.example.photoeditor.model.UnsharpMaskAlgorithm
 import kotlinx.android.synthetic.main.activity_unsharp_mask.*
 
@@ -63,7 +64,7 @@ class UnsharpMaskActivity : AppCompatActivity() {
 
         val resultIntent = Intent()
         try {
-            resultIntent.putExtra(RESULT_TAG, saveTempImage(this, bitmap))
+            resultIntent.putExtra(RESULT_TAG, Tools.saveTempImage(this, bitmap))
             setResult(RESULT_OK, resultIntent)
         } catch (error: Exception) {
             Log.d("UnsharpMaskActivity", "Произошла ошибка при сохранении изображения")
