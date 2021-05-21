@@ -26,7 +26,6 @@ class ScalingActivity : AppCompatActivity() {
             this.finish()
         }
 
-        //TODO(Исправить получение изображения в масштабировании)
         val receivedImage = intent.getParcelableExtra<Parcelable>(KEY)
         if (receivedImage != null) {
             scalingImage.setImageURI(receivedImage as Uri)

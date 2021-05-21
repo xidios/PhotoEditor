@@ -1,28 +1,23 @@
 package com.example.photoeditor
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
-import android.graphics.drawable.Drawable
-import android.provider.ContactsContract.Intents.Insert.ACTION
-import android.system.Os.remove
-import android.text.TextPaint
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
 import android.util.AttributeSet
-import android.view.KeyEvent.ACTION_DOWN
 import android.view.MotionEvent
-import android.view.MotionEvent.ACTION_DOWN
 import android.view.View
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_splines.*
-import kotlinx.android.synthetic.main.activity_splines.view.*
 import kotlin.math.pow
-import kotlin.math.sqrt
 
 class SplinesView @JvmOverloads constructor(
-     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
- ) : View(context, attrs, defStyleAttr) {
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
 
-     private val codeDrawing = 666
+    private val codeDrawing = 666
      var deletePoints = 0
 
      var paint = Paint()
