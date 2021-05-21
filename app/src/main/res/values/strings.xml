@@ -23,6 +23,7 @@
     <string name="save_section_name">Сохранение</string>
     <string name="save_section_header">Сохранить изображение</string>
     <string name="save_image_desc">Изображение с результатом</string>
+    <string name="save_image_text">Текущий результат автоматически сохранен. Проверьте галерею :)</string>
     <string name="save_picture_button">Сохранить</string>
 
     <string name="rotation_task_name">Поворот</string>
@@ -74,14 +75,5 @@
     <string name="task_description">Описание эффекта</string>
     <string name="task_icon_desc">Иконка эффекта</string>
     <string name="task_name">Название эффекта</string>
-
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
 </resources>

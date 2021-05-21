@@ -14,67 +14,48 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/scaling_task_name" />
 
-    <ScrollView
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/scalingImage"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/splinesToolbar">
+        android:layout_marginStart="@dimen/side_margin"
+        android:layout_marginEnd="@dimen/side_margin"
+        android:layout_marginTop="@dimen/standart"
+        android:layout_marginBottom="@dimen/standart"
+        android:contentDescription="@string/current_image_desc"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scalingToolbar"
+        app:layout_constraintBottom_toTopOf="@id/scalePicker"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standart">
+    <EditText
+        android:id="@+id/scalePicker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/half"
+        android:ems="10"
+        android:hint="@string/scale_coefficient"
+        android:inputType="numberDecimal"
+        app:layout_constraintStart_toStartOf="@+id/scalingImage"
+        app:layout_constraintEnd_toEndOf="@+id/scalingImage"
+        app:layout_constraintBottom_toTopOf="@+id/buttonScalingApply"
+        android:importantForAutofill="no" />
 
-            <ImageView
-                android:id="@+id/scalingImage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/side_margin"
-                android:layout_marginEnd="@dimen/side_margin"
-                android:contentDescription="@string/current_image_desc"
-                android:src="@mipmap/ic_launcher"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonScalingApply"
+        style="@style/Theme.PhotoEditor.Button.Accent.Apply"
+        android:layout_marginBottom="@dimen/half"
+        app:layout_constraintStart_toStartOf="@id/scalePicker"
+        app:layout_constraintEnd_toEndOf="@+id/scalePicker"
+        app:layout_constraintBottom_toTopOf="@+id/undoButton"/>
 
-            <EditText
-                android:id="@+id/scalePicker"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standart"
-                android:ems="10"
-                android:hint="@string/scale_coefficient"
-                android:inputType="numberDecimal"
-                app:layout_constraintStart_toStartOf="@+id/scalingImage"
-                app:layout_constraintEnd_toEndOf="@+id/scalingImage"
-                app:layout_constraintTop_toBottomOf="@+id/scalingImage"
-                android:importantForAutofill="no" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonScalingApply"
-                style="@style/Theme.PhotoEditor.Button.Accent"
-                android:layout_marginTop="@dimen/standart"
-                android:text="@string/apply_button"
-                app:icon="@drawable/ic_check"
-                app:layout_constraintStart_toStartOf="@id/scalePicker"
-                app:layout_constraintEnd_toEndOf="@+id/scalePicker"
-                app:layout_constraintTop_toBottomOf="@+id/scalePicker"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/undoButton"
-                style="@style/Theme.PhotoEditor.Button"
-                android:text="@string/undo_button"
-                android:layout_marginTop="@dimen/half"
-                app:layout_constraintStart_toStartOf="@id/buttonScalingApply"
-                app:layout_constraintEnd_toEndOf="@id/buttonScalingApply"
-                app:layout_constraintTop_toBottomOf="@id/buttonScalingApply"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </ScrollView>
-
-
-
-
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/undoButton"
+        style="@style/Theme.PhotoEditor.Button.Undo"
+        android:layout_marginBottom="@dimen/standart"
+        app:layout_constraintStart_toStartOf="@id/buttonScalingApply"
+        app:layout_constraintEnd_toEndOf="@id/buttonScalingApply"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
