@@ -9,6 +9,7 @@ import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.photoeditor.model.Tools
 import kotlinx.android.synthetic.main.activity_scaling.*
 import kotlin.math.floor
 
@@ -22,15 +23,14 @@ class ScalingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scaling)
 
-        scalingToolbar.setNavigationOnClickListener{
+        scalingToolbar.setNavigationOnClickListener {
             this.finish()
         }
 
-        //TODO(Исправить получение изображения в масштабировании)
         val receivedImage = intent.getParcelableExtra<Parcelable>(KEY)
         if (receivedImage != null) {
             scalingImage.setImageURI(receivedImage as Uri)
-            NewPhoto = (scalingImage.getDrawable() as BitmapDrawable).bitmap
+            NewPhoto = (scalingImage.drawable as BitmapDrawable).bitmap
             PhotoOnSave = NewPhoto
             Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
         }
@@ -39,7 +39,7 @@ class ScalingActivity : AppCompatActivity() {
             scalingImage.setImageBitmap(PhotoOnSave)
             Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
             val resultIntent = Intent()
-            resultIntent.putExtra(RESULT_TAG, saveTempImage(this, PhotoOnSave))
+            resultIntent.putExtra(RESULT_TAG, Tools.saveTempImage(this, PhotoOnSave))
             setResult(RESULT_OK, resultIntent)
             Toast.makeText(this, "Изображение сохранено", Toast.LENGTH_SHORT).show()
 
@@ -77,7 +77,7 @@ class ScalingActivity : AppCompatActivity() {
 
     fun resizeBitmap(source: Bitmap): Bitmap {
         var k: Double = scalePicker.text.toString().toDouble()
-        if(k<0.01){
+        if (k < 0.01) {
             Toast.makeText(this, "Минимальное значение 0.01", Toast.LENGTH_SHORT).show()
             return PhotoOnSave
         }
@@ -164,12 +164,13 @@ class ScalingActivity : AppCompatActivity() {
                 var p4 = oldArray[index + oldw]
 
                 var blue =
-                    p1 * d1 + p2 * d2 + p3 *d3 + p4 * d4
+                    p1 * d1 + p2 * d2 + p3 * d3 + p4 * d4
                 var green =
-                    (p1 shr 8) * d1 + (p2 shr 8 ) * d2 + (p3 shr 8 ) *d3 + (p4 shr 8) * d4
+                    (p1 shr 8) * d1 + (p2 shr 8) * d2 + (p3 shr 8) * d3 + (p4 shr 8) * d4
                 var red =
-                    (p1 shr 16) * d1 + (p2 shr 16) * d2 + (p3 shr 1) *d3 + (p4 shr 16) * d4
-                newArray[j*newh+i] = (red.toInt() shl 16) or (green.toInt() shl 8) or blue.toInt()
+                    (p1 shr 16) * d1 + (p2 shr 16) * d2 + (p3 shr 1) * d3 + (p4 shr 16) * d4
+                newArray[j * newh + i] =
+                    (red.toInt() shl 16) or (green.toInt() shl 8) or blue.toInt()
             }
         }
         return Bitmap.createBitmap(newArray, neww, newh, Bitmap.Config.ARGB_8888)

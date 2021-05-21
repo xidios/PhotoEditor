@@ -17,13 +17,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PhotoEditor">
-        <activity android:name=".UnsharpMaskActivity" />
+        <activity android:name=".LimitedEffectsActivity"></activity>
+        <activity android:name=".effect_activities.UnsharpMaskActivity" />
         <activity android:name=".CubeActivity" />
         <activity android:name=".SplinesActivity" />
         <activity android:name=".SegmentationActivity" />
         <activity android:name=".ColorCorrectionActivity" />
         <activity android:name=".ScalingActivity" />
-        <activity android:name=".RotationActivity" />
+        <activity android:name=".effect_activities.RotationActivity" />
         <activity android:name=".RetouchingActivity" />
 
         <meta-data

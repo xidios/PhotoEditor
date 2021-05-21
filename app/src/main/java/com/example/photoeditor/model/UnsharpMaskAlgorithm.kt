@@ -1,4 +1,4 @@
-package com.example.photoeditor.algorithms
+package com.example.photoeditor.model
 
 import android.graphics.Bitmap
 import android.graphics.Bitmap.createBitmap
@@ -6,6 +6,12 @@ import android.graphics.Color
 import java.lang.Math.*
 
 class UnsharpMaskAlgorithm {
+
+    companion object {
+        fun runAlgorithm(input: Bitmap, radius: Int, amount: Double): Bitmap {
+            return UnsharpMaskAlgorithm().getResult(input, radius, amount)
+        }
+    }
 
     fun getResult(input: Bitmap, radius: Int, amount: Double): Bitmap {
         var output = gaussianBlur(input, radius)

@@ -21,7 +21,7 @@
     <color name="bottomNavigationItemColor">#FF6E6E6E</color>
 
     <!--    Карточки эффектов-->
-    <color name="bonusEffectCardBackground">#55F0F0F0</color>
+    <color name="effectCardBackground">#FFF9F9F9</color>
     <color name="effectTitleColor">@color/black</color>
     <color name="effectDescriptionColor">#FF515B60</color>
 </resources>

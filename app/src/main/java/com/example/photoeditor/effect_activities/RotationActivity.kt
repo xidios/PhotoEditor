@@ -1,4 +1,4 @@
-package com.example.photoeditor
+package com.example.photoeditor.effect_activities
 
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
@@ -8,23 +8,27 @@ import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.photoeditor.algorithms.RotationImage
+import com.example.photoeditor.R
+import com.example.photoeditor.model.RotationAlgorithm
+import com.example.photoeditor.model.Tools
 import kotlinx.android.synthetic.main.activity_rotation.*
 import java.util.*
 
 class RotationActivity : AppCompatActivity() {
     private val KEY = "Image"
     private val RESULT_TAG = "resultImage"
+    private val DEBUG_TAG = "PhotoEditor > Rotation"
+
     private var corners: MutableList<Pair<Int, Int>>? = null
     private lateinit var currentUri: Uri
-    private var history = ArrayDeque<Uri>()
+    var history = ArrayDeque<Uri>()
     private val resultIntent = Intent()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rotation)
 
-        rotationToolbar.setNavigationOnClickListener{
+        rotationToolbar.setNavigationOnClickListener {
             this.finish()
         }
 
@@ -35,21 +39,27 @@ class RotationActivity : AppCompatActivity() {
                 rotationImage.setImageURI(currentUri)
             }
         } catch (e: Exception) {
-            Log.d("RotationActivity", e.toString())
+            Toast.makeText(this, R.string.image_load_error_message, Toast.LENGTH_SHORT).show()
+            Log.d(DEBUG_TAG, e.toString())
             this.finish()
         }
 
         applyRotationButton.setOnClickListener {
-            rotate()
+            val angle = rotationAnglePicker.text.toString().toIntOrNull()
+            if (angle == null) {
+                Toast.makeText(this, R.string.incorrect_angle_toast, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            rotate(angle)
         }
 
         cancelChanging.setOnClickListener {
             if (history.isEmpty()) {
-                Toast.makeText(this, "История изменений пуста", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.empty_history_message, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            deleteFile(currentUri)
+            Tools.deleteFile(this, currentUri)
             currentUri = history.pop()
             rotationImage.setImageURI(currentUri)
             resultIntent.putExtra(RESULT_TAG, currentUri)
@@ -57,47 +67,36 @@ class RotationActivity : AppCompatActivity() {
         }
     }
 
-    private fun rotate() {
-        val angle = rotationAnglePicker.text.toString().toIntOrNull()
-        val rotate = RotationImage()
-
-        if (angle == null) {
-            Toast.makeText(this, "Введите корректный угол", Toast.LENGTH_SHORT).show()
-            return
-        }
-
+    private fun rotate(angle: Int) {
         var bitmap = (rotationImage.drawable as BitmapDrawable).bitmap
+
         try {
-            val received = rotate.prepare(bitmap, angle, corners)
+            val received = RotationAlgorithm.runAlgorithm(bitmap, angle, corners)
             bitmap = received.first
             corners = received.second
-            Log.d("RotationActivity", "Алгоритм успешно выполнен")
-        } catch(error: Exception) {
-            Log.d("RotationActivity", "Произошла ошибка при работе алгоритма ${error.toString()}")
-            Toast.makeText(this, "Произошла ошибка при работе алгоритма", Toast.LENGTH_SHORT).show()
+            Log.d(DEBUG_TAG, "Алгоритм выполнен")
+            Toast.makeText(this, R.string.algorithm_success_message, Toast.LENGTH_SHORT).show()
+        } catch (error: Exception) {
+            Log.d(DEBUG_TAG, "Произошла ошибка при работе алгоритма: $error")
+            Toast.makeText(this, R.string.algorithm_error_message, Toast.LENGTH_SHORT).show()
         }
 
         try {
             history.push(currentUri)
-            currentUri = saveTempImage(this, bitmap) as Uri
+            currentUri = Tools.saveTempImage(this, bitmap) as Uri
+            rotationImage.setImageBitmap(bitmap)
+
             resultIntent.putExtra(RESULT_TAG, currentUri)
             setResult(RESULT_OK, resultIntent)
-            rotationImage.setImageBitmap(bitmap)
         } catch (error: Exception) {
-            Log.d("RotationActivity", "Произошла ошибка при сохранении изображения")
-            Toast.makeText(this, "Произошла ошибка при сохранении изображения", Toast.LENGTH_SHORT).show()
+            Log.d(DEBUG_TAG, "Произошла ошибка при сохранении изображения")
+            Toast.makeText(this, R.string.image_save_error_message, Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
     override fun onDestroy() {
-        for (image in history) {
-            deleteFile(image)
-//            Log.d("RotationActivity", image.toString())
-        }
+        Tools.clearHistory(this, history)
         super.onDestroy()
-    }
-
-    private fun deleteFile(image: Uri) {
-
     }
 }

@@ -2,55 +2,53 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
+    android:layout_marginBottom="@dimen/standart"
     android:clickable="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/bonusEffectCardBackground"
-        android:padding="16dp">
+        android:layout_marginStart="@dimen/standart"
+        android:layout_marginEnd="@dimen/standart"
+        android:background="@color/effectCardBackground"
+        android:padding="@dimen/standart">
 
         <TextView
-            android:id="@+id/kodePertanyaan"
+            android:id="@+id/task_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="56dp"
-            android:text="taskName"
+            android:layout_marginEnd="@dimen/standart"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/task_name"
             android:textColor="@color/effectTitleColor"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageRV"
+            android:textSize="@dimen/task_title_size"
+            app:layout_constraintEnd_toStartOf="@+id/task_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/isiPertanyaan"
+            android:id="@+id/task_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="56dp"
-            android:text="taskDescription"
+            android:layout_marginTop="@dimen/half"
+            android:layout_marginEnd="@dimen/standart"
+            android:text="@string/task_description"
             android:textColor="@color/effectDescriptionColor"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageRV"
+            android:textSize="@dimen/task_desc_size"
+            app:layout_constraintEnd_toStartOf="@+id/task_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/kodePertanyaan" />
+            app:layout_constraintTop_toBottomOf="@+id/task_name" />
 
         <ImageView
-            android:id="@+id/imageRV"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginEnd="16dp"
-            android:text="icon"
+            android:id="@+id/task_icon"
+            android:layout_width="@dimen/task_icon_size"
+            android:layout_height="@dimen/task_icon_size"
+            android:contentDescription="@string/task_icon_desc"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

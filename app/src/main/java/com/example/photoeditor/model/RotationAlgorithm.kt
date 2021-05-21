@@ -1,11 +1,11 @@
-package com.example.photoeditor.algorithms
+package com.example.photoeditor.model
 
 import android.graphics.Bitmap
 import android.graphics.Bitmap.createBitmap
 import android.graphics.Color
 import kotlin.math.*
 
-class RotationImage {
+class RotationAlgorithm {
     private var angle: Double = 0.0
     private lateinit var inputCorners: MutableList<Pair<Int, Int>>
     private lateinit var outputCorners: MutableList<Pair<Int, Int>>
@@ -13,18 +13,32 @@ class RotationImage {
     private var width = 0
     private var height = 0
 
-    fun prepare(bitmap: Bitmap, intAngle: Int, receivedCorners: MutableList<Pair<Int, Int>>?): Pair<Bitmap, MutableList<Pair<Int, Int>>> {
-        var newCorners: MutableList<Pair<Int, Int>>? = receivedCorners
-        if (receivedCorners == null) {
-            val width = bitmap.width
-            val height = bitmap.height
-            newCorners = mutableListOf(0 to 0, width - 1 to 0, width - 1 to height - 1, 0 to height - 1)
+    companion object {
+        fun runAlgorithm(
+            bitmap: Bitmap,
+            intAngle: Int,
+            receivedCorners: MutableList<Pair<Int, Int>>?
+        ): Pair<Bitmap, MutableList<Pair<Int, Int>>> {
+            var newCorners: MutableList<Pair<Int, Int>>? = receivedCorners
+            if (receivedCorners == null) {
+                val width = bitmap.width
+                val height = bitmap.height
+                newCorners =
+                    mutableListOf(0 to 0, width - 1 to 0, width - 1 to height - 1, 0 to height - 1)
+            }
+            return RotationAlgorithm().rotateImage(
+                bitmap,
+                intAngle,
+                newCorners as MutableList<Pair<Int, Int>>
+            )
         }
-
-        return rotateImage(bitmap, intAngle, newCorners as MutableList<Pair<Int, Int>>)
     }
 
-    private fun rotateImage(image: Bitmap, intAngle: Int, receivedCorners: MutableList<Pair<Int, Int>>): Pair<Bitmap, MutableList<Pair<Int, Int>>> {
+    private fun rotateImage(
+        image: Bitmap,
+        intAngle: Int,
+        receivedCorners: MutableList<Pair<Int, Int>>
+    ): Pair<Bitmap, MutableList<Pair<Int, Int>>> {
         angle = toRadians(intAngle)
         inputCorners = receivedCorners
 
@@ -40,7 +54,10 @@ class RotationImage {
 
         val resultPixels = rotate(imagePixels, oldWidth)
         removeBlankSpaces(resultPixels)
-        return Pair(createBitmap(resultPixels, width, height, Bitmap.Config.ARGB_8888), outputCorners)
+        return Pair(
+            createBitmap(resultPixels, width, height, Bitmap.Config.ARGB_8888),
+            outputCorners
+        )
     }
 
     private fun setNewCorners() {
@@ -56,8 +73,8 @@ class RotationImage {
     private fun getNewCoords(coords: Pair<Int, Int>, angle: Double): Pair<Int, Int> {
         val x = coords.first
         val y = coords.second
-        val newX = (x * cos(angle) - y * sin(angle)).roundToInt()
-        val newY = (x * sin(angle) + y * cos(angle)).roundToInt()
+        val newX = floor(x * cos(angle) - y * sin(angle)).toInt()
+        val newY = floor(x * sin(angle) + y * cos(angle)).toInt()
         return Pair(newX, newY)
     }
 
@@ -112,7 +129,8 @@ class RotationImage {
             val x = i % oldWidth
             if (isInImageRectangle(x, y, inputCorners)) {
                 val newCoords = getNewCoords(Pair(x, y), angle)
-                val newIndex = (newCoords.first + shifts.first) + (newCoords.second + shifts.second) * width
+                val newIndex =
+                    (newCoords.first + shifts.first) + (newCoords.second + shifts.second) * width
                 resultPixels[newIndex] = imagePixels[i]
             }
         }

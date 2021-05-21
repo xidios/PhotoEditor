@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UnsharpMaskActivity">
+    tools:context=".effect_activities.UnsharpMaskActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/unsharpToolbar"
@@ -14,107 +14,95 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/unsharp_mask_task_name" />
 
-    <ScrollView
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/unsharpImage"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/unsharpToolbar">
+        android:layout_marginStart="@dimen/side_margin"
+        android:layout_marginEnd="@dimen/side_margin"
+        android:layout_marginTop="@dimen/standart"
+        android:layout_marginBottom="@dimen/standart"
+        android:contentDescription="@string/current_image_desc"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/unsharpToolbar"
+        app:layout_constraintBottom_toTopOf="@id/radiusContainer"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/radiusContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/half"
+        app:layout_constraintStart_toStartOf="@+id/unsharpImage"
+        app:layout_constraintBottom_toTopOf="@+id/amountContainer"
+        app:layout_constraintEnd_toEndOf="@+id/unsharpImage">
+
+        <TextView
+            android:id="@+id/radiusTextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standart">
+            android:text="@string/radius_textView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/unsharpImage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/side_margin"
-                android:layout_marginEnd="@dimen/side_margin"
-                android:contentDescription="@string/current_image_desc"
-                android:src="@mipmap/ic_launcher"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <SeekBar
+            android:id="@+id/radiusPicker"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/two"
+            android:layout_marginStart="@dimen/standart"
+            app:layout_constraintStart_toEndOf="@id/radiusTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/radiusContainer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standart"
-                app:layout_constraintStart_toStartOf="@+id/unsharpImage"
-                app:layout_constraintTop_toBottomOf="@+id/unsharpImage"
-                app:layout_constraintEnd_toEndOf="@+id/unsharpImage">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/radiusTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/radius_textView"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/amountContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/standart"
+        app:layout_constraintStart_toStartOf="@+id/radiusContainer"
+        app:layout_constraintBottom_toTopOf="@+id/applyUnsharpMaskButton"
+        app:layout_constraintEnd_toEndOf="@+id/radiusContainer">
 
-                <SeekBar
-                    android:id="@+id/radiusPicker"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/two"
-                    android:layout_marginStart="@dimen/standart"
-                    app:layout_constraintStart_toEndOf="@id/radiusTextView"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:id="@+id/amountTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/amount_textView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        <SeekBar
+            android:id="@+id/amountPicker"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/two"
+            android:layout_marginLeft="@dimen/standart"
+            app:layout_constraintStart_toEndOf="@id/amountTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/amountContainer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/half"
-                app:layout_constraintStart_toStartOf="@+id/radiusContainer"
-                app:layout_constraintTop_toBottomOf="@+id/radiusContainer"
-                app:layout_constraintEnd_toEndOf="@+id/radiusContainer">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/amountTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/amount_textView"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/applyUnsharpMaskButton"
+        style="@style/Theme.PhotoEditor.Button.Accent"
+        android:text="@string/apply_button"
+        android:layout_marginBottom="@dimen/half"
+        app:layout_constraintStart_toStartOf="@id/amountContainer"
+        app:layout_constraintEnd_toEndOf="@id/amountContainer"
+        app:layout_constraintBottom_toTopOf="@id/cancelChanging"/>
 
-                <SeekBar
-                    android:id="@+id/amountPicker"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/two"
-                    android:layout_marginLeft="@dimen/standart"
-                    app:layout_constraintStart_toEndOf="@id/amountTextView"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/applyUnsharpMaskButton"
-                style="@style/Theme.PhotoEditor.Button.Accent"
-                android:text="@string/apply_button"
-                android:layout_marginTop="@dimen/standart"
-                app:layout_constraintStart_toStartOf="@id/amountContainer"
-                app:layout_constraintEnd_toEndOf="@id/amountContainer"
-                app:layout_constraintTop_toBottomOf="@id/amountContainer"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancelChanging"
-                style="@style/Theme.PhotoEditor.Button"
-                android:text="@string/cancel_button"
-                android:layout_marginTop="@dimen/half"
-                app:layout_constraintStart_toStartOf="@id/applyUnsharpMaskButton"
-                app:layout_constraintEnd_toEndOf="@id/applyUnsharpMaskButton"
-                app:layout_constraintTop_toBottomOf="@id/applyUnsharpMaskButton"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </ScrollView>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancelChanging"
+        style="@style/Theme.PhotoEditor.Button"
+        android:text="@string/cancel_button"
+        android:layout_marginBottom="@dimen/half"
+        app:layout_constraintStart_toStartOf="@id/applyUnsharpMaskButton"
+        app:layout_constraintEnd_toEndOf="@id/applyUnsharpMaskButton"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
