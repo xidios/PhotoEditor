@@ -1,4 +1,4 @@
-package com.example.photoeditor.algorithms
+package com.example.photoeditor.model
 
 import android.graphics.Bitmap
 import android.graphics.Bitmap.createBitmap

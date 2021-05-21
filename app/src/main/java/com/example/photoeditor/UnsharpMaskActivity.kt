@@ -9,7 +9,7 @@ import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.photoeditor.algorithms.UnsharpMaskAlgorithm
+import com.example.photoeditor.model.UnsharpMaskAlgorithm
 import kotlinx.android.synthetic.main.activity_unsharp_mask.*
 
 

@@ -1,4 +1,4 @@
-package com.example.photoeditor.algorithms
+package com.example.photoeditor.model
 
 import android.graphics.Bitmap
 import android.graphics.Bitmap.createBitmap
@@ -56,8 +56,8 @@ class RotationImage {
     private fun getNewCoords(coords: Pair<Int, Int>, angle: Double): Pair<Int, Int> {
         val x = coords.first
         val y = coords.second
-        val newX = (x * cos(angle) - y * sin(angle)).roundToInt()
-        val newY = (x * sin(angle) + y * cos(angle)).roundToInt()
+        val newX = floor(x * cos(angle) - y * sin(angle)).toInt()
+        val newY = floor(x * sin(angle) + y * cos(angle)).toInt()
         return Pair(newX, newY)
     }
 
