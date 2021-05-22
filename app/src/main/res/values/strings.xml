@@ -75,5 +75,13 @@
     <string name="task_icon_desc">Иконка эффекта</string>
     <string name="task_name">Название эффекта</string>
     <string name="fix">fix</string>
+    <string name="scaling">Масштабирование</string>
+    <string name="save_result">Сохранить</string>
+    <string name="scaling_coef">Коэфицент масштабирования</string>
+    <string name="trilinear">Трилинейная</string>
+    <string name="bilinear">Билинейная</string>
+    <string name="interpolation">Интерполяция</string>
+
+    <string name="interpolaion_text">Устранение эффекта лестницы</string>
 
 </resources>

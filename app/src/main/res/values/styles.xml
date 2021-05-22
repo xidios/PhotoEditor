@@ -38,6 +38,10 @@
         <item name="android:text">@string/apply_button</item>
     </style>
 
+    <style name="Theme.PhotoEditor.Button.Accent.Save">
+        <item name="android:text">@string/apply_button</item>
+    </style>
+
     <style name="Theme.PhotoEditor.Button.Undo">
         <item name="iconSize">@dimen/standart</item>
         <item name="icon">@drawable/ic_undo</item>

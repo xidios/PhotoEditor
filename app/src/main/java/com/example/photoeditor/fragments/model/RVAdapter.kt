@@ -11,10 +11,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.photoeditor.CubeActivity
 import com.example.photoeditor.R
+import com.example.photoeditor.ScalingActivity
 import com.example.photoeditor.filters.ColorCorrectionActivity
+import com.example.photoeditor.interpolation.Interpolation
 import com.example.photoeditor.retouching.RetouchingActivity
 import com.example.photoeditor.rotation.RotationActivity
-import com.example.photoeditor.scaling.ScalingActivity
+//import com.example.photoeditor.scaling.ScalingActivity
 import com.example.photoeditor.segmentation.SegmentationActivity
 import com.example.photoeditor.splines.SplinesActivity
 import com.example.photoeditor.unsharp.UnsharpMaskActivity
@@ -44,6 +46,7 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) :
                     5 -> intent = Intent(context, CubeActivity::class.java)
                     6 -> intent = Intent(context, UnsharpMaskActivity::class.java)
                     7 -> intent = Intent(context, RetouchingActivity::class.java)
+                    8 -> intent = Intent(context, Interpolation::class.java)
                 }
                 intent = intent.apply {
                     putExtra(KEY, image)
@@ -76,7 +79,8 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) :
         R.string.splines_task_name,
         R.string.cube_task_name,
         R.string.unsharp_mask_task_name,
-        R.string.retouch_task_name
+        R.string.retouch_task_name,
+        R.string.interpolation
     )
 
     private val taskIcon = arrayOf(
@@ -87,7 +91,8 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) :
         R.drawable.ic_splines,
         R.drawable.ic_cube,
         R.drawable.ic_unsharp,
-        R.drawable.ic_retouch
+        R.drawable.ic_retouch,
+        R.drawable.ic_camera
     )
 
     private val taskDescription = arrayOf(
@@ -98,7 +103,8 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) :
         R.string.splines_task_desc,
         R.string.cube_task_desc,
         R.string.unsharp_mask_task_desc,
-        R.string.retouch_task_desc
+        R.string.retouch_task_desc,
+        R.string.interpolaion_text
     )
 
     private val taskBonus = arrayOf(
@@ -109,6 +115,7 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) :
         View.VISIBLE,
         View.INVISIBLE,
         View.INVISIBLE,
-        View.VISIBLE
+        View.VISIBLE,
+        View.INVISIBLE
     )
 }

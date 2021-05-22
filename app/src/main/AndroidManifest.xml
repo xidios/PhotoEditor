@@ -23,7 +23,8 @@
         <activity android:name=".splines.SplinesActivity" />
         <activity android:name=".segmentation.SegmentationActivity" />
         <activity android:name=".filters.ColorCorrectionActivity" />
-        <activity android:name=".scaling.ScalingActivity" />
+        <activity android:name="ScalingActivity" />
+        <activity android:name=".interpolation.Interpolation" />
         <activity android:name=".rotation.RotationActivity" />
         <activity android:name=".retouching.RetouchingActivity" />
 

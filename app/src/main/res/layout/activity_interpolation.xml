@@ -4,63 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ScalingActivity">
+    tools:context=".rotation.RotationActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/interpolationToolbar"
         style="@style/Theme.PhotoEditor.Header.Effect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_back_button"
         app:title="@string/interpolation" />
 
     <ImageView
-        android:id="@+id/imageViewInterpolation"
-        style="@style/imagePreviewOnEffect"
-        android:layout_width="match_parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:id="@+id/interpolationImage"
+        android:layout_width="0dp"
+        android:layout_height="440dp"
+        android:layout_marginStart="@dimen/side_margin"
+        android:layout_marginTop="@dimen/standart"
+        android:layout_marginEnd="@dimen/side_margin"
+        android:layout_marginBottom="@dimen/standart"
+        android:contentDescription="@string/current_image_desc"
+        android:src="@mipmap/ic_launcher"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
-
+        app:layout_constraintTop_toBottomOf="@id/interpolationToolbar" />
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonBilInterpolationApply"
+        android:id="@+id/applyBilInterpolationButton"
         style="@style/Theme.PhotoEditor.Button.Accent"
-        android:layout_marginTop="16dp"
-        android:text="@string/trilenear"
-        app:backgroundTint="@color/buttonBackground"
-        app:icon="@drawable/ic_check"
-        app:iconTint="@color/accent"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewInterpolation"/>
+        android:text="@string/bilinear"
+        android:layout_width="160dp"
+        android:layout_marginBottom="@dimen/half"
+        app:layout_constraintBottom_toTopOf="@+id/interpolationSaveButton"
+        app:layout_constraintStart_toStartOf="@id/interpolationImage" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonInterpolationSave"
+        android:id="@+id/applyTrilInterpolationButton"
         style="@style/Theme.PhotoEditor.Button.Accent"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:text="@string/save_section_name"
-        app:backgroundTint="@color/buttonBackground"
-        app:icon="@drawable/ic_check"
-        app:iconTint="@color/accent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonBilInterpolationApply" />
+        android:text="@string/trilinear"
+        android:layout_width="160dp"
+        android:layout_height="67dp"
+        android:layout_marginBottom="@dimen/half"
+        app:layout_constraintBottom_toTopOf="@+id/interpolationSaveButton"
+        app:layout_constraintEnd_toEndOf="@+id/interpolationImage" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonTrilInterpolationApply"
-        style="@style/Theme.PhotoEditor.Button"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/bileneal"
-        app:backgroundTint="@color/buttonBackground"
-        app:icon="@drawable/ic_check"
-        app:iconTint="@color/accent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewInterpolation" />
+        android:id="@+id/interpolationSaveButton"
+        style="@style/Theme.PhotoEditor.Button.Accent.Save"
+        android:text="@string/save_result"
+        android:layout_marginBottom="@dimen/standart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/applyTrilInterpolationButton"
+        app:layout_constraintStart_toStartOf="@id/applyBilInterpolationButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

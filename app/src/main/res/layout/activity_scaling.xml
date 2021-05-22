@@ -4,67 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ScalingActivity">
+    tools:context=".rotation.RotationActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/scalingToolbar"
         style="@style/Theme.PhotoEditor.Header.Effect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_back_button"
         app:title="@string/scaling" />
 
     <ImageView
-        android:id="@+id/imageViewScaling"
-        style="@style/imagePreviewOnEffect"
-        android:layout_width="match_parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:id="@+id/scalingImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/side_margin"
+        android:layout_marginTop="@dimen/standart"
+        android:layout_marginEnd="@dimen/side_margin"
+        android:layout_marginBottom="@dimen/standart"
+        android:contentDescription="@string/current_image_desc"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@id/scalingAngleContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:layout_constraintTop_toBottomOf="@id/scalingToolbar" />
 
-
-    <EditText
-        android:id="@+id/EditTextScaling"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/scalingAngleContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:hint="@string/resize_koef"
-        android:inputType="numberDecimal"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewScaling" />
+        android:layout_marginBottom="@dimen/standart"
+        android:hint="@string/scaling_coef"
+        app:boxStrokeColor="@color/accent"
+        app:layout_constraintBottom_toTopOf="@+id/applyScalingButton"
+        app:layout_constraintEnd_toEndOf="@+id/scalingImage"
+        app:layout_constraintStart_toStartOf="@+id/scalingImage">
 
+        <EditText
+            android:id="@+id/scalingAnglePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal|numberSigned"
+            android:importantForAutofill="no"
+            android:ems="10"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonScalingApply"
-        style="@style/Theme.PhotoEditor.Button.Accent"
-        android:layout_marginTop="16dp"
-        android:text="@string/apply_button"
-        app:backgroundTint="@color/buttonBackground"
-        app:icon="@drawable/ic_check"
-        app:iconTint="@color/accent"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditTextScaling"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonScalingSave"
-        style="@style/Theme.PhotoEditor.Button"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/save_section_name"
-        app:backgroundTint="@color/buttonBackground"
-        app:icon="@drawable/ic_check"
-        app:iconTint="@color/accent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonScalingApply"
-        app:layout_constraintTop_toBottomOf="@+id/EditTextScaling" />
+        android:id="@+id/applyScalingButton"
+        style="@style/Theme.PhotoEditor.Button.Accent.Apply"
+        android:layout_marginBottom="@dimen/half"
+        app:layout_constraintBottom_toTopOf="@+id/scalingSaveButton"
+        app:layout_constraintEnd_toEndOf="@+id/scalingAngleContainer"
+        app:layout_constraintStart_toStartOf="@id/scalingAngleContainer" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/scalingSaveButton"
+        style="@style/Theme.PhotoEditor.Button.Accent.Save"
+        android:text="@string/save_result"
+        android:layout_marginBottom="@dimen/standart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/applyScalingButton"
+        app:layout_constraintStart_toStartOf="@id/applyScalingButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
