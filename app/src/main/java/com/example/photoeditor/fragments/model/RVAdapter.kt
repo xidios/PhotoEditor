@@ -13,7 +13,7 @@ import com.example.photoeditor.CubeActivity
 import com.example.photoeditor.R
 import com.example.photoeditor.ScalingActivity
 import com.example.photoeditor.filters.ColorCorrectionActivity
-import com.example.photoeditor.interpolation.Interpolation
+import com.example.photoeditor.interpolation.InterpolationActivity
 import com.example.photoeditor.retouching.RetouchingActivity
 import com.example.photoeditor.rotation.RotationActivity
 //import com.example.photoeditor.scaling.ScalingActivity
@@ -46,7 +46,7 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) :
                     5 -> intent = Intent(context, CubeActivity::class.java)
                     6 -> intent = Intent(context, UnsharpMaskActivity::class.java)
                     7 -> intent = Intent(context, RetouchingActivity::class.java)
-                    8 -> intent = Intent(context, Interpolation::class.java)
+                    8 -> intent = Intent(context, InterpolationActivity::class.java)
                 }
                 intent = intent.apply {
                     putExtra(KEY, image)
@@ -92,7 +92,7 @@ class RVAdapter(val context: FragmentActivity?, val image: Parcelable) :
         R.drawable.ic_cube,
         R.drawable.ic_unsharp,
         R.drawable.ic_retouch,
-        R.drawable.ic_camera
+        R.drawable.ic_percent
     )
 
     private val taskDescription = arrayOf(

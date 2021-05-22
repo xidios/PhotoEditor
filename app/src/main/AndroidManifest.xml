@@ -24,7 +24,7 @@
         <activity android:name=".segmentation.SegmentationActivity" />
         <activity android:name=".filters.ColorCorrectionActivity" />
         <activity android:name="ScalingActivity" />
-        <activity android:name=".interpolation.Interpolation" />
+        <activity android:name=".interpolation.InterpolationActivity" />
         <activity android:name=".rotation.RotationActivity" />
         <activity android:name=".retouching.RetouchingActivity" />
 
@@ -36,7 +36,6 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

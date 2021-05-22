@@ -29,7 +29,7 @@ class Tools {
             return File(fileDirectory, fileName)
         }
 
-        fun saveTempImage(context: Context, image: Bitmap): Parcelable {
+        fun saveTempImage(context: Context, image: Bitmap): Uri {
             val file = createFile()
             image.compress(Bitmap.CompressFormat.JPEG, 100, FileOutputStream(file))
 

@@ -2,10 +2,8 @@ package com.example.photoeditor.scaling.model
 
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.widget.Toast
 
 class ScalingAlgorithm {
-
 
     private fun resizeBitmap(source: Bitmap, k: Double): Bitmap {
         if (k < 0.01) {

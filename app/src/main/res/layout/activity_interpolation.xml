@@ -17,7 +17,7 @@
     <ImageView
         android:id="@+id/interpolationImage"
         android:layout_width="0dp"
-        android:layout_height="440dp"
+        android:layout_height="0dp"
         android:layout_marginStart="@dimen/side_margin"
         android:layout_marginTop="@dimen/standart"
         android:layout_marginEnd="@dimen/side_margin"
@@ -27,32 +27,34 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/interpolationToolbar" />
+        app:layout_constraintTop_toBottomOf="@id/interpolationToolbar"
+        app:layout_constraintBottom_toTopOf="@id/applyTrilInterpolationButton"/>
 
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/applyBilInterpolationButton"
         style="@style/Theme.PhotoEditor.Button.Accent"
         android:text="@string/bilinear"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_marginBottom="@dimen/half"
-        app:layout_constraintBottom_toTopOf="@+id/interpolationSaveButton"
+        android:layout_marginEnd="@dimen/half"
+        app:layout_constraintBottom_toTopOf="@+id/undoButton"
+        app:layout_constraintEnd_toStartOf="@id/applyTrilInterpolationButton"
         app:layout_constraintStart_toStartOf="@id/interpolationImage" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/applyTrilInterpolationButton"
         style="@style/Theme.PhotoEditor.Button.Accent"
         android:text="@string/trilinear"
-        android:layout_width="160dp"
-        android:layout_height="67dp"
         android:layout_marginBottom="@dimen/half"
-        app:layout_constraintBottom_toTopOf="@+id/interpolationSaveButton"
+        android:layout_marginStart="@dimen/half"
+        app:layout_constraintBottom_toTopOf="@+id/undoButton"
+        app:layout_constraintStart_toEndOf="@id/applyBilInterpolationButton"
         app:layout_constraintEnd_toEndOf="@+id/interpolationImage" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/interpolationSaveButton"
-        style="@style/Theme.PhotoEditor.Button.Accent.Save"
-        android:text="@string/save_result"
+        android:id="@+id/undoButton"
+        style="@style/Theme.PhotoEditor.Button.Undo"
         android:layout_marginBottom="@dimen/standart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/applyTrilInterpolationButton"

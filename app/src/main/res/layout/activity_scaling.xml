@@ -55,14 +55,13 @@
         android:id="@+id/applyScalingButton"
         style="@style/Theme.PhotoEditor.Button.Accent.Apply"
         android:layout_marginBottom="@dimen/half"
-        app:layout_constraintBottom_toTopOf="@+id/scalingSaveButton"
+        app:layout_constraintBottom_toTopOf="@+id/undoButton"
         app:layout_constraintEnd_toEndOf="@+id/scalingAngleContainer"
         app:layout_constraintStart_toStartOf="@id/scalingAngleContainer" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/scalingSaveButton"
-        style="@style/Theme.PhotoEditor.Button.Accent.Save"
-        android:text="@string/save_result"
+        android:id="@+id/undoButton"
+        style="@style/Theme.PhotoEditor.Button.Undo"
         android:layout_marginBottom="@dimen/standart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/applyScalingButton"

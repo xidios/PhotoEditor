@@ -2,31 +2,26 @@ package com.example.photoeditor
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.widget.SeekBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.example.photoeditor.model.Tools
 import com.example.photoeditor.scaling.model.ScalingAlgorithm
 import kotlinx.android.synthetic.main.activity_rotation.*
 import kotlinx.android.synthetic.main.activity_scaling.*
-import kotlinx.android.synthetic.main.activity_unsharp_mask.*
-import kotlinx.android.synthetic.main.fragment_save.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
-import java.util.ArrayDeque
-import kotlin.math.floor
+import kotlinx.android.synthetic.main.activity_scaling.undoButton
+import java.util.*
 
 class ScalingActivity : AppCompatActivity() {
     private val KEY = "Image"
     private val RESULT_TAG = "resultImage"
-    private lateinit var NewPhoto: Bitmap
-    private lateinit var PhotoOnSave: Bitmap
+    private val DEBUG_TAG = "PhotoEditor > Scaling"
+    private lateinit var newPhoto: Bitmap
+    private lateinit var photoOnSave: Bitmap
     private lateinit var currentUri: Uri
     var history = ArrayDeque<Uri>()
     private val resultIntent = Intent()
@@ -35,56 +30,63 @@ class ScalingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scaling)
 
-
         scalingToolbar.setNavigationOnClickListener {
             this.finish()
         }
-
 
         val receivedImage = intent.getParcelableExtra<Parcelable>(KEY)
         if (receivedImage != null) {
             currentUri = receivedImage as Uri
             scalingImage.setImageURI(currentUri)
-            NewPhoto = (scalingImage.getDrawable() as BitmapDrawable).bitmap
-            PhotoOnSave = NewPhoto
-            Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
+            newPhoto = (scalingImage.drawable as BitmapDrawable).bitmap
+            photoOnSave = newPhoto
+            Log.d(DEBUG_TAG, "${photoOnSave.height}  ${photoOnSave.width}")
         }
 
         applyScalingButton.setOnClickListener() {
             var k: Double = scalingAnglePicker.text.toString().toDouble()
             try {
                 if (k < 1) {
-                    PhotoOnSave = ScalingAlgorithm().trilinearInterpolation(NewPhoto, k)
+                    photoOnSave = ScalingAlgorithm().trilinearInterpolation(newPhoto, k)
                 } else if (k > 1) {
-                    PhotoOnSave = ScalingAlgorithm().bilinearInterpolation(NewPhoto, k)
+                    photoOnSave = ScalingAlgorithm().bilinearInterpolation(newPhoto, k)
                 } else {
-                    PhotoOnSave = NewPhoto
+                    photoOnSave = newPhoto
                 }
             } catch (e: Exception) {
-                Toast.makeText(this, "Неудалось масштабировать изображение", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this, R.string.algorithm_error_message, Toast.LENGTH_SHORT).show()
             }
-            scalingImage.setImageBitmap(PhotoOnSave)
-            Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
 
-        }
-        scalingSaveButton.setOnClickListener() {
             try {
-                currentUri = history.pop()
-                scalingImage.setImageURI(currentUri)
+                history.push(currentUri)
+                currentUri = Tools.saveTempImage(this, photoOnSave)
+                scalingImage.setImageBitmap(photoOnSave)
                 resultIntent.putExtra(RESULT_TAG, currentUri)
                 setResult(RESULT_OK, resultIntent)
-                Toast.makeText(this, "Изображение сохранено", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
-                Toast.makeText(this, "Ошибка", Toast.LENGTH_SHORT).show()
+                Log.d(DEBUG_TAG, "Произошла ошибка при сохранении изображения")
+                Toast.makeText(this, R.string.image_save_error_message, Toast.LENGTH_SHORT).show()
             }
+            Log.d(DEBUG_TAG, "${photoOnSave.height}  ${photoOnSave.width}")
+        }
+        undoButton.setOnClickListener() {
+            if (history.isEmpty()) {
+                Toast.makeText(this, R.string.empty_history_message, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            Tools.deleteFile(this, currentUri)
+            currentUri = history.pop()
+            scalingImage.setImageURI(currentUri)
+            resultIntent.putExtra(RESULT_TAG, currentUri)
+            setResult(RESULT_OK, resultIntent)
         }
 
-        Log.d("ScalingActivity", "${PhotoOnSave.height}  ${PhotoOnSave.width}")
-
+        Log.d(DEBUG_TAG, "${photoOnSave.height}  ${photoOnSave.width}")
     }
 
-
-
-
+    override fun onDestroy() {
+        Tools.clearHistory(this, history)
+        super.onDestroy()
+    }
 }

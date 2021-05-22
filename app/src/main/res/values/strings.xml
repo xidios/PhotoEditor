@@ -77,6 +77,7 @@
     <string name="fix">fix</string>
     <string name="scaling">Масштабирование</string>
     <string name="save_result">Сохранить</string>
+
     <string name="scaling_coef">Коэфицент масштабирования</string>
     <string name="trilinear">Трилинейная</string>
     <string name="bilinear">Билинейная</string>
