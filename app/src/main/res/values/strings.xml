@@ -74,5 +74,6 @@
     <string name="task_description">Описание эффекта</string>
     <string name="task_icon_desc">Иконка эффекта</string>
     <string name="task_name">Название эффекта</string>
+    <string name="fix">fix</string>
 
 </resources>
